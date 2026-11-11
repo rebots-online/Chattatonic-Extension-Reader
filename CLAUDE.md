@@ -6,56 +6,63 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository status
 
-Greenfield. As of the first commit the repo contains only `README.md` (title: "Chattatonic-Extension-Reader"). No stack, package manager, build, lint or test tooling has been chosen yet, so there are no commands to list. When the scaffold lands, add the real build / lint / test / single-test commands here; do not guess them.
+Greenfield. No stack, package manager, build, lint or test tooling exists yet, so there are no commands to list. When the scaffold lands, add the real build / lint / test / single-test commands here; do not guess them.
 
-Everything below is the product brief from the owner. Treat it as requirements, not as a description of existing code. It is the input to `ARCHITECTURE.md`, which does not exist yet; under the Architecture Law no `CHECKLIST.md` and no code may be written until that snapshot is complete and operator-approved. Once `ARCHITECTURE.md` exists it supersedes this brief.
+The repo is in the screens-first phase (TC12). Stitch exports are frozen under `LIBS/UI/STITCH/` but are **not yet cleared by the operator**. Until they are cleared, `ARCHITECTURE.md` may not be started; until `ARCHITECTURE.md` is complete and approved, no `CHECKLIST.md` and no code may be written. Once `ARCHITECTURE.md` exists it supersedes the brief below.
+
+Decisions and research from the init sessions are in KStore (search "chattatonic-reader").
 
 ## Product
 
-Chattatonic Reader is a commercial SaaS that reads content aloud so the user does not have to read it. It ships as two user-facing surfaces that share one reading engine:
+Chattatonic Reader (pronounced "catatonic"; the name comes from the Chatterbox and Supertonic TTS models) is a commercial product that reads content aloud so the user does not have to read it. Two user-facing surfaces share one reading engine:
 
 - **Web app** for uploaded content (PDF and other documents).
 - **Chrome extension** for DOM-aware reading of the page the user is on.
 
 ## Reading engine invariants
 
-These span every surface and are the parts that are easy to break by working on one file in isolation.
+- **The sentence is the base unit.** TTS is rendered per sentence, the read-ahead buffer is sized in whole sentences, and highlighting advances sentence by sentence. Segmentation, synthesis, buffering and highlighting must agree on the same sentence boundaries and IDs.
+- **Synthesis is on-device**, in the browser, in worker threads, ahead of playback. Playback starts as soon as the first unit is ready.
+- **Two on-device engines behind one interface.** Supertonic is the baseline. Chatterbox is the alternative where the device supports it. A self-built ONNX model is a later option. Both upstream repos are archived, so no code may depend on one engine directly.
+- **Calibration** runs on first install and on demand. It measures the machine per engine, decides which engines that device can run, and sets worker count and read-ahead depth. It must actually load and time an engine, not infer support from hardware hints.
+- **Karaoke highlighting, two render paths.** DOM-aware content is highlighted in the page. PDF and other content without usable DOM text gets a glow drawn on a canvas layer over the content.
 
-- **The sentence is the base unit.** TTS is rendered per sentence, the read-ahead buffer is sized in whole multiples of sentences, and highlighting advances sentence by sentence. Segmentation, synthesis, buffering and highlighting must all agree on the same sentence boundaries and IDs.
-- **Read-ahead pipeline.** Synthesis runs multithreaded in the background, ahead of playback, so audio for upcoming sentences is ready before the playhead reaches them. Playback starts as soon as the first unit is ready rather than waiting for the whole document.
-- **Calibration.** On first install, and again whenever the user triggers it, the app benchmarks the machine and uses the result to set the balance between background rendering and read-ahead depth (worker count, buffer size). Calibration results are per device and must be re-runnable.
-- **Karaoke highlighting, two render paths.**
-  - DOM-aware content: highlight the current sentence in the page.
-  - PDF and other screen content with no usable DOM text: draw the highlight as a glow on a canvas layer overlaid on the content in the browser.
-- **Content sources.** Uploaded content and DOM-aware live page content both feed the same sentence pipeline.
+### Reference implementation
 
-## Tiers and entitlements
+`github.com/rebots-online/astronatally` (`src/voice/index.ts`, `src/atelier-original/services/supertonic.worker.ts`, `voiceService.ts`) runs Supertonic in the browser with gapless playback. Reuse its worker loading, pinned model revision, WebGPU-to-WASM fallback, real-time-factor measurement, cancellation and gesture-gated audio. It differs from this product in ways that must not be copied: it uses one serialised worker, prefetches only one chunk ahead, packs several sentences into a chunk, and starts each chunk on the previous one's `onended` rather than on the audio clock.
 
-- **Free demo:** single reader voice, limited use.
-- **Paid:**
-  - multiple voices reading different sections of web content;
-  - intelligent document layout preprocessing (VLM, Surya and similar) before segmentation;
-  - voice cloning, aimed at content producers making voiceovers.
-- **Plans:** daily, monthly, annual, and an unlimited lifetime option, priced in line with competitors. Actual prices are not set yet.
+## Tiers and pricing rules
 
-Feature gating must be decided from the licence/entitlement state, not from client-side flags alone, in both the web app and the extension.
+- **Free:** one voice, limited use.
+- **Passes** (day, month, year, lifetime) unlock everything that runs on the user's own device. They pay for the software, not for compute, and do not auto-renew. Call them passes, never subscriptions.
+- **Render credits** meter anything that runs on hosted inference, at full cost. A pass never includes unmetered hosted usage. There is no subsidised flat-rate inference.
+- Whether a feature is pass or credits follows from where it runs.
+- Paid features: multiple voices per document section, intelligent layout preprocessing (VLM, Surya and similar), voice cloning for content producers' voiceovers.
+- Prices are data from the billing provider, not constants in code.
 
-## Operator decisions (2026-11-11)
+## Voice cloning consent
 
-- **Main TTS synthesis runs on-device**, in the browser, in worker threads. This is what calibration tunes. Server-side work is limited to the paid hosted features (voice cloning, layout preprocessing, hosted rendering).
-- **Commerce is WooCommerce plus custom plugins written in this repo** for entitlements and for hosted render credits. There is no separate funnel product to integrate with.
+- The consent script is assembled at consent time from randomly chosen component phrases. The grantor reads it aloud; the recording is stored; that same recording is the cloning sample.
+- Consent recordings may be uploaded, to support third-party grantors.
+- Consent gates release, not rendering: a job may render before consent arrives, but no media file is released until a valid consent is on record.
+- The stored consent is due-diligence evidence, not proof of identity.
 
-- **No paid WooCommerce add-ons.** There is no budget for add-on subscriptions (for example WooCommerce Subscriptions). Anything beyond WooCommerce core is built here as our own plugin.
-- **No subsidised flat-rate inference.** Passes (day, longer terms, lifetime) cover local, on-device inference only; they pay for the software, not for compute. Anything that runs on hosted inference is metered and priced at full cost through render credits. A pass never includes unmetered hosted usage.
-- **Commercial by default.** This app is dog-fooded but must be built as a sellable product; that is what justifies the effort.
-- **Hosted provider is replaceable.** The operator noted that OpenRouter is offering HeyGen voice/cloning turbo free until 30 November 2026 (not independently verified). Hosted voice work must not be tied to one provider or to a promotional price.
+## Model licence duties
 
-- **Name and models.** Operator, verbatim: "chattatonic is derived from chattered and supertonic tts models, but is pronounced catatonic". Read here as the Chatterbox and Supertonic TTS model families (the "Chatterbox" reading of "chattered" is an interpretation; confirm before the architecture fixes model choices). The name is pronounced "catatonic".
+Supertonic weights are under BigScience OpenRAIL-M. It allows commercial use but requires: no impersonation without consent; generated audio must be disclosed as machine generated; the use restrictions must be passed on to users in our terms; recipients of the model must be given a copy of the licence. Chatterbox code is MIT and watermarks every output; its weights licence has not been checked yet.
 
-## Commerce and licensing
+## Commerce
 
-Billing runs through WooCommerce. The custom WooCommerce plugins needed for entitlement gating, licence keys and hosted render credits are in scope for this repo and must be built here rather than assumed to exist. Hosted render credits are a metered balance consumed by server-side rendering, separate from the plan entitlement.
+- **Billing is Polar.sh.** No WooCommerce.
+- The apps never talk to the billing provider directly. Our own entitlement check sits between them, and feature gating is decided from that entitlement, not from client-side flags.
 
-## UI bar
+## Identity and licensing of this repo
 
-Everything user-facing (web app, extension popup/overlay/options, purchase and licence flows) must be beautiful, modern and flashy. Plain default styling is not acceptable for a shipped surface.
+- **Everything identifying is build-time `.env` configuration** (TC17): app name, namespace, URLs, extension name, billing IDs, support and legal links. The same code must be able to run under a different banner.
+- An unconfigured build must not present itself as the operator's product, so a misconfigured clone cannot impersonate it. Billing IDs, signing keys and service URLs are never committed.
+- The repo starts under a proprietary licence, with open-sourcing kept possible. Record each dependency's licence as it is added.
+
+## UI
+
+- Everything user-facing must be beautiful, modern and flashy. The design system is `LIBS/UI/STITCH/DESIGN.md`.
+- The Stitch exports under `LIBS/UI/STITCH/screens/<slug>/index.html` are the UI. Do not edit them by hand, redraw them, or have a coder re-implement a screen; integrate the export. Each screen's `meta.md` lists where Stitch departed from the prompt.
