@@ -1,25 +1,22 @@
 # Account
 
 - Slug: `account`
-- Stitch screen: `projects/81951782971452349/screens/56dd16ecf1cd4a5ba8fa581ae8bdfe5c`
-- HTML file: `projects/81951782971452349/files/23369037da1e4d638c2772a141ec0576` (saved as `index.html`, exact export decoded from the download response)
-- Screenshot file: `projects/81951782971452349/files/aea857884d0c45abafaaf2c6bb90bdc6` (saved as `screenshot.png`, 2560x3024)
+- Stitch screen: `projects/81951782971452349/screens/31b9dd6a3085421e91c0574d1850eaa2`
+- HTML file: `projects/81951782971452349/files/6a97c32994854d82ab07ed7f5c35a035` (saved as `index.html`, exact export text from the download response, 29668 bytes)
+- Screenshot file: `projects/81951782971452349/files/fce11885f97d4466bf0130cc202df749` (saved as `screenshot.png`, 2560x3080)
 - Device type reported by Stitch: DESKTOP
 - Intent: Pass status, licence key, devices, render credit balance and purchases; includes the Free state.
 - Linked CHECKLIST tasks: none yet
 - Operator clearance: not cleared
+- Presentation chrome: yes — a labelled "Preview: Free state" inset sits beside the product UI; this framing is not part of the product.
+- Revision: 2026-11-11 — revised. Removed the payment-provider line and the invented tax ID; purchase history reduced to date, item, amount and Receipt; added "Manage purchases" (`account-manage-purchases`); Free inset copy corrected. Two edit passes: the first dropped the `account-activate` link, the second restored it.
 
-## Checked against the prompt (automated, from the saved HTML)
+## Checked against the request (automated, from the saved HTML)
 
-- Element ids in export: 15 (15 distinct)
-- Requested ids missing: none
-- Requested strings missing: "12 of 20 minutes used today"
+- Element ids in export: 16 (16 distinct)
 - Duplicate ids: none
-- Off-vocabulary words found: stripe
-- Ids added by Stitch beyond those requested: `account-receipt-2`, `key-display-text`, `tailwind-config`, `toast`, `toast-message`
+- Occurrences of subscription, rebill, recurring, Stripe, Polar, WooCommerce, Paddle, "Tax ID" (case-insensitive, whole file): none
 
 ## Deviations noted by review
 
-- Stitch added a footer line "Payment via Stripe Direct" with an invented "Tax ID: US-92817290". This names a billing provider and invents data; it was not in the prompt and must be removed or replaced before clearance.
-- Free-state inset reads "12 of 20 min used today" (prompt: "12 of 20 minutes used today") and "1 voice standard" (prompt: "1 voice").
-- Stitch added a top bar breadcrumb "ACCOUNT / Settings & Billing" and a "Licence key copied to clipboard" toast.
+- Stitch labels the Free inset "Preview: Free state" with a "Mock Tier" tag; these labels are not product copy.

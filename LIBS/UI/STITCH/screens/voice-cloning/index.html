@@ -292,115 +292,233 @@
 <span class="text-[11px] font-mono text-cyan-400 bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/30">Instant 30s match</span>
 </div>
 <!-- Steps Container -->
-<div class="space-y-5">
-<!-- STEP 1: Record or upload -->
-<div class="space-y-3">
+<div class="space-y-5"><!-- STEP 1: Whose voice? -->
+<div class="space-y-2.5">
 <div class="flex items-center gap-2">
 <span class="w-5 h-5 rounded-full bg-violet-600/30 text-violet-300 text-xs font-bold flex items-center justify-center border border-violet-500/40">1</span>
 <label class="text-xs font-semibold uppercase tracking-wider text-[#B4B0D0]">
-                    Record or upload a 30-second sample
-                  </label>
+      Whose voice?
+    </label>
 </div>
-<!-- Record / Upload controls -->
-<div class="p-4 rounded-xl bg-black/40 border border-white/10 flex flex-col gap-3">
-<div class="flex items-center justify-between gap-3">
-<!-- Round Record Button with Live Animated Glowing Waveform -->
-<div class="flex items-center gap-3">
-<button class="w-12 h-12 rounded-full bg-gradient-to-tr from-red-600 to-pink-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(239,68,68,0.5)] hover:scale-105 active:scale-95 transition-all group relative" id="clone-record" title="Start 30s Recording">
-<span class="material-symbols-outlined text-xl group-hover:animate-pulse">fiber_manual_record</span>
-<div class="absolute -inset-1 rounded-full border border-red-500/40 animate-ping pointer-events-none"></div>
-</button>
-<div>
-<div class="text-xs font-bold text-white">Live Microphone</div>
-<div class="text-[11px] text-[#6E6A8F]">Studio noise cancellation on</div>
+<div class="grid grid-cols-1 gap-2.5">
+<!-- Card 1: My own voice -->
+<label class="flex items-start gap-3 p-3 rounded-xl bg-violet-950/40 border border-violet-400/40 cursor-pointer transition-all shadow-[0_0_12px_rgba(139,92,246,0.15)] group relative">
+<input checked="" class="mt-1 text-violet-600 focus:ring-violet-500 focus:ring-offset-0 focus:ring-1 cursor-pointer" id="voice-owner-self" name="voice-owner" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors">My own voice</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">RECORD IN STUDIO</span>
 </div>
+<p class="text-[11px] text-[#B4B0D0] mt-0.5 leading-relaxed">You will read an explicit verification consent statement aloud in studio.</p>
 </div>
-<!-- Live Animated Waveform Graphic -->
-<div class="flex items-center gap-1 h-8 px-3 rounded-lg bg-black/60 border border-white/5">
-<span class="w-1 bg-cyan-400 rounded-full wave-bar" style="animation-delay: 0.1s;"></span>
-<span class="w-1 bg-violet-400 rounded-full wave-bar" style="animation-delay: 0.3s;"></span>
-<span class="w-1 bg-pink-400 rounded-full wave-bar" style="animation-delay: 0.2s;"></span>
-<span class="w-1 bg-cyan-300 rounded-full wave-bar" style="animation-delay: 0.5s;"></span>
-<span class="w-1 bg-violet-400 rounded-full wave-bar" style="animation-delay: 0.4s;"></span>
-<span class="w-1 bg-pink-300 rounded-full wave-bar" style="animation-delay: 0.15s;"></span>
+</label>
+<!-- Card 2: Someone else's voice -->
+<label class="flex items-start gap-3 p-3 rounded-xl bg-black/40 border border-white/10 hover:border-violet-400/30 cursor-pointer transition-all group relative">
+<input class="mt-1 text-violet-600 focus:ring-violet-500 focus:ring-offset-0 focus:ring-1 cursor-pointer" id="voice-owner-other" name="voice-owner" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors">Someone else's voice (they give consent)</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-white/10 text-neutral-300 border border-white/10">INVITE LINK</span>
 </div>
-<button class="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all flex items-center gap-1.5 active:scale-95 shrink-0" id="clone-upload">
-<span class="material-symbols-outlined text-sm text-cyan-400">upload_file</span>
-                      Upload audio
-                    </button>
+<p class="text-[11px] text-[#6E6A8F] mt-0.5 leading-relaxed">Send a private link to have the voice owner record their verified consent statement.</p>
 </div>
-<!-- Recorded Clip Preview Card -->
-<div class="mt-1 p-2.5 rounded-lg bg-[#1A1736] border border-cyan-500/30 flex items-center justify-between gap-3 shadow-[0_0_12px_rgba(34,211,238,0.1)]">
-<div class="flex items-center gap-2.5 overflow-hidden">
-<button class="w-7 h-7 rounded-full bg-cyan-400 text-black flex items-center justify-center shrink-0 hover:bg-cyan-300 transition-colors shadow-[0_0_8px_#22D3EE]" id="clone-sample-play" title="Play Preview">
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
-</button>
-<div class="truncate">
-<div class="text-xs font-bold text-white truncate">sample-take-2.wav · 0:31</div>
-<div class="text-[10px] text-cyan-300/80 font-mono">48kHz · Lossless Waveform Ready</div>
+</label>
 </div>
 </div>
-<!-- Mini Visual Waveform SVG pattern -->
-<div class="hidden sm:flex items-center gap-0.5 opacity-80 h-4">
-<span class="w-0.5 h-2 bg-cyan-400 rounded-full"></span>
-<span class="w-0.5 h-3.5 bg-cyan-400 rounded-full"></span>
-<span class="w-0.5 h-2 bg-cyan-300 rounded-full"></span>
-<span class="w-0.5 h-4 bg-cyan-400 rounded-full"></span>
-<span class="w-0.5 h-1.5 bg-cyan-300 rounded-full"></span>
-<span class="w-0.5 h-3 bg-cyan-400 rounded-full"></span>
-<span class="w-0.5 h-2.5 bg-cyan-300 rounded-full"></span>
-</div>
-<button class="p-1 rounded text-[#6E6A8F] hover:text-red-400 transition-colors shrink-0" id="clone-sample-remove" title="Remove Sample">
-<span class="material-symbols-outlined text-base">close</span>
-</button>
-</div>
-</div>
-</div>
-<!-- STEP 2: Confirm -->
-<div class="space-y-2">
+<!-- STEP 2: Read this aloud (for My own voice) -->
+<div class="space-y-3">
+<div class="flex items-center justify-between">
 <div class="flex items-center gap-2">
 <span class="w-5 h-5 rounded-full bg-violet-600/30 text-violet-300 text-xs font-bold flex items-center justify-center border border-violet-500/40">2</span>
 <label class="text-xs font-semibold uppercase tracking-wider text-[#B4B0D0]">
-                    Confirm
-                  </label>
+        Read this aloud
+      </label>
 </div>
-<label class="flex items-start gap-3 p-3 rounded-xl bg-black/30 border border-white/10 hover:border-violet-400/40 cursor-pointer transition-colors group">
-<input checked="" class="mt-0.5 rounded border-white/20 bg-neutral-900 text-violet-600 focus:ring-violet-500 focus:ring-offset-0 focus:ring-1 transition cursor-pointer" id="clone-consent" type="checkbox"/>
-<span class="text-xs text-[#B4B0D0] group-hover:text-white leading-relaxed">
-                    This is my voice or I have permission to use it
-                  </span>
-</label>
+<button class="text-[11px] font-mono text-cyan-300 hover:text-white flex items-center gap-1 transition-colors" id="consent-new-script" type="button">
+<span class="material-symbols-outlined text-xs">refresh</span>
+      New script
+    </button>
 </div>
-<!-- STEP 3: Name it -->
-<div class="space-y-2">
-<div class="flex items-center gap-2">
-<span class="w-5 h-5 rounded-full bg-violet-600/30 text-violet-300 text-xs font-bold flex items-center justify-center border border-violet-500/40">3</span>
-<label class="text-xs font-semibold uppercase tracking-wider text-[#B4B0D0]">
-                    Name it
-                  </label>
+<!-- Consent script card -->
+<div class="p-3.5 rounded-xl bg-black/50 border border-violet-500/30 space-y-3 shadow-inner">
+<!-- Fixed line highlight box -->
+<div class="p-3 rounded-lg bg-violet-950/40 border border-violet-400/40 text-violet-200 text-xs font-medium leading-relaxed shadow-[0_0_12px_rgba(139,92,246,0.15)]">
+<div class="text-[9px] uppercase tracking-wider font-bold text-violet-400 mb-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">verified</span> Mandatory Statement
+      </div>
+      "I, Robin Example, on 11 November 2026, consent to a synthetic copy of my voice being created for my own use."
+    </div>
+<!-- 6 Numbered Chips -->
+<div class="space-y-1.5">
+<div class="text-[10px] uppercase font-bold text-[#6E6A8F] tracking-wider">Voice Calibration Phrases</div>
+<div class="grid grid-cols-1 gap-1.5 text-xs text-neutral-300">
+<div class="p-2 rounded-lg bg-black/40 border border-white/5 flex items-start gap-2.5">
+<span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+<span class="text-[11px]">"The ferry leaves at a quarter past nine."</span>
 </div>
+<div class="p-2 rounded-lg bg-black/40 border border-white/5 flex items-start gap-2.5">
+<span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+<span class="text-[11px]">"Purple glass bends the evening light."</span>
+</div>
+<div class="p-2 rounded-lg bg-black/40 border border-white/5 flex items-start gap-2.5">
+<span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+<span class="text-[11px]">"Seven quick foxes jumped over the wall."</span>
+</div>
+<div class="p-2 rounded-lg bg-black/40 border border-white/5 flex items-start gap-2.5">
+<span class="w-4 h-4 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5 animate-pulse">4</span>
+<span class="text-[11px] text-white font-medium">"My grandmother kept bees behind the barn."</span>
+</div>
+<div class="p-2 rounded-lg bg-black/40 border border-white/5 flex items-start gap-2.5 opacity-60">
+<span class="w-4 h-4 rounded-full bg-white/10 text-neutral-400 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">5</span>
+<span class="text-[11px]">"Would you measure the width of the shelf?"</span>
+</div>
+<div class="p-2 rounded-lg bg-black/40 border border-white/5 flex items-start gap-2.5 opacity-60">
+<span class="w-4 h-4 rounded-full bg-white/10 text-neutral-400 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">6</span>
+<span class="text-[11px]">"Thunder rolled softly across the valley."</span>
+</div>
+</div>
+</div>
+<!-- Record Controller, Visualizer & Timer -->
+<div class="p-3 rounded-xl bg-black/60 border border-white/10 flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<button class="w-11 h-11 rounded-full bg-gradient-to-tr from-red-600 to-pink-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(239,68,68,0.5)] hover:scale-105 active:scale-95 transition-all group relative" id="consent-record" title="Record Consent Sample">
+<span class="material-symbols-outlined text-lg group-hover:animate-pulse">fiber_manual_record</span>
+<div class="absolute -inset-1 rounded-full border border-red-500/40 animate-ping pointer-events-none"></div>
+</button>
+<div>
+<div class="text-xs font-bold text-white flex items-center gap-2">
+            Recording Live
+            <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+</div>
+<div class="text-[11px] font-mono text-cyan-300 font-bold">0:18 <span class="text-[#6E6A8F] font-normal">/ 0:30</span></div>
+</div>
+</div>
+<!-- Pulsing live waveform visualizer -->
+<div class="flex items-center gap-1 h-7 px-3 rounded-lg bg-black/80 border border-white/5">
+<span class="w-1 bg-cyan-400 rounded-full wave-bar" style="animation-delay: 0.1s;"></span>
+<span class="w-1 bg-violet-400 rounded-full wave-bar" style="animation-delay: 0.3s;"></span>
+<span class="w-1 bg-pink-400 rounded-full wave-bar" style="animation-delay: 0.2s;"></span>
+<span class="w-1 bg-cyan-300 rounded-full wave-bar" style="animation-delay: 0.4s;"></span>
+<span class="w-1 bg-violet-400 rounded-full wave-bar" style="animation-delay: 0.15s;"></span>
+</div>
+</div>
+<!-- Upload instead text link -->
+<div class="text-center">
+<button class="text-xs text-neutral-400 hover:text-cyan-300 underline font-medium transition-colors" id="consent-upload" type="button">
+        Upload a recording instead
+      </button>
+</div>
+<!-- Live verification checklist -->
+<div class="p-3 rounded-lg bg-[#1A1736] border border-cyan-500/20 space-y-2">
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-1.5 text-emerald-400 font-medium">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span>Consent line heard</span>
+</div>
+<span class="text-[10px] font-mono text-emerald-400 uppercase font-bold">VERIFIED</span>
+</div>
+<div class="space-y-1">
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-1.5 text-cyan-300 font-medium">
+<span class="material-symbols-outlined text-sm animate-spin">sync</span>
+<span>Phrases 1–6 heard in order</span>
+</div>
+<span class="text-[11px] font-mono text-cyan-300 font-bold">4 of 6</span>
+</div>
+<div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden border border-white/5">
+<div class="bg-gradient-to-r from-violet-500 to-cyan-400 h-full rounded-full" style="width: 66%"></div>
+</div>
+</div>
+</div>
+<!-- Exact mandate note -->
+<p class="text-[11px] text-[#6E6A8F] leading-relaxed italic">
+      This recording is your consent and your voice sample. We keep it as a record.
+    </p>
+<!-- Text field: Name this voice -->
+<div class="space-y-1.5 pt-1">
+<label class="block text-[11px] font-semibold uppercase tracking-wider text-[#B4B0D0]">
+        Name this voice
+      </label>
 <div class="relative">
 <input class="w-full bg-black/40 border border-white/15 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 rounded-xl px-4 py-2.5 text-xs text-white placeholder-neutral-500 font-medium transition-all" id="clone-name" type="text" value="Robin — warm narration"/>
 <span class="material-symbols-outlined absolute right-3 top-2.5 text-neutral-500 text-sm pointer-events-none">edit</span>
 </div>
 </div>
-<!-- Cost Line & Submit Action -->
-<div class="pt-2 border-t border-white/10 space-y-3">
-<div class="flex items-center justify-between text-xs">
-<div class="flex items-center gap-1.5 text-violet-300 font-medium">
-<span class="material-symbols-outlined text-sm text-amber-400" style="font-variation-settings: 'FILL' 1;">bolt</span>
-<span>Costs 50 render credits</span>
 </div>
-<div class="text-[#6E6A8F] text-[11px]">
-                    Balance <span class="text-white font-bold">240</span> credits
-                  </div>
 </div>
-<button class="w-full py-3 rounded-xl glow-gradient-btn text-white font-headline font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2" id="clone-create">
+<!-- Step 2 Alternative: If it is someone else's voice -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between">
+<label class="text-[11px] font-semibold uppercase tracking-wider text-[#6E6A8F]">
+      If it is someone else's voice
+    </label>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono text-amber-300 bg-amber-500/10 border border-amber-500/20">DELEGATED CONSENT</span>
+</div>
+<div class="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-cyan-400 text-base">forward_to_inbox</span>
+<h4 class="text-xs font-bold text-white">Send a consent link</h4>
+</div>
+<div class="space-y-2">
+<input class="w-full bg-black/40 border border-white/15 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 rounded-xl px-3.5 py-2 text-xs text-white placeholder-neutral-500 transition-all" id="consent-invite-email" placeholder="voice-owner@example.com" type="email" value="dana.voice@example.com"/>
+<div class="flex items-center gap-2">
+<button class="flex-1 py-2 rounded-xl bg-violet-600/30 hover:bg-violet-600/50 border border-violet-500/40 text-violet-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95" id="consent-invite-send" type="button">
+<span class="material-symbols-outlined text-sm">send</span> Send link
+        </button>
+<button class="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 hover:text-white font-medium text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95" id="consent-invite-copy" type="button">
+<span class="material-symbols-outlined text-sm">content_copy</span> Copy link
+        </button>
+</div>
+</div>
+<p class="text-[11px] text-[#B4B0D0] leading-relaxed">
+      They will read a script like this one in their own voice. Nothing is released until their consent is on record.
+    </p>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300">
+<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0"></span>
+<span>Waiting for Dana to record</span>
+</div>
+</div>
+</div>
+<!-- STEP 3: Where to run -->
+<div class="space-y-3 pt-2 border-t border-white/10">
+<div class="flex items-center gap-2">
+<span class="w-5 h-5 rounded-full bg-violet-600/30 text-violet-300 text-xs font-bold flex items-center justify-center border border-violet-500/40">3</span>
+<label class="text-xs font-semibold uppercase tracking-wider text-[#B4B0D0]">
+      Where to run
+    </label>
+</div>
+<div class="space-y-2">
+<!-- Card A: Local Chatterbox -->
+<label class="flex flex-col p-3 rounded-xl bg-black/40 border border-white/10 opacity-70 cursor-not-allowed group">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-start gap-2.5">
+<input class="mt-0.5 text-pink-500 focus:ring-pink-500 cursor-not-allowed" disabled="" id="clone-run-local" name="where-to-run" type="radio"/>
+<div>
+<span class="text-xs font-bold text-white">On this computer · Chatterbox engine · included in your pass</span>
+</div>
+</div>
+<span class="px-1.5 py-0.2 rounded text-[9px] uppercase font-bold bg-pink-500/20 text-pink-200 border border-pink-400/30 shrink-0">PASS</span>
+</div>
+<span class="text-[10px] text-neutral-500 ml-6 mt-1 italic">Not supported on this computer</span>
+</label>
+<!-- Card B: Hosted -->
+<label class="flex items-start justify-between p-3 rounded-xl bg-violet-950/40 border border-cyan-400/40 cursor-pointer shadow-[0_0_12px_rgba(34,211,238,0.15)] group">
+<div class="flex items-start gap-2.5">
+<input checked="" class="mt-0.5 text-cyan-400 focus:ring-cyan-400 cursor-pointer" id="clone-run-hosted" name="where-to-run" type="radio"/>
+<div>
+<span class="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors">Hosted · 50 render credits</span>
+<div class="text-[11px] text-[#6E6A8F] mt-0.5">Balance <span class="text-white font-bold">240 credits</span></div>
+</div>
+</div>
+<span class="px-1.5 py-0.2 rounded text-[9px] uppercase font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 shrink-0">CREDITS</span>
+</label>
+</div>
+<!-- Create voice action button -->
+<button class="w-full py-3 rounded-xl glow-gradient-btn text-white font-headline font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-3" id="clone-create">
 <span class="material-symbols-outlined text-base">auto_awesome</span>
-                  Create voice
-                </button>
-</div>
-</div>
+    Create voice
+  </button>
+</div></div>
 </div>
 <!-- Panel 2: Your Cloned Voices Glass Container -->
 <div class="rounded-2xl bg-[#14122A]/90 border border-white/10 backdrop-blur-xl p-6 shadow-[0_8px_32px_rgba(11,10,20,0.6)]">
@@ -567,16 +685,20 @@
 </div>
 </div>
 <!-- Estimation & Action Footer -->
-<div class="p-4 rounded-xl bg-gradient-to-r from-violet-950/30 to-cyan-950/20 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-<div class="flex items-center gap-2 text-xs text-[#B4B0D0]">
+<div class="p-4 rounded-xl bg-gradient-to-r from-violet-950/30 to-cyan-950/20 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3"><div class="flex flex-col gap-1 text-xs text-[#B4B0D0]">
+<div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-cyan-400 text-sm">calculate</span>
 <span>Estimated cost: <strong class="text-white">3 render credits</strong> (1 per 1,000 chars)</span>
 </div>
+<div class="text-[11px] text-[#6E6A8F] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-violet-400">info</span>
+<span>Voiceovers are labelled as AI-generated.</span>
+</div>
+</div>
 <button class="px-6 py-2.5 rounded-xl glow-gradient-btn text-white font-headline font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shrink-0" id="voiceover-render">
 <span class="material-symbols-outlined text-sm">new_window</span>
-                  Render voiceover
-                </button>
-</div>
+  Render voiceover
+</button></div>
 </div>
 </div>
 <!-- Recent Voiceovers Section Glass Table -->
@@ -594,17 +716,15 @@
 <div class="overflow-x-auto">
 <table class="w-full text-left text-xs border-collapse">
 <thead>
-<tr class="border-b border-white/10 text-[#6E6A8F] uppercase text-[10px] tracking-wider font-semibold">
-<th class="py-2.5 px-3">Name &amp; Snippet</th>
+<tr class="border-b border-white/10 text-[#6E6A8F] uppercase text-[10px] tracking-wider font-semibold"><th class="py-2.5 px-3">Name &amp; Snippet</th>
 <th class="py-2.5 px-3">Voice</th>
+<th class="py-2.5 px-3">Status</th>
 <th class="py-2.5 px-3">Length</th>
 <th class="py-2.5 px-3">Date</th>
 <th class="py-2.5 px-3">Credits</th>
-<th class="py-2.5 px-3 text-right">Actions</th>
-</tr>
+<th class="py-2.5 px-3 text-right">Actions</th></tr>
 </thead>
-<tbody class="divide-y divide-white/5 font-body">
-<!-- Row 1: Deep Work Dispatch Intro -->
+<tbody class="divide-y divide-white/5 font-body"><!-- Row 1: Rendered · awaiting consent -->
 <tr class="hover:bg-white/[0.02] transition-colors group">
 <td class="py-3 px-3">
 <div class="font-bold text-white group-hover:text-cyan-300 transition-colors">Deep Work Dispatch Intro</div>
@@ -612,27 +732,33 @@
 </td>
 <td class="py-3 px-3">
 <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-violet-500/15 text-violet-300 border border-violet-500/30">
-                        Robin
-                      </span>
+      Robin
+    </span>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30 whitespace-nowrap">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+      Rendered · awaiting consent
+    </span>
 </td>
 <td class="py-3 px-3 font-mono text-neutral-300">02:14</td>
 <td class="py-3 px-3 text-[#B4B0D0] whitespace-nowrap">Today, 14:20</td>
 <td class="py-3 px-3 font-mono text-amber-300">3</td>
 <td class="py-3 px-3 text-right">
 <div class="flex items-center justify-end gap-1.5">
-<button class="w-7 h-7 rounded-lg bg-white/5 hover:bg-cyan-500/20 hover:text-cyan-300 text-neutral-300 flex items-center justify-center transition-colors" title="Play Now">
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+<button class="w-7 h-7 rounded-lg bg-white/5 text-neutral-500 flex items-center justify-center cursor-not-allowed" disabled="" title="Play locked until consent is on record">
+<span class="material-symbols-outlined text-sm">lock</span>
 </button>
-<button class="px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-cyan-300 hover:text-white border border-cyan-500/30 font-mono text-[10px] font-bold transition-all" id="voiceover-1-wav" title="Download WAV">
-                          WAV
-                        </button>
-<button class="px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white border border-white/10 font-mono text-[10px] transition-all" id="voiceover-1-mp3" title="Download MP3">
-                          MP3
-                        </button>
+<button class="px-2 py-1 rounded bg-white/5 text-neutral-500 border border-white/5 font-mono text-[10px] flex items-center gap-1 cursor-not-allowed" disabled="" id="voiceover-1-wav" title="Files unlock when consent is on record">
+<span class="material-symbols-outlined text-[11px]">lock</span> WAV
+      </button>
+<button class="px-2 py-1 rounded bg-white/5 text-neutral-500 border border-white/5 font-mono text-[10px] flex items-center gap-1 cursor-not-allowed" disabled="" id="voiceover-1-mp3" title="Files unlock when consent is on record">
+<span class="material-symbols-outlined text-[11px]">lock</span> MP3
+      </button>
 </div>
 </td>
 </tr>
-<!-- Row 2: Chapter 4 Audio Summary -->
+<!-- Row 2: Released -->
 <tr class="hover:bg-white/[0.02] transition-colors group">
 <td class="py-3 px-3">
 <div class="font-bold text-white group-hover:text-cyan-300 transition-colors">Chapter 4 Audio Summary</div>
@@ -640,8 +766,14 @@
 </td>
 <td class="py-3 px-3">
 <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
-                        Callum
-                      </span>
+      Callum
+    </span>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 whitespace-nowrap">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+      Released
+    </span>
 </td>
 <td class="py-3 px-3 font-mono text-neutral-300">05:48</td>
 <td class="py-3 px-3 text-[#B4B0D0] whitespace-nowrap">Yesterday</td>
@@ -652,50 +784,45 @@
 <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
 </button>
 <button class="px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-cyan-300 hover:text-white border border-cyan-500/30 font-mono text-[10px] font-bold transition-all" id="voiceover-2-wav" title="Download WAV">
-                          WAV
-                        </button>
+        WAV
+      </button>
 <button class="px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white border border-white/10 font-mono text-[10px] transition-all" id="voiceover-2-mp3" title="Download MP3">
-                          MP3
-                        </button>
+        MP3
+      </button>
 </div>
 </td>
 </tr>
-<!-- Row 3: Product Release Teaser (Pending Rendering 65%) -->
+<!-- Row 3: Consent did not match this voice -->
 <tr class="hover:bg-white/[0.02] transition-colors group">
 <td class="py-3 px-3">
-<div class="font-bold text-white flex items-center gap-2">
-                        Product Release Teaser
-                        <span class="px-1.5 py-0.2 rounded text-[9px] font-mono bg-violet-500/20 text-violet-300 border border-violet-500/40 animate-pulse">
-                          Rendering… 65%
-                        </span>
-</div>
-<div class="w-48 bg-white/5 h-1.5 rounded-full overflow-hidden mt-1.5 border border-white/5">
-<div class="bg-gradient-to-r from-violet-500 to-cyan-400 h-full rounded-full shadow-[0_0_8px_#8B5CF6]" style="width: 65%"></div>
-</div>
+<div class="font-bold text-white group-hover:text-red-300 transition-colors">Product Release Teaser</div>
+<div class="text-[11px] text-[#6E6A8F] truncate max-w-xs font-mono">Special announcement teaser for global release...</div>
 </td>
 <td class="py-3 px-3">
-<span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-violet-500/15 text-violet-300 border border-violet-500/30">
-                        Robin
-                      </span>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-neutral-900 text-neutral-400 border border-white/10">
+      Robin
+    </span>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-950/40 text-red-400 border border-red-500/30 whitespace-nowrap">
+<span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+      Consent did not match this voice
+    </span>
 </td>
 <td class="py-3 px-3 font-mono text-neutral-500">~01:10</td>
 <td class="py-3 px-3 text-[#B4B0D0] whitespace-nowrap">Just now</td>
-<td class="py-3 px-3 font-mono text-amber-300">2</td>
+<td class="py-3 px-3 font-mono text-neutral-500">—</td>
 <td class="py-3 px-3 text-right">
 <div class="flex items-center justify-end gap-1.5 opacity-50">
-<span class="text-[11px] text-neutral-400 italic mr-1 flex items-center gap-1">
-<span class="material-symbols-outlined text-xs animate-spin">sync</span> In Queue
-                        </span>
 <button class="px-2 py-1 rounded bg-white/5 text-neutral-500 border border-white/5 font-mono text-[10px] cursor-not-allowed" disabled="">
-                          WAV
-                        </button>
+        WAV
+      </button>
 <button class="px-2 py-1 rounded bg-white/5 text-neutral-500 border border-white/5 font-mono text-[10px] cursor-not-allowed" disabled="">
-                          MP3
-                        </button>
+        MP3
+      </button>
 </div>
 </td>
-</tr>
-</tbody>
+</tr></tbody>
 </table>
 </div>
 </div>

@@ -8,6 +8,7 @@
 - Intent: Review detected layout regions and reading order for a scanned document before reading (credits feature).
 - Linked CHECKLIST tasks: none yet
 - Operator clearance: not cleared
+- Presentation chrome: yes — a labelled "BEFORE ANALYSIS STATE" reference panel; this framing is not part of the product.
 
 ## Checked against the prompt (automated, from the saved HTML)
 

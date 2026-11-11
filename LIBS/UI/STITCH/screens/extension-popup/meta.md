@@ -8,6 +8,7 @@
 - Intent: Chrome toolbar popup in idle, playing and nothing-to-read states.
 - Linked CHECKLIST tasks: none yet
 - Operator clearance: not cleared
+- Presentation chrome: yes — a full showcase frame: "Chrome Extension UI Spec" badge, "Extension Popup Showcase" title, state labels, feature strip and spec footer around three popup variants; this framing is not part of the product.
 
 ## Checked against the prompt (automated, from the saved HTML)
 

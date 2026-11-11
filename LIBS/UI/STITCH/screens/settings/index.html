@@ -130,6 +130,32 @@
       font-weight: 800;
     }
 
+    /* Custom Radio Buttons */
+    input[type="radio"] {
+      appearance: none;
+      background-color: rgba(255, 255, 255, 0.06);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 9999px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      display: inline-grid;
+      place-content: center;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    input[type="radio"]:checked {
+      border-color: #22D3EE;
+      box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+    }
+    input[type="radio"]:checked::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #22D3EE;
+      box-shadow: 0 0 6px #22D3EE;
+    }
+
     /* Switch toggle */
     .toggle-checkbox:checked {
       right: 2px;
@@ -199,9 +225,9 @@
 </div>
 </div>
 </aside>
-<!-- ========================================================================= -->
+<!-- ========================================= -->
 <!-- 2. TOP SUB-HEADER / APP BAR (Offset by 80px left rail) -->
-<!-- ========================================================================= -->
+<!-- ========================================= -->
 <header class="ml-20 sticky top-0 z-40 bg-[#0B0A14]/85 backdrop-blur-md border-b border-white/10 px-8 py-3.5 flex items-center justify-between shadow-[0_4px_20px_rgba(11,10,20,0.8)]">
 <!-- Breadcrumb / Header Title -->
 <div class="flex items-center gap-3">
@@ -578,6 +604,44 @@
                   WASM (CPU Fallback)
                 </button>
 </div>
+</div>
+<!-- Engine Control -->
+<div class="glass-subcard p-5 space-y-3">
+<div class="flex items-center justify-between">
+<label class="block text-sm font-semibold text-[#F5F3FF]">Engine</label>
+<span class="text-xs text-[#6E6A8F]">On-device voice engine</span>
+</div>
+<div class="space-y-2">
+<!-- First row: Supertonic -->
+<label class="flex items-center justify-between p-3.5 rounded-xl bg-black/25 border border-white/10 hover:border-cyan-500/40 cursor-pointer transition-colors group has-[:checked]:border-cyan-400/50 has-[:checked]:bg-cyan-950/20">
+<div class="flex items-center gap-3">
+<input checked="" class="accent-cyan-400" id="settings-engine-supertonic" name="settings-engine" type="radio"/>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="text-sm font-semibold text-[#F5F3FF]">Supertonic</span>
+<span class="text-xs text-[#6E6A8F]">·</span>
+<span class="text-xs font-mono text-cyan-300 font-medium">3.4x real time</span>
+<span class="text-xs text-[#6E6A8F]">·</span>
+<span class="px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-400/30 text-[10px] text-cyan-300 font-semibold uppercase tracking-wider">Recommended</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-base text-cyan-400 opacity-80" data-icon="bolt">bolt</span>
+</label>
+<!-- Second row: Chatterbox -->
+<label class="flex items-center justify-between p-3.5 rounded-xl bg-black/25 border border-white/10 hover:border-violet-500/40 cursor-pointer transition-colors group has-[:checked]:border-cyan-400/50 has-[:checked]:bg-cyan-950/20">
+<div class="flex items-center gap-3">
+<input class="accent-cyan-400" id="settings-engine-chatterbox" name="settings-engine" type="radio"/>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="text-sm font-semibold text-[#F5F3FF]">Chatterbox</span>
+<span class="text-xs text-[#6E6A8F]">·</span>
+<span class="text-xs font-mono text-[#B4B0D0] font-medium">1.3x real time</span>
+<span class="text-xs text-[#6E6A8F]">·</span>
+<span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] text-[#B4B0D0] font-medium">Available</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-base text-[#6E6A8F]" data-icon="graphic_eq">graphic_eq</span>
+</label>
+</div>
+<p class="text-xs text-[#6E6A8F] pt-0.5">Run calibration to re-check what this computer supports.</p>
 </div>
 <!-- Background Workers Slider -->
 <div class="glass-subcard p-5">

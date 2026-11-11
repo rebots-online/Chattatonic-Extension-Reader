@@ -8,6 +8,7 @@
 - Intent: First-install onboarding tab: pin, calibrate, try a sample.
 - Linked CHECKLIST tasks: none yet
 - Operator clearance: not cleared
+- Presentation chrome: no — the export is the product screen itself.
 
 ## Checked against the prompt (automated, from the saved HTML)
 

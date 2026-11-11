@@ -8,6 +8,7 @@
 - Intent: Extension options: general, highlight, sites, shortcuts, performance, licence, about.
 - Linked CHECKLIST tasks: none yet
 - Operator clearance: not cleared
+- Presentation chrome: yes — a labelled "Free state preview" inset; this framing is not part of the product.
 
 ## Checked against the prompt (automated, from the saved HTML)
 

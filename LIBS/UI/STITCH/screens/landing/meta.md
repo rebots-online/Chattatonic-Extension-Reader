@@ -1,27 +1,22 @@
 # Landing
 
 - Slug: `landing`
-- Stitch screen: `projects/81951782971452349/screens/f7672438786f478f877bbd759badb53d`
-- HTML file: `projects/81951782971452349/files/f132263e278e4053acf4528d2730f53a` (saved as `index.html`, exact export decoded from the download response)
-- Screenshot file: `projects/81951782971452349/files/78bf55a83859488dae0daeab404894bc` (saved as `screenshot.png`, 2560x7628)
+- Stitch screen: `projects/81951782971452349/screens/6c5a0cdbf0c74a2285466b92d0d891a1`
+- HTML file: `projects/81951782971452349/files/4489b81b840947e58d22795b7148fa94` (saved as `index.html`, exact export text from the download response, 36262 bytes)
+- Screenshot file: `projects/81951782971452349/files/79f5621038c745568561367748b18b8a` (saved as `screenshot.png`, 2560x7556)
 - Device type reported by Stitch: DESKTOP
 - Intent: Marketing home page that explains the product and leads to install, web app and pricing.
 - Linked CHECKLIST tasks: none yet
 - Operator clearance: not cleared
+- Presentation chrome: no — the export is the product screen itself.
+- Revision: 2026-11-11 — revised. Removed the "Zero subscriptions… No surprise monthly rebills" copy in favour of "Passes never auto-renew."; hero line restored to "No card."; footer link ids prefixed `footer-`; page sections renamed `section-how-it-works`, `section-voices`, `section-pricing` so header nav ids are unique. Two edit passes.
 
-## Checked against the prompt (automated, from the saved HTML)
+## Checked against the request (automated, from the saved HTML)
 
-- Element ids in export: 18 (15 distinct)
-- Requested ids missing: none
-- Requested strings missing: "Free: one voice, 20 minutes a day. No card."
-- Duplicate ids: `nav-how-it-works`, `nav-pricing`, `nav-voices`
-- Off-vocabulary words found: subscri
-- Ids added by Stitch beyond those requested: `footer-pricing`, `nav-add-to-chrome`, `nav-how-it-works`, `nav-sign-in`, `nav-voices`, `pass-day-select`, `pass-lifetime-select`, `pass-month-select`, `pass-year-select`, `tailwind-config`
+- Element ids in export: 23 (23 distinct)
+- Duplicate ids: none
+- Occurrences of subscription, rebill, recurring, Stripe, Polar, WooCommerce, Paddle, "Tax ID" (case-insensitive, whole file): none
 
 ## Deviations noted by review
 
-- Stitch added marketing copy that uses the word "subscriptions" in the negative: "Flexible passes. Zero subscriptions. Pay once when you need it. No surprise monthly rebills". DESIGN.md says never to use "subscription" wording.
-- "No card." became "No card required."
-- Stat tiles were reworded (for example "100% On-Device", "Web & PDF Highlighting").
-- Nav ids `nav-how-it-works`, `nav-pricing`, `nav-voices` each appear twice (header and footer); ids must be made unique before wiring.
-- A second Landing screen exists in Stitch (`projects/81951782971452349/screens/826ee8bd6e854436b540b7f6c2c604f8`), created by a retry after a client timeout. It is not frozen here.
+- None found in the automated checks; the screenshot was not visually reviewed.

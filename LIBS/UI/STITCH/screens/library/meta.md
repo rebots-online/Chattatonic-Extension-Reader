@@ -8,6 +8,7 @@
 - Intent: Document library with upload dropzone, link reader, continue-listening row and empty state.
 - Linked CHECKLIST tasks: none yet
 - Operator clearance: not cleared
+- Presentation chrome: yes — a labelled "Empty state preview" inset; this framing is not part of the product.
 
 ## Checked against the prompt (automated, from the saved HTML)
 

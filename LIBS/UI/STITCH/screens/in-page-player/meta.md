@@ -8,6 +8,7 @@
 - Intent: Extension overlay on a third-party article: sentence glow, read-ahead underline, floating player and Start from here.
 - Linked CHECKLIST tasks: none yet
 - Operator clearance: not cleared
+- Presentation chrome: yes — an "EXTENSION LIVE INJECTION SPEC" banner and a mock browser window around the host article; this framing is not part of the product.
 
 ## Checked against the prompt (automated, from the saved HTML)
 

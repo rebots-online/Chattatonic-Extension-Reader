@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Purchase Complete — Chattatonic Reader</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&amp;family=JetBrains+Mono:wght@500;600&amp;family=Public+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#0B0A14',
+              card: '#14122A',
+              violet: '#8B5CF6',
+              cyan: '#22D3EE',
+              pink: '#F472B6',
+              amber: '#FBBF24',
+              emerald: '#34D399',
+              textHigh: '#F5F3FF',
+              textMid: '#B4B0D0',
+              textLow: '#6E6A8F'
+            }
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Bricolage Grotesque", "Public Sans", "sans-serif"],
+            display: ["Bricolage Grotesque", "Public Sans", "sans-serif"],
+            body: ["DM Sans", "sans-serif"],
+            label: ["DM Sans", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill-icon {
+      font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+    }
+
+    /* Ambient glow effects without black dropshadows */
+    .glow-conic-aura {
+      background: radial-gradient(circle at 50% 30%, rgba(139, 92, 246, 0.22) 0%, rgba(34, 211, 238, 0.12) 35%, rgba(244, 114, 182, 0.05) 55%, transparent 75%);
+    }
+
+    .glass-surface {
+      background: rgba(20, 18, 42, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 45px -10px rgba(139, 92, 246, 0.25);
+    }
+
+    .glass-inset {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .gradient-hero-btn {
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 50%, #22D3EE 100%);
+      box-shadow: 0 0 25px rgba(139, 92, 246, 0.45), 0 0 10px rgba(34, 211, 238, 0.35);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .gradient-hero-btn:hover {
+      box-shadow: 0 0 35px rgba(139, 92, 246, 0.6), 0 0 18px rgba(34, 211, 238, 0.5);
+      transform: translateY(-1px);
+    }
+    .gradient-hero-btn:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.7; }
+      50% { transform: scale(1.08); opacity: 0.25; }
+      100% { transform: scale(0.95); opacity: 0.7; }
+    }
+    .animate-pulse-ring {
+      animation: pulse-ring 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+<body class="bg-brand-bg text-brand-textHigh font-body min-h-screen selection:bg-brand-violet selection:text-white relative overflow-x-hidden pb-20">
+<!-- Atmospheric Background Elements -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute -top-[25%] left-1/2 -translate-x-1/2 w-[900px] h-[750px] glow-conic-aura filter blur-3xl opacity-90"></div>
+<div class="absolute bottom-0 right-0 w-[550px] h-[450px] bg-gradient-to-tl from-cyan-950/20 via-violet-950/15 to-transparent blur-3xl pointer-events-none"></div>
+<!-- Fine studio grid lines -->
+<div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:32px_32px] opacity-40"></div>
+</div>
+<!-- Minimal Focused Chrome -->
+<header class="relative z-20 w-full px-8 py-7 flex items-center justify-between max-w-6xl mx-auto">
+<div class="flex items-center gap-3">
+<!-- Signature glowing waveform mark -->
+<div class="relative flex items-center justify-center w-9 h-9 rounded-xl bg-brand-card border border-white/10 shadow-[0_0_16px_rgba(139,92,246,0.35)]">
+<span class="material-symbols-outlined text-brand-cyan text-xl" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+<span class="absolute inset-0 rounded-xl bg-brand-violet/20 blur-[6px] -z-10"></span>
+</div>
+<span class="font-headline font-extrabold text-xl tracking-tight text-brand-textHigh">
+        Chattatonic
+      </span>
+</div>
+<!-- Active Status Capsule -->
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-md">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-emerald opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-brand-emerald"></span>
+</span>
+<span class="text-xs font-label font-medium text-brand-textMid tracking-wide">Ready on device</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative z-10 max-w-3xl mx-auto px-5 pt-2 flex flex-col items-center">
+<!-- Primary Confirmation Card -->
+<div class="w-full glass-surface rounded-[24px] p-8 md:p-12 relative overflow-hidden transition-all duration-300">
+<!-- Top Decorative Aura Edge -->
+<div class="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-60"></div>
+<!-- Success Icon with Radiant Dual-Tone Glow -->
+<div class="flex flex-col items-center text-center">
+<div class="relative mb-6">
+<div class="absolute -inset-3 rounded-full bg-gradient-to-tr from-brand-violet via-brand-pink to-brand-cyan blur-md opacity-45 animate-pulse-ring"></div>
+<div class="relative w-16 h-16 rounded-full bg-brand-card border border-cyan-400/30 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.35)]">
+<span class="material-symbols-outlined text-brand-cyan text-3xl font-bold" style="font-variation-settings: 'wght' 600;">check</span>
+</div>
+</div>
+<!-- Heading & Pass Details -->
+<h1 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-brand-textHigh mb-2">
+          Year Pass is active.
+        </h1>
+<p class="text-brand-textMid text-sm md:text-base font-body tracking-normal mb-8">
+          Ends 11 November 2027 <span class="text-brand-textLow mx-1.5">·</span> Passes never auto-renew.
+        </p>
+</div>
+<!-- Licence Key Container -->
+<div class="w-full max-w-xl mx-auto mb-6">
+<div class="flex items-center justify-between mb-2 px-1">
+<label class="text-xs uppercase font-label font-semibold tracking-wider text-brand-textLow">
+            Licence key
+          </label>
+<span class="text-xs font-label text-brand-cyan/80 flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">verified_user</span> Permanent offline licence</span>
+</div>
+<div class="glass-inset rounded-[14px] p-2 pr-2.5 pl-4 flex items-center justify-between gap-3 border border-white/10 group focus-within:border-brand-violet/60 transition-colors">
+<code class="font-mono text-sm md:text-base text-brand-textHigh font-semibold tracking-wider selection:bg-brand-violet/50 select-all overflow-x-auto py-1">
+            CHAT-7K2Q-9XWM-4TRD-B6HP
+          </code>
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white/[0.07] hover:bg-white/[0.12] text-brand-textHigh text-xs font-label font-medium transition-all active:scale-95 border border-white/10 flex-shrink-0" id="purchase-copy-key" onclick="copyLicenceKey()" title="Copy licence key to clipboard" type="button">
+<span class="material-symbols-outlined text-sm text-brand-cyan" id="copy-icon">content_copy</span>
+<span id="copy-text">Copy</span>
+</button>
+</div>
+</div>
+<!-- Device Status Line -->
+<div class="flex items-center justify-center gap-2 mb-8 text-xs font-label text-brand-textMid">
+<span class="inline-block w-2 h-2 rounded-full bg-brand-emerald shadow-[0_0_8px_#34D399]"></span>
+<span>Activated on this computer <span class="text-brand-textLow mx-1">·</span> 1 of 3 devices</span>
+</div>
+<!-- Action Cluster -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md mx-auto">
+<!-- Primary Action -->
+<button class="w-full sm:w-auto flex-1 gradient-hero-btn text-white font-label font-semibold text-sm px-6 py-3.5 rounded-xl flex items-center justify-center gap-2 group cursor-pointer" id="purchase-start" type="button">
+<span class="material-symbols-outlined fill-icon text-lg group-hover:scale-110 transition-transform">play_circle</span>
+<span>Start listening</span>
+</button>
+<!-- Secondary Action Ghost -->
+<button class="w-full sm:w-auto flex-1 px-5 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-brand-cyan/40 text-brand-textHigh font-label font-medium text-sm flex items-center justify-center gap-2 transition-all active:scale-95 shadow-[0_0_15px_rgba(255,255,255,0.02)]" id="purchase-add-extension" type="button">
+<span class="material-symbols-outlined text-brand-cyan text-lg">extension</span>
+<span>Add to Chrome</span>
+</button>
+</div>
+<!-- Secondary Text Link -->
+<div class="mt-6 text-center">
+<button class="inline-flex items-center gap-1.5 text-xs font-label font-medium text-brand-textLow hover:text-brand-cyan transition-colors underline underline-offset-4 decoration-white/15 hover:decoration-brand-cyan" id="purchase-email-key" onclick="triggerEmailNotice()" type="button">
+<span class="material-symbols-outlined text-sm">mail</span>
+<span id="email-btn-text">Email me my key</span>
+</button>
+</div>
+</div>
+<!-- Secondary Insets / Spec Variations -->
+<div class="w-full mt-10">
+<div class="flex items-center gap-2 mb-4 px-2">
+<span class="text-[11px] font-label font-bold uppercase tracking-wider text-brand-textLow">System Spec &amp; State Variations</span>
+<div class="h-px flex-1 bg-white/[0.06]"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Inset 1: Credits Variant -->
+<div class="glass-inset rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3">
+<span class="text-[11px] font-label font-medium text-brand-amber flex items-center gap-1 px-2 py-0.5 rounded-full bg-brand-amber/10 border border-brand-amber/20">
+<span class="material-symbols-outlined text-xs fill-icon">bolt</span>
+              Credits variant
+            </span>
+<span class="text-[11px] font-mono text-brand-textLow">SYNCED</span>
+</div>
+<div class="flex items-start gap-3 my-2">
+<div class="w-10 h-10 rounded-xl bg-brand-amber/10 border border-brand-amber/25 flex items-center justify-center text-brand-amber shadow-[0_0_16px_rgba(251,191,36,0.18)] flex-shrink-0">
+<span class="material-symbols-outlined text-xl fill-icon">bolt</span>
+</div>
+<div>
+<p class="text-sm font-headline font-bold text-brand-textHigh">
+                500 render credits added · balance 740
+              </p>
+<p class="text-xs font-body text-brand-textMid mt-0.5 leading-relaxed">
+                Applied to on-demand metered OCR scans and local neural voice synthesis.
+              </p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-white/[0.05]">
+<button class="w-full text-center py-2.5 px-3 rounded-xl bg-white/[0.05] hover:bg-white/[0.09] text-xs font-label font-semibold text-brand-textHigh transition-all active:scale-95 border border-white/10" id="purchase-credits-back" type="button">
+              Back to what you were doing
+            </button>
+</div>
+</div>
+<!-- Inset 2: Pending Variant -->
+<div class="glass-inset rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3">
+<span class="text-[11px] font-label font-medium text-brand-cyan flex items-center gap-1 px-2 py-0.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/20">
+<span class="material-symbols-outlined text-xs">hourglass_top</span>
+              Pending variant
+            </span>
+<span class="text-[11px] font-mono text-brand-cyan animate-pulse">PROCESSING</span>
+</div>
+<div class="flex items-start gap-3 my-2">
+<!-- Smooth Animated Spinner Ring -->
+<div class="relative w-10 h-10 flex-shrink-0 flex items-center justify-center">
+<div class="w-9 h-9 rounded-full border-2 border-white/10 border-t-brand-cyan border-r-brand-violet animate-spin"></div>
+<div class="absolute inset-0 rounded-full bg-brand-cyan/10 blur-[8px]"></div>
+</div>
+<div>
+<p class="text-sm font-headline font-bold text-brand-textHigh">
+                Finishing your purchase…
+              </p>
+<p class="text-xs font-body text-brand-textMid mt-0.5 leading-relaxed">This can take a few seconds.</p>
+</div>
+</div>
+<!-- Muted Status Progress bar -->
+<div class="mt-4 pt-3 border-t border-white/[0.05] flex items-center justify-between text-[11px] font-label text-brand-textLow">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-cyan"></span>
+<span>Awaiting final handshake</span>
+</div>
+<span class="font-mono">Est. ~4s</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Security & Device Storage Assurance Footer Note -->
+<footer class="mt-12 text-center text-xs font-body text-brand-textLow max-w-md">
+<p class="flex items-center justify-center gap-1 text-[11px]">
+<span class="material-symbols-outlined text-xs text-brand-cyan/60">lock</span>
+        Zero telemetry · Your pass credentials are stored securely on this computer.
+      </p>
+</footer>
+</main>
+<!-- Interactive JavaScript for micro-feedback -->
+<script>
+    function copyLicenceKey() {
+      const key = "CHAT-7K2Q-9XWM-4TRD-B6HP";
+      navigator.clipboard.writeText(key).then(() => {
+        const copyBtnText = document.getElementById('copy-text');
+        const copyIcon = document.getElementById('copy-icon');
+        
+        copyBtnText.innerText = "Copied!";
+        copyIcon.innerText = "check";
+        copyIcon.classList.remove('text-brand-cyan');
+        copyIcon.classList.add('text-brand-emerald');
+        
+        setTimeout(() => {
+          copyBtnText.innerText = "Copy";
+          copyIcon.innerText = "content_copy";
+          copyIcon.classList.add('text-brand-cyan');
+          copyIcon.classList.remove('text-brand-emerald');
+        }, 2200);
+      });
+    }
+
+    function triggerEmailNotice() {
+      const emailBtnText = document.getElementById('email-btn-text');
+      emailBtnText.innerText = "Dispatching key to your email…";
+      setTimeout(() => {
+        emailBtnText.innerText = "Licence sent to primary address!";
+        setTimeout(() => {
+          emailBtnText.innerText = "Email me my key";
+        }, 3000);
+      }, 700);
+    }
+  </script>
+</body></html>
