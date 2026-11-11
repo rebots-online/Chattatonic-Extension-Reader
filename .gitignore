@@ -1,0 +1,19 @@
+# TC17 env regime: the working copy and materialized values are never tracked.
+.env
+.env.*
+# The documented contract is tracked; it carries keys, never secret values.
+!.env.example
+
+# Resumable release state (CC2/CC9/CC11).
+release.lock
+
+# Machine-local caches, regenerated per workstation.
+.codegraph/
+.tmp/
+node_modules/
+*.log
+.DS_Store
+
+# Root dist/ is the tracked release artifact home (CC12/CC14).
+!/dist/
+!/dist/**
