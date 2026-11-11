@@ -45,6 +45,11 @@ Feature gating must be decided from the licence/entitlement state, not from clie
 - **Main TTS synthesis runs on-device**, in the browser, in worker threads. This is what calibration tunes. Server-side work is limited to the paid hosted features (voice cloning, layout preprocessing, hosted rendering).
 - **Commerce is WooCommerce plus custom plugins written in this repo** for entitlements and for hosted render credits. There is no separate funnel product to integrate with.
 
+- **No paid WooCommerce add-ons.** There is no budget for add-on subscriptions (for example WooCommerce Subscriptions). Anything beyond WooCommerce core is built here as our own plugin.
+- **No subsidised flat-rate inference.** Passes (day, longer terms, lifetime) cover local, on-device inference only; they pay for the software, not for compute. Anything that runs on hosted inference is metered and priced at full cost through render credits. A pass never includes unmetered hosted usage.
+- **Commercial by default.** This app is dog-fooded but must be built as a sellable product; that is what justifies the effort.
+- **Hosted provider is replaceable.** The operator noted that OpenRouter is offering HeyGen voice/cloning turbo free until 30 November 2026 (not independently verified). Hosted voice work must not be tied to one provider or to a promotional price.
+
 ## Commerce and licensing
 
 Billing runs through WooCommerce. The custom WooCommerce plugins needed for entitlement gating, licence keys and hosted render credits are in scope for this repo and must be built here rather than assumed to exist. Hosted render credits are a metered balance consumed by server-side rendering, separate from the plan entitlement.
