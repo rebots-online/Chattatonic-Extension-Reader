@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chattatonic — Account &amp; Passes</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&amp;family=Public+Sans:wght@500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Public Sans", "sans-serif"],
+            display: ["Public Sans", "sans-serif"],
+            body: ["DM Sans", "sans-serif"],
+            label: ["DM Sans", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #0B0A14;
+      color: #F5F3FF;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    /* Glow utilities */
+    .glow-signature {
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 50%, #22D3EE 100%);
+    }
+    .card-glass {
+      background: #14122A;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+    }
+    .card-glass-subtle {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .pass-border-gradient {
+      position: relative;
+      background: #14122A;
+      border-radius: 1.25rem;
+    }
+    .pass-border-gradient::before {
+      content: "";
+      position: absolute;
+      inset: -1.5px;
+      border-radius: 1.35rem;
+      background: linear-gradient(120deg, #8B5CF6, #F472B6, #22D3EE);
+      z-index: -1;
+      opacity: 0.85;
+      filter: blur(1px);
+    }
+    .glow-pill-cyan {
+      box-shadow: 0 0 16px rgba(34, 211, 238, 0.25);
+    }
+    .glow-pill-violet {
+      box-shadow: 0 0 16px rgba(139, 92, 246, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-[#0B0A14] text-[#F5F3FF] antialiased min-h-screen flex selection:bg-violet-500/30 selection:text-cyan-300">
+<!-- Left Slim Icon Rail (Shared Component SideNavBar Anchor) -->
+<aside class="fixed top-0 left-0 h-screen w-20 z-50 bg-neutral-950/90 backdrop-blur-xl border-r border-white/10 shadow-[4px_0_24px_rgba(11,10,20,0.8)] flex flex-col items-center justify-between py-5">
+<!-- Top: Brand Glyph Waveform Logo -->
+<div class="flex flex-col items-center gap-1 group cursor-pointer">
+<div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-cyan-400 p-[2px] shadow-[0_0_18px_rgba(139,92,246,0.4)] active:scale-95 transition-transform duration-150">
+<div class="w-full h-full bg-[#0B0A14] rounded-[14px] flex items-center justify-center">
+<span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-400 to-cyan-300 text-2xl" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+</div>
+</div>
+<span class="font-headline font-black text-violet-400 tracking-tight text-[11px] uppercase mt-1">Chatta</span>
+</div>
+<!-- Center Navigation Icons -->
+<nav class="flex flex-col items-center gap-3 w-full px-2">
+<!-- Library -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2.5 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 group w-14" href="#" title="Library">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">folder_open</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Library</span>
+</a>
+<!-- Browse / Reader -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2.5 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 group w-14" href="#" title="Browse">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">explore</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Browse</span>
+</a>
+<!-- Voices -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2.5 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 group w-14" href="#" title="Voices">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">graphic_eq</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Voices</span>
+</a>
+<!-- Passes / Account (ACTIVE STATE - Locked) -->
+<a class="flex flex-col items-center justify-center text-cyan-400 p-2.5 rounded-xl bg-white/10 shadow-[0_0_14px_rgba(34,211,238,0.25)] border border-cyan-400/20 active:scale-90 transition-all duration-150 w-14" href="#" title="Passes">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">local_activity</span>
+<span class="font-headline text-[10px] font-semibold mt-1 text-cyan-300">Passes</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2.5 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 group w-14" href="#" title="Settings">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">settings</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Settings</span>
+</a>
+</nav>
+<!-- Bottom Actions / Quick Pass CTA -->
+<div class="flex flex-col items-center gap-3 w-full px-2">
+<button class="w-12 h-12 rounded-xl bg-gradient-to-tr from-violet-600 to-pink-500 text-white font-headline text-[10px] font-bold flex flex-col items-center justify-center shadow-[0_0_14px_rgba(139,92,246,0.35)] hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg">bolt</span>
+<span>Pass</span>
+</button>
+<a class="flex flex-col items-center justify-center text-neutral-500 hover:text-neutral-300 p-2 rounded-xl transition-colors" href="#" title="Help &amp; Feedback">
+<span class="material-symbols-outlined text-xl">help_outline</span>
+</a>
+</div>
+</aside>
+<!-- Main Viewport Canvas (Offset by w-20 rail) -->
+<div class="ml-20 flex-1 flex flex-col min-w-0">
+<!-- Top Navigation Bar & Context Breadcrumb (Shared Components TopNavBar Anchor) -->
+<header class="sticky top-0 z-40 w-full bg-neutral-950/80 backdrop-blur-md border-b border-white/10 px-8 py-3.5 flex justify-between items-center shadow-[0_4px_24px_rgba(11,10,20,0.6)]">
+<!-- Left: Breadcrumb / Identity -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="font-headline text-xs font-bold tracking-wider text-violet-400 uppercase">ACCOUNT</span>
+<span class="text-neutral-600">/</span>
+<span class="text-xs font-medium text-neutral-400">Settings &amp; Billing</span>
+</div>
+<div class="h-4 w-px bg-white/10 hidden sm:block"></div>
+<!-- Mini Voice Mode Status Indicator -->
+<div class="hidden sm:flex items-center gap-2 text-xs text-[#B4B0D0] bg-white/[0.04] px-2.5 py-1 rounded-full border border-white/[0.06]">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34D399]"></span>
+<span>Engine: On-device Neural</span>
+</div>
+</div>
+<!-- Right: Action Pills & User Profile -->
+<div class="flex items-center gap-3">
+<!-- Credit Meter Pill with Lightning Icon -->
+<div class="flex items-center gap-1.5 bg-[#14122A] border border-cyan-400/30 px-3.5 py-1.5 rounded-full text-xs font-medium text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.18)]">
+<span class="material-symbols-outlined text-base text-cyan-400" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-semibold tracking-tight">240 credits</span>
+</div>
+<!-- Pass Status Badge -->
+<div class="flex items-center gap-1.5 bg-gradient-to-r from-violet-950 to-pink-950/50 border border-pink-500/40 px-3 py-1.5 rounded-full text-xs font-semibold text-pink-300 shadow-[0_0_12px_rgba(244,114,182,0.18)]">
+<span class="material-symbols-outlined text-sm text-pink-400" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span>Year Pass</span>
+<span class="bg-pink-500/20 text-pink-300 text-[10px] font-bold px-1.5 py-0.5 rounded tracking-wide ml-0.5">PASS</span>
+</div>
+<div class="h-5 w-px bg-white/10 mx-1"></div>
+<!-- User Profile Avatar & Controls -->
+<div class="flex items-center gap-2.5 pl-1">
+<div class="relative cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-violet-600 via-pink-500 to-cyan-400 p-[1.5px]">
+<div class="w-full h-full rounded-full bg-[#14122A] flex items-center justify-center overflow-hidden">
+<span class="font-headline font-bold text-xs text-white">R</span>
+</div>
+</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 border-2 border-[#0B0A14] rounded-full"></span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Container (Bento Layout) -->
+<main class="flex-1 p-8 lg:p-10 max-w-7xl w-full mx-auto space-y-8">
+<!-- Section 1: Header Section -->
+<section class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-white/[0.08]">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline font-bold text-3xl md:text-4xl tracking-tight text-white">Account</h1>
+<span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-500/10 text-violet-300 border border-violet-500/20">Studio Member</span>
+</div>
+<p class="text-[#B4B0D0] text-sm mt-1 flex items-center gap-2 font-mono">
+<span class="material-symbols-outlined text-sm text-neutral-400">mail</span>
+<span>robin@example.com</span>
+<span class="text-xs bg-white/[0.06] text-neutral-400 px-2 py-0.5 rounded">Verified</span>
+</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.10] text-[#B4B0D0] hover:text-white border border-white/10 text-sm font-medium transition-all active:scale-95 duration-150" id="account-signout">
+<span class="material-symbols-outlined text-lg">logout</span>
+<span>Sign out</span>
+</button>
+</div>
+</section>
+<!-- Section Bento Grid: Core Passes, Licence, Devices -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Card 2: "Your pass" (Luminous Glow Gradient Border) - lg:col-span-7 -->
+<div class="lg:col-span-7 pass-border-gradient p-7 flex flex-col justify-between shadow-[0_0_35px_rgba(139,92,246,0.18)]">
+<div>
+<!-- Card Header & Badge -->
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2.5">
+<span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-pink-500 text-neutral-950 uppercase tracking-wider">PASS</span>
+<h2 class="font-headline font-bold text-2xl text-white">Year Pass</h2>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34D399]"></span>
+<span class="text-xs font-semibold text-emerald-400 uppercase tracking-wide">Active</span>
+<span class="text-neutral-500">·</span>
+<span class="text-xs text-[#B4B0D0]">Priority On-Device Synthesis Engine</span>
+</div>
+</div>
+<!-- Pass Icon Graphic -->
+<div class="w-12 h-12 rounded-2xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-cyan-300">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+</div>
+<!-- Expiry & Policy Details -->
+<div class="mt-8 bg-neutral-950/60 rounded-xl p-4 border border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<div class="text-xs text-neutral-400">Validity period</div>
+<div class="text-sm font-semibold text-neutral-100 mt-0.5">Ends 14 Mar 2027 · 123 days left</div>
+</div>
+<div class="sm:text-right">
+<div class="inline-flex items-center gap-1.5 text-xs text-cyan-300/90 font-medium bg-cyan-950/40 border border-cyan-800/40 px-2.5 py-1 rounded-lg">
+<span class="material-symbols-outlined text-xs">verified</span>
+<span>Passes never auto-renew.</span>
+</div>
+</div>
+</div>
+<!-- Pass Highlights Grid -->
+<div class="grid grid-cols-3 gap-3 mt-4 text-xs">
+<div class="p-3 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+<div class="text-[#6E6A8F]">Voice synthesis</div>
+<div class="font-semibold text-neutral-200 mt-0.5">Unlimited Web &amp; PDF</div>
+</div>
+<div class="p-3 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+<div class="text-[#6E6A8F]">Device sync</div>
+<div class="font-semibold text-neutral-200 mt-0.5">Up to 3 devices</div>
+</div>
+<div class="p-3 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+<div class="text-[#6E6A8F]">Audio exports</div>
+<div class="font-semibold text-neutral-200 mt-0.5">Lossless WAV &amp; MP3</div>
+</div>
+</div>
+</div>
+<!-- Bottom CTA Action -->
+<div class="mt-8 pt-4 border-t border-white/[0.06] flex items-center justify-between">
+<span class="text-xs text-[#6E6A8F]">Need more rendering capacity or longer access?</span>
+<button class="px-5 py-2.5 rounded-xl font-headline font-semibold text-xs tracking-wide bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500 hover:brightness-110 active:scale-95 text-white transition-all shadow-[0_0_18px_rgba(139,92,246,0.35)] flex items-center gap-2" id="account-extend">
+<span class="material-symbols-outlined text-base">upgrade</span>
+<span>Extend or upgrade</span>
+</button>
+</div>
+</div>
+<!-- Right Column (Licence Key & Free State Preview) - lg:col-span-5 -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Card 3: Licence key -->
+<div class="card-glass rounded-2xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-violet-400 text-xl">key</span>
+<h3 class="font-headline font-bold text-lg text-white">Licence key</h3>
+</div>
+<span class="text-[11px] font-medium text-cyan-400 bg-cyan-950/40 border border-cyan-800/40 px-2 py-0.5 rounded">Pro Tier</span>
+</div>
+<!-- Monospace masked key container -->
+<div class="p-3.5 bg-neutral-950 rounded-xl border border-white/10 flex items-center justify-between">
+<div class="font-mono text-sm tracking-wider text-cyan-300 font-semibold selection:bg-cyan-500/20" id="key-display-text">
+                CHAT-••••-••••-••••-7K2Q
+              </div>
+<div class="flex items-center gap-1.5">
+<button class="px-2.5 py-1 rounded-lg text-xs font-medium text-[#B4B0D0] hover:text-white hover:bg-white/10 border border-white/10 transition-colors" id="account-key-show" onclick="toggleKeyMask()">
+                  Show
+                </button>
+<button class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-violet-600/30 hover:bg-violet-600/50 text-violet-200 border border-violet-500/30 transition-all flex items-center gap-1" id="account-key-copy" onclick="copyKeyToast()">
+<span class="material-symbols-outlined text-xs">content_copy</span>
+<span>Copy</span>
+</button>
+</div>
+</div>
+<!-- Hint text -->
+<p class="text-xs text-[#B4B0D0] mt-3.5 flex items-start gap-2 leading-relaxed">
+<span class="material-symbols-outlined text-neutral-400 text-sm mt-0.5">info</span>
+<span>Use this key to activate the web app and the Chrome extension on authorized workstations.</span>
+</p>
+</div>
+<!-- Section 7: Inset Preview titled "Free state" (Context Comparison) -->
+<div class="card-glass-subtle rounded-2xl p-5 border border-dashed border-white/15 relative overflow-hidden">
+<div class="flex items-center justify-between mb-3">
+<span class="text-[11px] font-headline font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-neutral-400"></span>
+                Preview: Free state
+              </span>
+<span class="text-[10px] text-neutral-500 bg-white/[0.04] px-2 py-0.5 rounded">Mock Tier</span>
+</div>
+<div class="p-4 rounded-xl bg-neutral-950/70 border border-white/[0.06]">
+<div class="flex justify-between items-center text-xs">
+<span class="font-medium text-neutral-300">You're on Free</span>
+<span class="font-mono text-cyan-300 font-semibold">12 of 20 min used today</span>
+</div>
+<!-- Thin illuminated usage progress meter (60% filled) -->
+<div class="w-full h-1.5 bg-neutral-900 rounded-full mt-2.5 overflow-hidden p-[1px]">
+<div class="h-full bg-gradient-to-r from-violet-500 to-cyan-400 rounded-full shadow-[0_0_8px_#22D3EE]" style="width: 60%;"></div>
+</div>
+<div class="flex items-center justify-between mt-3 text-xs">
+<span class="text-neutral-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-neutral-400">graphic_eq</span>
+                  1 voice standard
+                </span>
+<a class="text-violet-400 hover:text-cyan-300 text-xs font-medium underline underline-offset-2 transition-colors" href="#" id="account-activate">
+                  I have a licence key
+                </a>
+</div>
+<button class="w-full mt-3.5 py-2 px-3 rounded-lg font-headline font-semibold text-xs tracking-wide bg-gradient-to-r from-violet-600 via-pink-600 to-cyan-500 hover:brightness-110 text-white transition-all shadow-[0_0_12px_rgba(244,114,182,0.3)]" id="account-get-pass">
+                Get a pass
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4: Devices · 2 of 3 used -->
+<section class="card-glass rounded-2xl p-6 lg:p-7 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/[0.08] gap-2">
+<div>
+<div class="flex items-center gap-3">
+<h2 class="font-headline font-bold text-xl text-white">Devices</h2>
+<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-950/60 text-cyan-300 border border-cyan-800/50">
+                2 of 3 used
+              </span>
+</div>
+<p class="text-xs text-[#B4B0D0] mt-1">Manage active browser and desktop instances connected via your licence key.</p>
+</div>
+<div class="text-xs text-neutral-400">
+<span class="text-white font-medium">1 slot</span> remaining for personal use
+          </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+<!-- Slot 1: Active Linux Chrome -->
+<div class="p-4 rounded-xl bg-neutral-950/80 border border-cyan-500/30 relative flex flex-col justify-between shadow-[0_0_15px_rgba(34,211,238,0.12)]">
+<div>
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-300">
+<span class="material-symbols-outlined text-lg">computer</span>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-400 text-neutral-950 uppercase tracking-tight shadow-[0_0_8px_#22D3EE]">
+                  This device
+                </span>
+</div>
+<div class="mt-3">
+<h4 class="font-headline font-semibold text-sm text-white">This computer</h4>
+<p class="text-xs text-neutral-400 mt-0.5">Chrome on Linux</p>
+<div class="flex items-center gap-1.5 mt-2 text-[11px] text-emerald-400 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+<span>Active now</span>
+</div>
+</div>
+</div>
+<div class="mt-5 pt-3 border-t border-white/[0.06] flex justify-end">
+<button class="text-xs text-neutral-400 hover:text-pink-400 transition-colors py-1 px-2 rounded hover:bg-white/[0.05]" id="account-device-1-remove">
+                Remove
+              </button>
+</div>
+</div>
+<!-- Slot 2: macOS Chrome -->
+<div class="p-4 rounded-xl bg-neutral-950/50 border border-white/10 relative flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-lg bg-white/[0.05] border border-white/10 flex items-center justify-center text-neutral-300">
+<span class="material-symbols-outlined text-lg">laptop_mac</span>
+</div>
+<span class="text-[10px] font-medium text-neutral-500 bg-white/[0.04] px-2 py-0.5 rounded">
+                  Remote
+                </span>
+</div>
+<div class="mt-3">
+<h4 class="font-headline font-semibold text-sm text-white">Laptop</h4>
+<p class="text-xs text-neutral-400 mt-0.5">Chrome on macOS</p>
+<p class="text-[11px] text-neutral-500 mt-2 font-mono">Last used 2 days ago</p>
+</div>
+</div>
+<div class="mt-5 pt-3 border-t border-white/[0.06] flex justify-end">
+<button class="text-xs text-neutral-400 hover:text-pink-400 transition-colors py-1 px-2 rounded hover:bg-white/[0.05]" id="account-device-2-remove">
+                Remove
+              </button>
+</div>
+</div>
+<!-- Slot 3: Free Slot -->
+<div class="p-4 rounded-xl border border-dashed border-white/20 bg-white/[0.01] hover:bg-white/[0.03] transition-all flex flex-col items-center justify-center text-center group cursor-pointer min-h-[170px]">
+<div class="w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center text-neutral-400 group-hover:text-cyan-300 group-hover:border-cyan-400/40 transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
+</div>
+<span class="font-headline font-semibold text-xs text-neutral-300 mt-3">Free slot</span>
+<span class="text-[11px] text-cyan-400/80 group-hover:text-cyan-300 transition-colors mt-0.5 font-medium">+ Connect new device</span>
+</div>
+</div>
+</section>
+<!-- Section: Render Credits & Purchases (Dual Bento Column) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Card 5: Render credits - lg:col-span-7 -->
+<section class="lg:col-span-7 card-glass rounded-2xl p-6 lg:p-7 shadow-[0_4px_24px_rgba(0,0,0,0.5)] flex flex-col justify-between">
+<div>
+<!-- Header with Balance & Action -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-white/[0.08]">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-cyan-400 text-xl" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<h3 class="font-headline font-bold text-xl text-white">Render credits</h3>
+</div>
+<p class="text-xs text-[#B4B0D0] mt-0.5">Used for hosted AI voice cloning, smart page segmentation, and heavy batch jobs.</p>
+</div>
+<!-- Prominent metric display -->
+<div class="flex items-center gap-3">
+<div class="text-right">
+<div class="font-headline font-black text-2xl sm:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-cyan-300 to-white tracking-tight flex items-center gap-1 justify-end">
+<span>240</span>
+<span class="text-xs font-bold text-cyan-300 tracking-normal uppercase">credits</span>
+</div>
+</div>
+<button class="px-4 py-2 rounded-xl text-xs font-headline font-semibold text-white bg-gradient-to-r from-violet-600 via-pink-600 to-cyan-500 hover:brightness-110 active:scale-95 transition-all shadow-[0_0_14px_rgba(34,211,238,0.25)] flex items-center gap-1.5 whitespace-nowrap" id="account-buy-credits">
+<span class="material-symbols-outlined text-sm">add_circle</span>
+<span>Buy credits</span>
+</button>
+</div>
+</div>
+<!-- Usage History Table -->
+<div class="mt-5">
+<h4 class="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3">Usage history</h4>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-xs">
+<thead>
+<tr class="text-neutral-500 border-b border-white/[0.06]">
+<th class="pb-2 font-medium">Date</th>
+<th class="pb-2 font-medium">Feature</th>
+<th class="pb-2 font-medium text-right">Credits</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/[0.04]">
+<!-- Row 1 -->
+<tr class="hover:bg-white/[0.02]">
+<td class="py-2.5 text-neutral-400 font-mono whitespace-nowrap">9 Nov 2026</td>
+<td class="py-2.5 text-neutral-200">Smart layout, 48 pages</td>
+<td class="py-2.5 text-right font-mono font-semibold text-pink-400">−48</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-white/[0.02]">
+<td class="py-2.5 text-neutral-400 font-mono whitespace-nowrap">6 Nov 2026</td>
+<td class="py-2.5 text-neutral-200">Voice clone <span class="text-violet-300 font-medium">"Robin — warm narration"</span></td>
+<td class="py-2.5 text-right font-mono font-semibold text-pink-400">−50</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-white/[0.02]">
+<td class="py-2.5 text-neutral-400 font-mono whitespace-nowrap">6 Nov 2026</td>
+<td class="py-2.5 text-neutral-200">Voiceover, 2,340 characters</td>
+<td class="py-2.5 text-right font-mono font-semibold text-pink-400">−3</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-white/[0.02]">
+<td class="py-2.5 text-neutral-400 font-mono whitespace-nowrap">1 Nov 2026</td>
+<td class="py-2.5 text-cyan-300 font-medium">Credit pack 500</td>
+<td class="py-2.5 text-right font-mono font-bold text-emerald-400">+500</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-white/[0.04] text-[11px] text-[#6E6A8F] flex items-center justify-between">
+<span>Render credits never expire and roll over across Pass cycles.</span>
+<span class="text-neutral-500 font-mono">Auto-refill: OFF</span>
+</div>
+</section>
+<!-- Card 6: Purchases - lg:col-span-5 -->
+<section class="lg:col-span-5 card-glass rounded-2xl p-6 lg:p-7 shadow-[0_4px_24px_rgba(0,0,0,0.5)] flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-4 border-b border-white/[0.08]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-pink-400 text-xl">receipt_long</span>
+<h3 class="font-headline font-bold text-xl text-white">Purchases</h3>
+</div>
+<span class="text-xs text-neutral-400">Invoices &amp; Tax</span>
+</div>
+<!-- Purchases Table -->
+<div class="mt-5 overflow-x-auto">
+<table class="w-full text-left text-xs">
+<thead>
+<tr class="text-neutral-500 border-b border-white/[0.06]">
+<th class="pb-2 font-medium">Date</th>
+<th class="pb-2 font-medium">Item</th>
+<th class="pb-2 font-medium">Amount</th>
+<th class="pb-2 font-medium text-right">Receipt</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/[0.04]">
+<!-- Row 1 -->
+<tr class="hover:bg-white/[0.02]">
+<td class="py-3 text-neutral-400 font-mono whitespace-nowrap">14 Mar 2026</td>
+<td class="py-3 text-white font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-pink-400"></span>
+                      Year Pass
+                    </td>
+<td class="py-3 text-neutral-200 font-mono">$49.00</td>
+<td class="py-3 text-right">
+<a class="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-medium underline underline-offset-2 transition-colors" href="#" id="account-receipt-1">
+<span>Receipt</span>
+<span class="material-symbols-outlined text-xs">arrow_outward</span>
+</a>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-white/[0.02]">
+<td class="py-3 text-neutral-400 font-mono whitespace-nowrap">1 Nov 2026</td>
+<td class="py-3 text-white font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                      500 render credits
+                    </td>
+<td class="py-3 text-neutral-200 font-mono">$22.00</td>
+<td class="py-3 text-right">
+<a class="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-medium underline underline-offset-2 transition-colors" href="#" id="account-receipt-2">
+<span>Receipt</span>
+<span class="material-symbols-outlined text-xs">arrow_outward</span>
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Bottom Notice -->
+<div class="mt-6 pt-3 border-t border-white/[0.04] bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+<div class="flex items-center justify-between text-xs text-[#B4B0D0]">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-neutral-400">shield</span>
+<span>Payment via Stripe Direct</span>
+</span>
+<span class="text-neutral-400">Tax ID: US-92817290</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Global Floating Toast Notification Container (vanilla JS powered) -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-[#14122A] text-white border border-cyan-400/40 px-4 py-2.5 rounded-xl shadow-[0_0_20px_rgba(34,211,238,0.25)] flex items-center gap-2 text-xs font-medium" id="toast">
+<span class="material-symbols-outlined text-cyan-400 text-sm">check_circle</span>
+<span id="toast-message">Licence key copied to clipboard</span>
+</div>
+</div>
+<!-- Inline Script for Micro-Interactions -->
+<script>
+    let keyMasked = true;
+    const rawKey = "CHAT-89F2-K01A-9812-7K2Q";
+    const maskedKey = "CHAT-••••-••••-••••-7K2Q";
+
+    function toggleKeyMask() {
+      const keyElem = document.getElementById("key-display-text");
+      const btn = document.getElementById("account-key-show");
+      keyMasked = !keyMasked;
+      if (keyMasked) {
+        keyElem.innerText = maskedKey;
+        btn.innerText = "Show";
+      } else {
+        keyElem.innerText = rawKey;
+        btn.innerText = "Hide";
+      }
+    }
+
+    function copyKeyToast() {
+      navigator.clipboard.writeText(rawKey).then(() => {
+        showToast("Licence key copied to clipboard");
+      }).catch(() => {
+        showToast("Key copied: " + rawKey);
+      });
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById("toast");
+      const toastMsg = document.getElementById("toast-message");
+      toastMsg.innerText = text;
+      toast.classList.remove("translate-y-20", "opacity-0");
+      toast.classList.add("translate-y-0", "opacity-100");
+      setTimeout(() => {
+        toast.classList.remove("translate-y-0", "opacity-100");
+        toast.classList.add("translate-y-20", "opacity-0");
+      }, 2500);
+    }
+  </script>
+</body></html>

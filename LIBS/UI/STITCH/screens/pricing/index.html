@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pricing &amp; Passes — Chattatonic Reader</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Public+Sans:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          spacing: {},
+          fontFamily: {
+            headline: ["Public Sans", "sans-serif"],
+            display: ["Public Sans", "sans-serif"],
+            body: ["DM Sans", "sans-serif"],
+            label: ["DM Sans", "sans-serif"]
+          },
+          fontSize: {}
+        },
+      }
+    }
+  </script>
+<style>
+    /* Chattatonic Glow Custom Tokens & Styles */
+    :root {
+      --bg-night: #0B0A14;
+      --card-raised: #14122A;
+      --text-high: #F5F3FF;
+      --text-mid: #B4B0D0;
+      --text-low: #6E6A8F;
+      --primary-violet: #8B5CF6;
+      --secondary-cyan: #22D3EE;
+      --tertiary-pink: #F472B6;
+    }
+
+    body {
+      background-color: #0B0A14;
+      color: #F5F3FF;
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .font-headline {
+      font-family: 'Public Sans', sans-serif;
+    }
+
+    /* Glow Gradients */
+    .glow-signature-btn {
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 50%, #22D3EE 100%);
+      box-shadow: 0 0 24px rgba(139, 92, 246, 0.45);
+      transition: all 0.25s ease;
+    }
+    .glow-signature-btn:hover {
+      box-shadow: 0 0 35px rgba(34, 211, 238, 0.65);
+      transform: translateY(-1px);
+    }
+
+    .gradient-border-lifetime {
+      position: relative;
+      background: #14122A;
+      border-radius: 1.25rem;
+      z-index: 1;
+    }
+    .gradient-border-lifetime::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 1.35rem;
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 50%, #22D3EE 100%);
+      z-index: -1;
+      opacity: 0.9;
+      box-shadow: 0 0 28px rgba(244, 114, 182, 0.35);
+    }
+
+    .glass-card {
+      background: rgba(20, 18, 42, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card:hover {
+      border-color: rgba(139, 92, 246, 0.35);
+      box-shadow: 0 0 22px rgba(139, 92, 246, 0.15);
+    }
+
+    .cyan-active-glow {
+      text-shadow: 0 0 10px rgba(34, 211, 238, 0.75);
+    }
+
+    /* Ambient atmospheric background blurs */
+    .ambient-halo-1 {
+      position: absolute;
+      top: 5%;
+      left: 20%;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, rgba(11, 10, 20, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-halo-2 {
+      position: absolute;
+      top: 25%;
+      right: 15%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.12) 0%, rgba(11, 10, 20, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-halo-3 {
+      position: absolute;
+      bottom: 20%;
+      left: 10%;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, rgba(244, 114, 182, 0.10) 0%, rgba(11, 10, 20, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Accordion transitions */
+    details summary::-webkit-details-marker {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-[#0B0A14] text-[#F5F3FF] antialiased selection:bg-violet-600/40 selection:text-cyan-200">
+<!-- Ambient background glow layers -->
+<div class="ambient-halo-1"></div>
+<div class="ambient-halo-2"></div>
+<div class="ambient-halo-3"></div>
+<!-- Shared Component: TopNavBar docked sticky -->
+<header class="sticky top-0 z-50 w-full bg-neutral-950/80 backdrop-blur-md border-b border-white/10 shadow-[0_0_20px_rgba(139,92,246,0.15)]">
+<div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-3.5">
+<!-- Brand Logo -->
+<a class="font-headline text-lg font-extrabold tracking-tight text-neutral-50 flex items-center gap-2.5 active:scale-95 transition-transform duration-100" href="#" id="brand-home-link">
+<span class="w-8 h-8 rounded-lg bg-violet-950/60 border border-violet-500/40 flex items-center justify-center text-violet-400 shadow-[0_0_12px_rgba(139,92,246,0.35)]">
+<span class="material-symbols-outlined text-[20px]" data-icon="graphic_eq">graphic_eq</span>
+</span>
+<span class="text-neutral-50 flex items-baseline gap-1">
+          Chattatonic
+          <span class="text-xs font-semibold text-violet-400/90 tracking-normal font-body">Reader</span>
+</span>
+</a>
+<!-- Center Links -->
+<nav class="hidden md:flex items-center gap-7 text-sm">
+<a class="text-neutral-400 hover:text-cyan-400 hover:bg-white/5 px-2.5 py-1.5 rounded-lg transition-colors duration-150 font-normal" href="#how-it-works" id="nav-how-it-works">How it works</a>
+<a class="text-neutral-400 hover:text-cyan-400 hover:bg-white/5 px-2.5 py-1.5 rounded-lg transition-colors duration-150 font-normal" href="#voices" id="nav-voices">Voices</a>
+<a class="text-cyan-400 font-medium cyan-active-glow px-2.5 py-1.5 rounded-lg bg-white/5 transition-colors duration-150 flex items-center gap-1.5" href="#pricing" id="nav-pricing">
+<span>Pricing</span>
+<span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+</a>
+<a class="text-neutral-400 hover:text-cyan-400 hover:bg-white/5 px-2.5 py-1.5 rounded-lg transition-colors duration-150 font-normal" href="#library" id="nav-library">Library</a>
+</nav>
+<!-- Trailing Action Cluster -->
+<div class="flex items-center gap-3">
+<!-- Render Credits Pill Quick Counter -->
+<div class="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#14122A] border border-cyan-500/20 text-xs text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.15)]">
+<span class="material-symbols-outlined text-[15px] text-cyan-400" data-icon="bolt">bolt</span>
+<span class="font-mono font-medium">Render Credits</span>
+</div>
+<button class="text-xs font-medium text-neutral-300 hover:text-white px-3 py-1.5 rounded-lg transition-colors active:scale-95" id="btn-signin">
+          Sign in
+        </button>
+<a class="glow-signature-btn text-xs font-semibold text-neutral-950 px-4 py-2 rounded-full flex items-center gap-1.5 active:scale-95" href="#install" id="btn-add-to-chrome">
+<span class="material-symbols-outlined text-[16px] text-neutral-950" data-icon="extension">extension</span>
+<span>Add to Chrome</span>
+</a>
+</div>
+</div>
+</header>
+<!-- Main Container -->
+<main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-28 space-y-24">
+<!-- 1. Hero Header Section -->
+<section class="text-center space-y-7 max-w-4xl mx-auto pt-4" id="pricing-hero">
+<!-- Top mini pill -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-950/40 border border-violet-500/30 text-xs font-medium text-violet-300 shadow-[0_0_16px_rgba(139,92,246,0.25)]">
+<span class="material-symbols-outlined text-[15px] text-violet-400" data-icon="verified_user">verified_user</span>
+<span>Fair, transparent on-device reading passes</span>
+</div>
+<!-- Main Headline -->
+<h1 class="font-headline font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-neutral-50 leading-[1.12]">
+        Pay for the reader, <br class="hidden sm:inline"/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-400 to-cyan-300">
+          not for our servers.
+        </span>
+</h1>
+<!-- Subhead -->
+<p class="font-body text-base sm:text-lg text-[#B4B0D0] max-w-2xl mx-auto leading-relaxed">
+        Passes unlock everything that runs on your own computer. They never auto-renew.
+      </p>
+<!-- Trust Pill Badges -->
+<div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 pt-2">
+<div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#14122A] border border-white/10 text-xs text-neutral-200">
+<span class="material-symbols-outlined text-[16px] text-cyan-400" data-icon="lock">lock</span>
+<span>100% On-device privacy</span>
+</div>
+<div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#14122A] border border-white/10 text-xs text-neutral-200">
+<span class="material-symbols-outlined text-[16px] text-pink-400" data-icon="event_busy">event_busy</span>
+<span>No subscription lock-in</span>
+</div>
+<div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#14122A] border border-white/10 text-xs text-neutral-200">
+<span class="material-symbols-outlined text-[16px] text-violet-400" data-icon="credit_card_off">credit_card_off</span>
+<span>Zero recurring charges</span>
+</div>
+</div>
+</section>
+<!-- 2. Row of 5 Plan Cards (Horizontal High-Density Grid) -->
+<section class="space-y-6" id="pricing-cards">
+<div class="flex items-center justify-between px-1">
+<div class="space-y-0.5">
+<h2 class="font-headline font-bold text-xl text-neutral-100 flex items-center gap-2">
+<span>Pass options</span>
+<span class="text-xs px-2 py-0.5 rounded-full bg-violet-900/40 text-violet-300 border border-violet-500/20">Non-renewing</span>
+</h2>
+<p class="text-xs text-[#B4B0D0]">Activate when you need deep reading focus. Keep all offline capabilities.</p>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs text-[#6E6A8F]">
+<span class="material-symbols-outlined text-[16px] text-cyan-400" data-icon="memory">memory</span>
+<span>Local CPU &amp; GPU accelerated</span>
+</div>
+</div>
+<!-- 5-Card Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-stretch">
+<!-- Plan 1: Free -->
+<div class="glass-card rounded-[20px] p-5 flex flex-col justify-between relative transition-all duration-200" id="card-plan-free">
+<div class="space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-bold text-lg text-neutral-100">Free</h3>
+<p class="text-xs text-[#6E6A8F]">Everyday light listening</p>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-white/5 text-neutral-400 border border-white/10">Default</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-black text-3xl text-neutral-50">$0</span>
+<span class="text-xs text-[#6E6A8F]">/ forever</span>
+</div>
+<hr class="border-white/10"/>
+<ul class="space-y-2.5 text-xs text-[#B4B0D0]">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-violet-400 shrink-0" data-icon="check">check</span>
+<span><strong>1</strong> on-device voice</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-violet-400 shrink-0" data-icon="check">check</span>
+<span><strong>20 minutes</strong> daily</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-violet-400 shrink-0" data-icon="check">check</span>
+<span>Web pages &amp; PDFs</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-violet-400 shrink-0" data-icon="check">check</span>
+<span>Sentence glow highlighter</span>
+</li>
+<li class="flex items-center gap-2 text-[#6E6A8F]">
+<span class="material-symbols-outlined text-[16px] text-neutral-600 shrink-0" data-icon="close">close</span>
+<span>Cast of voices</span>
+</li>
+</ul>
+</div>
+<div class="pt-6">
+<button class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/15 text-neutral-200 border border-white/10 transition-colors active:scale-95" id="plan-free">
+              Start free
+            </button>
+</div>
+</div>
+<!-- Plan 2: Day Pass -->
+<div class="glass-card rounded-[20px] p-5 flex flex-col justify-between relative transition-all duration-200" id="card-plan-day">
+<div class="space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-bold text-lg text-neutral-100">Day Pass</h3>
+<p class="text-xs text-[#6E6A8F]">24-hour sprint</p>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-pink-500/10 text-pink-400 border border-pink-500/20">PASS</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-black text-3xl text-neutral-50">$2</span>
+<span class="text-xs text-[#6E6A8F]">/ 24 hours</span>
+</div>
+<hr class="border-white/10"/>
+<ul class="space-y-2.5 text-xs text-[#B4B0D0]">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span><strong>Unlimited</strong> reading</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>All on-device voices</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>Cast of voices enabled</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>Up to 3 devices</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>No auto-renewal</span>
+</li>
+</ul>
+</div>
+<div class="pt-6">
+<button class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-violet-600/30 hover:bg-violet-600/40 text-violet-200 border border-violet-500/40 shadow-[0_0_12px_rgba(139,92,246,0.2)] transition-all active:scale-95" id="plan-day">
+              Get Day Pass
+            </button>
+</div>
+</div>
+<!-- Plan 3: Month Pass -->
+<div class="glass-card rounded-[20px] p-5 flex flex-col justify-between relative transition-all duration-200" id="card-plan-month">
+<div class="space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-bold text-lg text-neutral-100">Month Pass</h3>
+<p class="text-xs text-[#6E6A8F]">Deep project &amp; study</p>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-pink-500/10 text-pink-400 border border-pink-500/20">PASS</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-black text-3xl text-neutral-50">$8</span>
+<span class="text-xs text-[#6E6A8F]">/ 30 days</span>
+</div>
+<hr class="border-white/10"/>
+<ul class="space-y-2.5 text-xs text-[#B4B0D0]">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span><strong>Unlimited</strong> reading</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>All on-device voices</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>Cast of voices enabled</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>Up to 3 devices</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>Ends clean at 30 days</span>
+</li>
+</ul>
+</div>
+<div class="pt-6">
+<button class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-violet-600/30 hover:bg-violet-600/40 text-violet-200 border border-violet-500/40 shadow-[0_0_12px_rgba(139,92,246,0.2)] transition-all active:scale-95" id="plan-month">
+              Get Month Pass
+            </button>
+</div>
+</div>
+<!-- Plan 4: Year Pass (Most Popular) -->
+<div class="glass-card rounded-[20px] p-5 flex flex-col justify-between relative border-violet-500/50 shadow-[0_0_24px_rgba(139,92,246,0.25)] transition-all duration-200" id="card-plan-year">
+<!-- Tag "Most popular" -->
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-violet-600 text-white text-[10px] font-bold tracking-wide uppercase shadow-[0_0_12px_rgba(139,92,246,0.6)] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="star" data-weight="fill">star</span>
+<span>Most popular</span>
+</div>
+<div class="space-y-4 pt-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-bold text-lg text-neutral-100">Year Pass</h3>
+<p class="text-xs text-violet-300">Continuous power listening</p>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-pink-500/20 text-pink-300 border border-pink-500/40">PASS</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-black text-3xl text-neutral-50">$49</span>
+<span class="text-xs text-[#6E6A8F]">/ 365 days</span>
+</div>
+<hr class="border-white/10"/>
+<ul class="space-y-2.5 text-xs text-[#B4B0D0]">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span><strong>Unlimited</strong> reading</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>All on-device voices</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>Cast of voices enabled</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>Up to 3 devices</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0" data-icon="check">check</span>
+<span>Equivalent to $4.08/mo</span>
+</li>
+</ul>
+</div>
+<div class="pt-6">
+<button class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-violet-500 hover:bg-violet-400 text-white shadow-[0_0_18px_rgba(139,92,246,0.4)] transition-all active:scale-95" id="plan-year">
+              Get Year Pass
+            </button>
+</div>
+</div>
+<!-- Plan 5: Lifetime Pass (Best Value & Signature Gradient Glow) -->
+<div class="gradient-border-lifetime p-5 flex flex-col justify-between relative transition-all duration-200" id="card-plan-lifetime">
+<!-- Tag "Best value" -->
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-gradient-to-r from-violet-500 via-pink-500 to-cyan-400 text-neutral-950 text-[10px] font-extrabold tracking-wide uppercase shadow-[0_0_16px_rgba(244,114,182,0.6)] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-neutral-950" data-icon="verified" data-weight="fill">verified</span>
+<span>Best value</span>
+</div>
+<div class="space-y-4 pt-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-bold text-lg text-neutral-50 flex items-center gap-1.5">
+<span>Lifetime Pass</span>
+</h3>
+<p class="text-xs text-pink-300/90">Pay once, own forever</p>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-cyan-400/20 text-cyan-300 border border-cyan-400/40">FOREVER</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-black text-3xl text-transparent bg-clip-text bg-gradient-to-r from-violet-200 via-pink-200 to-cyan-200">$99</span>
+<span class="text-xs text-[#B4B0D0]">/ once forever</span>
+</div>
+<hr class="border-white/10"/>
+<ul class="space-y-2.5 text-xs text-neutral-200">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-300 shrink-0" data-icon="check">check</span>
+<span><strong>Unlimited</strong> reading forever</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-300 shrink-0" data-icon="check">check</span>
+<span>All current &amp; future on-device voices</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-300 shrink-0" data-icon="check">check</span>
+<span>Cast of voices included</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-300 shrink-0" data-icon="check">check</span>
+<span>3 personal devices at a time</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-cyan-300 shrink-0" data-icon="check">check</span>
+<span>All software upgrades included</span>
+</li>
+</ul>
+</div>
+<div class="pt-6">
+<button class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-neutral-950 glow-signature-btn active:scale-95" id="plan-lifetime">
+              Get Lifetime Pass
+            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Detailed Feature Comparison Table -->
+<section class="space-y-6" id="feature-comparison">
+<div class="space-y-1">
+<h2 class="font-headline font-bold text-2xl text-neutral-50 tracking-tight">Compare all pass details</h2>
+<p class="text-sm text-[#B4B0D0]">Every pass offers identical on-device engine performance. Choose only the duration you need.</p>
+</div>
+<div class="glass-card rounded-[20px] overflow-hidden border border-white/10">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse text-xs sm:text-sm">
+<thead>
+<tr class="border-b border-white/10 bg-[#14122A]/90 text-neutral-300">
+<th class="p-4 sm:p-5 font-headline font-semibold text-neutral-400 w-1/4">Feature</th>
+<th class="p-4 text-center font-headline font-semibold text-neutral-300">Free</th>
+<th class="p-4 text-center font-headline font-semibold text-neutral-300">Day Pass</th>
+<th class="p-4 text-center font-headline font-semibold text-neutral-300">Month Pass</th>
+<th class="p-4 text-center font-headline font-semibold text-violet-300 bg-violet-950/20">Year Pass</th>
+<th class="p-4 text-center font-headline font-bold text-cyan-300 bg-cyan-950/20">Lifetime Pass</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5 font-body">
+<!-- Row: On-device voices -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="p-4 sm:p-5 font-medium text-neutral-200">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-violet-400" data-icon="record_voice_over">record_voice_over</span>
+<span>On-device voices</span>
+</div>
+</td>
+<td class="p-4 text-center text-[#B4B0D0]">1 voice</td>
+<td class="p-4 text-center text-cyan-300 font-medium">All studio voices</td>
+<td class="p-4 text-center text-cyan-300 font-medium">All studio voices</td>
+<td class="p-4 text-center text-cyan-300 font-medium bg-violet-950/10">All studio voices</td>
+<td class="p-4 text-center text-cyan-300 font-semibold bg-cyan-950/10">All studio voices</td>
+</tr>
+<!-- Row: Daily listening limit -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="p-4 sm:p-5 font-medium text-neutral-200">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-pink-400" data-icon="timer">timer</span>
+<span>Daily listening limit</span>
+</div>
+</td>
+<td class="p-4 text-center text-[#B4B0D0]">20 min / day</td>
+<td class="p-4 text-center text-emerald-400 font-medium">Unlimited</td>
+<td class="p-4 text-center text-emerald-400 font-medium">Unlimited</td>
+<td class="p-4 text-center text-emerald-400 font-medium bg-violet-950/10">Unlimited</td>
+<td class="p-4 text-center text-emerald-400 font-semibold bg-cyan-950/10">Unlimited</td>
+</tr>
+<!-- Row: Cast of voices -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="p-4 sm:p-5 font-medium text-neutral-200">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-cyan-400" data-icon="groups">groups</span>
+<div>
+<span>Cast of voices</span>
+<p class="text-[11px] text-[#6E6A8F]">Multi-speaker dialogue per page</p>
+</div>
+</div>
+</td>
+<td class="p-4 text-center text-[#6E6A8F]">✕</td>
+<td class="p-4 text-center text-cyan-300">✓ Included</td>
+<td class="p-4 text-center text-cyan-300">✓ Included</td>
+<td class="p-4 text-center text-cyan-300 bg-violet-950/10">✓ Included</td>
+<td class="p-4 text-center text-cyan-300 font-semibold bg-cyan-950/10">✓ Included</td>
+</tr>
+<!-- Row: Devices per licence -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="p-4 sm:p-5 font-medium text-neutral-200">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-violet-400" data-icon="devices">devices</span>
+<span>Devices per licence</span>
+</div>
+</td>
+<td class="p-4 text-center text-[#B4B0D0]">1 device</td>
+<td class="p-4 text-center text-neutral-200 font-medium">3 devices</td>
+<td class="p-4 text-center text-neutral-200 font-medium">3 devices</td>
+<td class="p-4 text-center text-neutral-200 font-medium bg-violet-950/10">3 devices</td>
+<td class="p-4 text-center text-neutral-100 font-semibold bg-cyan-950/10">3 devices</td>
+</tr>
+<!-- Row: Smart layout -->
+<tr class="hover:bg-white/[0.02] transition-colors bg-white/[0.01]">
+<td class="p-4 sm:p-5 font-medium text-neutral-200">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-cyan-400" data-icon="auto_awesome">auto_awesome</span>
+<div>
+<span>Smart layout</span>
+<p class="text-[11px] text-[#6E6A8F]">OCR &amp; reading-order cleanup</p>
+</div>
+</div>
+</td>
+<td class="p-4 text-center">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center bg-violet-950/10">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center bg-cyan-950/10">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+</tr>
+<!-- Row: Voice cloning -->
+<tr class="hover:bg-white/[0.02] transition-colors bg-white/[0.01]">
+<td class="p-4 sm:p-5 font-medium text-neutral-200">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-pink-400" data-icon="graphic_eq">graphic_eq</span>
+<div>
+<span>Voice cloning</span>
+<p class="text-[11px] text-[#6E6A8F]">Create on-device clones from audio sample</p>
+</div>
+</div>
+</td>
+<td class="p-4 text-center">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center bg-violet-950/10">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center bg-cyan-950/10">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+</tr>
+<!-- Row: Hosted HD rendering -->
+<tr class="hover:bg-white/[0.02] transition-colors bg-white/[0.01]">
+<td class="p-4 sm:p-5 font-medium text-neutral-200">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-violet-400" data-icon="cloud_sync">cloud_sync</span>
+<div>
+<span>Hosted HD rendering</span>
+<p class="text-[11px] text-[#6E6A8F]">High-definition cloud studio export</p>
+</div>
+</div>
+</td>
+<td class="p-4 text-center">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center bg-violet-950/10">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+<td class="p-4 text-center bg-cyan-950/10">
+<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">Uses render credits</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- 4. Section "Render credits" on Polished Glass Panel -->
+<section class="relative rounded-[24px] p-6 sm:p-10 bg-[#14122A]/65 backdrop-blur-xl border border-cyan-500/30 shadow-[0_0_35px_rgba(34,211,238,0.12)] space-y-10" id="render-credits-section">
+<!-- Ambient interior light -->
+<div class="absolute -top-16 -right-16 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Header & Explanation -->
+<div class="max-w-3xl space-y-3">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-400/40 text-xs font-mono font-medium text-cyan-300">
+<span class="material-symbols-outlined text-[15px]" data-icon="bolt">bolt</span>
+<span>Metered At-Cost Extras</span>
+</div>
+<h2 class="font-headline font-bold text-2xl sm:text-3xl text-neutral-50 tracking-tight">
+          Render credits
+        </h2>
+<p class="font-body text-sm sm:text-base text-[#B4B0D0] leading-relaxed">
+          Some features run on our servers: smart layout for scanned documents, voice cloning, and hosted HD rendering. These are metered at cost with render credits, on top of any pass.
+        </p>
+</div>
+<!-- 3 Credit Pack Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Pack 1: 100 Credits -->
+<div class="rounded-2xl p-5 bg-[#0B0A14]/80 border border-white/10 hover:border-cyan-500/40 transition-all flex flex-col justify-between" id="credits-100">
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="font-headline font-bold text-lg text-neutral-100">100 credits</span>
+<span class="text-xs px-2 py-0.5 rounded bg-white/5 text-neutral-400">Starter</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-black text-3xl text-neutral-50">$5</span>
+<span class="text-xs text-[#6E6A8F]">($0.05 / credit)</span>
+</div>
+<p class="text-xs text-[#B4B0D0]">Great for a couple of scanned PDF books or 2 high-fidelity voice clones.</p>
+</div>
+<div class="pt-6">
+<button class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/15 text-neutral-200 border border-white/10 transition-colors active:scale-95" id="btn-credits-100">
+              Buy 100 credits
+            </button>
+</div>
+</div>
+<!-- Pack 2: 500 Credits -->
+<div class="rounded-2xl p-5 bg-[#0B0A14]/80 border border-violet-500/40 shadow-[0_0_20px_rgba(139,92,246,0.18)] hover:border-violet-400 transition-all flex flex-col justify-between" id="credits-500">
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="font-headline font-bold text-lg text-neutral-100">500 credits</span>
+<span class="text-xs px-2 py-0.5 rounded font-semibold bg-pink-500/20 text-pink-300 border border-pink-500/30">Save 12%</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-black text-3xl text-neutral-50">$22</span>
+<span class="text-xs text-[#6E6A8F]">($0.044 / credit)</span>
+</div>
+<p class="text-xs text-[#B4B0D0]">Standard academic pack. Up to 500 OCR pages or 10 on-device custom voice models.</p>
+</div>
+<div class="pt-6">
+<button class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-violet-600/40 hover:bg-violet-600/60 text-violet-100 border border-violet-500/50 shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all active:scale-95" id="btn-credits-500">
+              Buy 500 credits
+            </button>
+</div>
+</div>
+<!-- Pack 3: 2,000 Credits -->
+<div class="rounded-2xl p-5 bg-[#0B0A14]/80 border border-cyan-400/50 shadow-[0_0_24px_rgba(34,211,238,0.2)] hover:border-cyan-300 transition-all flex flex-col justify-between" id="credits-2000">
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="font-headline font-bold text-lg text-neutral-100">2,000 credits</span>
+<span class="text-xs px-2 py-0.5 rounded font-bold bg-cyan-400/20 text-cyan-300 border border-cyan-400/30">Best rate</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-black text-3xl text-neutral-50">$80</span>
+<span class="text-xs text-[#6E6A8F]">($0.04 / credit)</span>
+</div>
+<p class="text-xs text-[#B4B0D0]">For high-volume archival readers, digital libraries, and audiobook batch rendering.</p>
+</div>
+<div class="pt-6">
+<button class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-cyan-400 hover:bg-cyan-300 text-neutral-950 shadow-[0_0_16px_rgba(34,211,238,0.4)] transition-all active:scale-95" id="btn-credits-2000">
+              Buy 2,000 credits
+            </button>
+</div>
+</div>
+</div>
+<!-- Sub-table / Breakdown: What things cost -->
+<div class="space-y-4 pt-3 border-t border-white/10">
+<h3 class="font-headline font-semibold text-base text-neutral-200 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-cyan-400" data-icon="receipt_long">receipt_long</span>
+<span>What things cost</span>
+</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="p-4 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+<div class="space-y-1">
+<div class="font-medium text-sm text-neutral-100 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-violet-400" data-icon="document_scanner">document_scanner</span>
+<span>Smart layout</span>
+</div>
+<p class="text-[11px] text-[#6E6A8F]">Scanned PDF OCR &amp; column ordering</p>
+</div>
+<div class="text-right">
+<span class="font-mono font-bold text-sm text-cyan-300">1 credit</span>
+<p class="text-[10px] text-[#6E6A8F]">per page</p>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+<div class="space-y-1">
+<div class="font-medium text-sm text-neutral-100 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-pink-400" data-icon="record_voice_over">record_voice_over</span>
+<span>Voice clone</span>
+</div>
+<p class="text-[11px] text-[#6E6A8F]">30s sample training to local neural model</p>
+</div>
+<div class="text-right">
+<span class="font-mono font-bold text-sm text-pink-300">50 credits</span>
+<p class="text-[10px] text-[#6E6A8F]">per voice</p>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+<div class="space-y-1">
+<div class="font-medium text-sm text-neutral-100 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-cyan-400" data-icon="headphones">headphones</span>
+<span>Hosted HD rendering</span>
+</div>
+<p class="text-[11px] text-[#6E6A8F]">Studio quality cloud MP3/WAV export</p>
+</div>
+<div class="text-right">
+<span class="font-mono font-bold text-sm text-violet-300">1 credit</span>
+<p class="text-[10px] text-[#6E6A8F]">per 1,000 chars</p>
+</div>
+</div>
+</div>
+<p class="text-[11px] text-[#6E6A8F] italic pt-1">
+          * Note: Standard text documents, EPUBs, and native web articles read on-device consume <strong>0 credits</strong> and are 100% covered by any pass.
+        </p>
+</div>
+</section>
+<!-- 5. Interactive FAQ Accordion -->
+<section class="max-w-3xl mx-auto space-y-6" id="faq-section">
+<div class="text-center space-y-2">
+<h2 class="font-headline font-bold text-2xl sm:text-3xl text-neutral-50 tracking-tight">Frequently asked questions</h2>
+<p class="text-sm text-[#B4B0D0]">Clear answers about passes, renewal policies, and local offline privacy.</p>
+</div>
+<div class="space-y-3.5 pt-2">
+<!-- FAQ Item 1 -->
+<details class="group glass-card rounded-2xl border border-white/10 p-5 transition-all duration-200 open:border-violet-500/40" id="faq-auto-renew" open="">
+<summary class="flex justify-between items-center cursor-pointer list-none select-none font-headline font-semibold text-base text-neutral-100 group-hover:text-cyan-300">
+<span>Do passes renew automatically?</span>
+<span class="material-symbols-outlined text-[20px] text-neutral-400 transition-transform duration-200 group-open:rotate-180 group-open:text-cyan-400" data-icon="expand_more">expand_more</span>
+</summary>
+<div class="pt-3 font-body text-sm text-[#B4B0D0] leading-relaxed border-t border-white/5 mt-3">
+            No. Passes are strictly one-time payments. When your pass period expires, it simply ends without charging you again.
+          </div>
+</details>
+<!-- FAQ Item 2 -->
+<details class="group glass-card rounded-2xl border border-white/10 p-5 transition-all duration-200 open:border-violet-500/40" id="faq-pass-ends">
+<summary class="flex justify-between items-center cursor-pointer list-none select-none font-headline font-semibold text-base text-neutral-100 group-hover:text-cyan-300">
+<span>What happens when a pass ends?</span>
+<span class="material-symbols-outlined text-[20px] text-neutral-400 transition-transform duration-200 group-open:rotate-180 group-open:text-cyan-400" data-icon="expand_more">expand_more</span>
+</summary>
+<div class="pt-3 font-body text-sm text-[#B4B0D0] leading-relaxed border-t border-white/5 mt-3">
+            You return to Free mode seamlessly. Your library, bookmarks, imported PDFs, and preferences stay fully intact.
+          </div>
+</details>
+<!-- FAQ Item 3 -->
+<details class="group glass-card rounded-2xl border border-white/10 p-5 transition-all duration-200 open:border-violet-500/40" id="faq-server-privacy">
+<summary class="flex justify-between items-center cursor-pointer list-none select-none font-headline font-semibold text-base text-neutral-100 group-hover:text-cyan-300">
+<span>Is my reading sent to your servers?</span>
+<span class="material-symbols-outlined text-[20px] text-neutral-400 transition-transform duration-200 group-open:rotate-180 group-open:text-cyan-400" data-icon="expand_more">expand_more</span>
+</summary>
+<div class="pt-3 font-body text-sm text-[#B4B0D0] leading-relaxed border-t border-white/5 mt-3">
+            Not for on-device reading. Audio synthesis is computed locally on your CPU/GPU. Only optional hosted extras (OCR matrix parsing, cloud voice cloning) communicate with our servers via render credits.
+          </div>
+</details>
+<!-- FAQ Item 4 -->
+<details class="group glass-card rounded-2xl border border-white/10 p-5 transition-all duration-200 open:border-violet-500/40" id="faq-device-limit">
+<summary class="flex justify-between items-center cursor-pointer list-none select-none font-headline font-semibold text-base text-neutral-100 group-hover:text-cyan-300">
+<span>Can I use my licence on more than one computer?</span>
+<span class="material-symbols-outlined text-[20px] text-neutral-400 transition-transform duration-200 group-open:rotate-180 group-open:text-cyan-400" data-icon="expand_more">expand_more</span>
+</summary>
+<div class="pt-3 font-body text-sm text-[#B4B0D0] leading-relaxed border-t border-white/5 mt-3">
+            Yes, all passes support up to 3 devices simultaneously (macOS, Windows, Linux, and ChromeOS).
+          </div>
+</details>
+</div>
+</section>
+<!-- Bottom Conversion Banner -->
+<section class="relative rounded-3xl p-8 sm:p-12 overflow-hidden border border-white/10 bg-gradient-to-r from-violet-950/40 via-[#14122A] to-cyan-950/40 text-center space-y-6" id="bottom-cta-banner">
+<div class="max-w-2xl mx-auto space-y-3">
+<h3 class="font-headline font-extrabold text-3xl sm:text-4xl text-neutral-50 tracking-tight">
+          Ready for distraction-free listening?
+        </h3>
+<p class="text-sm sm:text-base text-[#B4B0D0]">
+          Download the browser extension or native desktop app. Start reading immediately with 20 daily free minutes.
+        </p>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+<a class="glow-signature-btn text-sm font-bold text-neutral-950 px-6 py-3 rounded-full flex items-center gap-2 active:scale-95" href="#install" id="cta-get-chrome-extension">
+<span class="material-symbols-outlined text-[18px] text-neutral-950" data-icon="download">download</span>
+<span>Add to Chrome — It's Free</span>
+</a>
+<a class="px-6 py-3 rounded-full text-sm font-semibold bg-[#14122A] hover:bg-white/10 text-neutral-100 border border-white/15 transition-all active:scale-95" href="#plan-lifetime" id="cta-browse-lifetime">
+<span>Get Lifetime Pass ($99)</span>
+</a>
+</div>
+</section>
+</main>
+<!-- 6. Footer (Matching Landing Screen) -->
+<footer class="border-t border-white/10 bg-neutral-950/90 py-14 px-6 relative z-10" id="global-footer">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+<!-- Brand & Pronunciation -->
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-violet-950 border border-violet-500/40 flex items-center justify-center text-violet-400">
+<span class="material-symbols-outlined text-[16px]" data-icon="graphic_eq">graphic_eq</span>
+</span>
+<span class="font-headline font-extrabold text-lg text-neutral-100 tracking-tight">Chattatonic</span>
+</div>
+<p class="text-xs text-[#6E6A8F]">
+          Pronounced “catatonic” · On-device neural text-to-speech
+        </p>
+<p class="text-xs text-[#6E6A8F] pt-1">
+          © 2025 Chattatonic Studio. All rights reserved.
+        </p>
+</div>
+<!-- Navigation Footer Links -->
+<div class="flex flex-wrap items-center gap-6 text-xs text-[#B4B0D0]">
+<a class="hover:text-cyan-300 transition-colors" href="#how-it-works" id="footer-link-how">How it works</a>
+<a class="hover:text-cyan-300 transition-colors" href="#voices" id="footer-link-voices">Voices</a>
+<a class="hover:text-cyan-300 transition-colors text-cyan-400 font-medium" href="#pricing" id="footer-link-pricing">Pricing</a>
+<a class="hover:text-cyan-300 transition-colors" href="#privacy" id="footer-link-privacy">Privacy Architecture</a>
+<a class="hover:text-cyan-300 transition-colors" href="#docs" id="footer-link-docs">Documentation</a>
+<a class="hover:text-cyan-300 transition-colors" href="#contact" id="footer-link-contact">Contact</a>
+</div>
+</div>
+</footer>
+<!-- Micro-interactions Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Smooth scroll navigation anchors
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href');
+          if (targetId && targetId !== '#') {
+            const targetEl = document.querySelector(targetId);
+            if (targetEl) {
+              e.preventDefault();
+              targetEl.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        });
+      });
+
+      // Quick feedback toast simulation on pass clicks
+      const passButtons = [
+        'plan-free', 'plan-day', 'plan-month', 'plan-year', 'plan-lifetime',
+        'btn-credits-100', 'btn-credits-500', 'btn-credits-2000'
+      ];
+      
+      passButtons.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const originalText = btn.innerText;
+            btn.innerHTML = `<span class="material-symbols-outlined text-[14px] animate-spin" data-icon="refresh">refresh</span> Connecting...`;
+            setTimeout(() => {
+              btn.innerHTML = `<span class="material-symbols-outlined text-[14px] text-cyan-300" data-icon="check_circle">check_circle</span> Selected`;
+              setTimeout(() => {
+                btn.innerText = originalText;
+              }, 1800);
+            }, 600);
+          });
+        }
+      });
+    });
+  </script>
+</body></html>

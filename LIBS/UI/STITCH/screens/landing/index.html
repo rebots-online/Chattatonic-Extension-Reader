@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+
+<html class="dark scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chattatonic Reader — On-Device Neural Speech Engine</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&amp;family=Public+Sans:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms & Container Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Verbatim Tailwind Config -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            DEFAULT: "0.5rem",
+            lg: "1rem",
+            xl: "1.5rem",
+            full: "9999px"
+          },
+          spacing: {},
+          fontFamily: {
+            headline: ["Public Sans", "sans-serif"],
+            display: ["Public Sans", "sans-serif"],
+            body: ["DM Sans", "sans-serif"],
+            label: ["DM Sans", "sans-serif"]
+          },
+          fontSize: {}
+        }
+      }
+    }
+  </script>
+<style>
+    /* Custom Glow & Signature Styles conforming to Design System */
+    .bg-studio-dark {
+      background-color: #0B0A14;
+    }
+    .bg-raised-card {
+      background-color: #14122A;
+    }
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    .glass-card-interactive {
+      background: rgba(20, 18, 42, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card-interactive:hover {
+      border-color: rgba(139, 92, 246, 0.4);
+      box-shadow: 0 0 24px rgba(139, 92, 246, 0.18), 0 0 40px rgba(34, 211, 238, 0.08);
+      transform: translateY(-2px);
+    }
+    .text-high { color: #F5F3FF; }
+    .text-mid { color: #B4B0D0; }
+    .text-low { color: #6E6A8F; }
+
+    /* Signature Gradient Glow (120deg Violet -> Pink -> Cyan) */
+    .gradient-signature-bg {
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 52%, #22D3EE 100%);
+    }
+    .gradient-signature-text {
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 50%, #22D3EE 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gradient-border-glow {
+      position: relative;
+      background: #14122A;
+      background-clip: padding-box;
+      border: 1px solid transparent;
+      border-radius: 1.5rem;
+    }
+    .gradient-border-glow::before {
+      content: '';
+      position: absolute;
+      top: -1px; right: -1px; bottom: -1px; left: -1px;
+      z-index: -1;
+      margin: -1px;
+      border-radius: inherit;
+      background: linear-gradient(120deg, #8B5CF6, #F472B6, #22D3EE);
+      opacity: 0.9;
+    }
+    .signature-glow-box {
+      box-shadow: 0 0 35px rgba(139, 92, 246, 0.28), 0 0 65px rgba(34, 211, 238, 0.15);
+    }
+    .sentence-active-glow {
+      background: linear-gradient(90deg, rgba(139, 92, 246, 0.22), rgba(244, 114, 182, 0.16), rgba(34, 211, 238, 0.18));
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.35), inset 0 0 10px rgba(34, 211, 238, 0.2);
+      border-radius: 6px;
+    }
+    .waveform-pulse {
+      animation: pulseWave 2s ease-in-out infinite alternate;
+    }
+    @keyframes pulseWave {
+      0% { opacity: 0.55; transform: scaleY(0.75); }
+      100% { opacity: 1; transform: scaleY(1.2); }
+    }
+  </style>
+</head>
+<body class="bg-studio-dark text-mid font-body antialiased min-h-screen selection:bg-violet-600 selection:text-white relative overflow-x-hidden">
+<!-- Ambient Background Halos -->
+<div class="fixed top-0 left-1/4 w-[650px] h-[550px] bg-violet-600/10 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+<div class="fixed top-1/3 right-10 w-[500px] h-[450px] bg-cyan-400/10 rounded-full blur-[130px] pointer-events-none -z-10"></div>
+<div class="fixed bottom-10 left-1/3 w-[600px] h-[400px] bg-pink-500/10 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+<!-- 1. Header / Top Nav (Sticky & Docked) -->
+<header class="sticky top-0 z-40 w-full bg-neutral-950/80 backdrop-blur-md border-b border-white/10 shadow-[0_0_20px_rgba(139,92,246,0.15)]">
+<div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3.5">
+<!-- Brand Logo / Glyph -->
+<a class="flex items-center gap-3 group" href="#">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-600 via-pink-500 to-cyan-400 flex items-center justify-center p-[1px] shadow-[0_0_12px_rgba(139,92,246,0.4)]">
+<div class="w-full h-full bg-[#0B0A14] rounded-[11px] flex items-center justify-center">
+<span class="material-symbols-outlined text-violet-400 group-hover:text-cyan-300 transition-colors text-xl" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline font-extrabold tracking-tight text-neutral-50 text-lg flex items-center gap-1.5 leading-none">
+            Chattatonic <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30">Reader</span>
+</span>
+<span class="text-[10px] text-low font-medium tracking-wider uppercase mt-0.5">Neural Speech Engine</span>
+</div>
+</a>
+<!-- Desktop Nav Links -->
+<nav class="hidden md:flex items-center gap-8 font-headline text-sm font-medium">
+<a class="text-neutral-400 hover:text-cyan-400 transition-colors duration-150 py-1" href="#nav-how-it-works" id="nav-how-it-works">How it works</a>
+<a class="text-neutral-400 hover:text-cyan-400 transition-colors duration-150 py-1" href="#nav-voices" id="nav-voices">Voices</a>
+<a class="text-neutral-400 hover:text-cyan-400 transition-colors duration-150 py-1" href="#nav-pricing" id="nav-pricing">Pricing</a>
+</nav>
+<!-- Action Buttons -->
+<div class="flex items-center gap-3">
+<a class="text-xs font-headline font-semibold text-neutral-300 hover:text-white px-3.5 py-2 rounded-lg hover:bg-white/5 transition-all" href="#" id="nav-sign-in">
+          Sign in
+        </a>
+<a class="relative group overflow-hidden rounded-xl p-[1px] font-headline text-xs font-bold active:scale-95 transition-transform duration-100" href="#" id="nav-add-to-chrome">
+<span class="absolute inset-0 bg-gradient-to-r from-violet-500 via-pink-500 to-cyan-400 rounded-xl blur-[2px] opacity-75 group-hover:opacity-100 transition-opacity"></span>
+<span class="relative flex items-center gap-2 bg-[#0B0A14] text-white px-4 py-2 rounded-[11px] group-hover:bg-opacity-80 transition-all shadow-[0_0_15px_rgba(139,92,246,0.3)]">
+<span class="material-symbols-outlined text-sm text-cyan-300">extension</span>
+<span>Add to Chrome</span>
+</span>
+</a>
+</div>
+</div>
+</header>
+<!-- 2. Hero Section -->
+<section class="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden max-w-7xl mx-auto px-6">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Left Column: Copy & CTAs -->
+<div class="lg:col-span-6 flex flex-col items-start space-y-6">
+<!-- On-device badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/25 shadow-[0_0_15px_rgba(139,92,246,0.2)]">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+</span>
+<span class="text-xs font-medium tracking-wide text-neutral-200">On-device neural speech synthesis engine</span>
+</div>
+<!-- Huge Headline -->
+<h1 class="font-headline font-extrabold text-4xl sm:text-5xl lg:text-6xl text-high tracking-tight leading-[1.1]">
+          Stop reading.<br/>
+<span class="gradient-signature-text">Start listening.</span>
+</h1>
+<!-- Subhead -->
+<p class="text-base sm:text-lg text-mid max-w-xl leading-relaxed">
+          Chattatonic reads any page, PDF or document aloud on your own computer, lighting up each sentence as it speaks. No server latency, complete privacy.
+        </p>
+<!-- CTA Buttons Row -->
+<div class="flex flex-wrap items-center gap-4 pt-2 w-full sm:w-auto">
+<a class="w-full sm:w-auto text-center gradient-signature-bg text-neutral-950 font-headline font-bold text-sm px-6 py-3.5 rounded-xl hover:opacity-95 shadow-[0_0_24px_rgba(139,92,246,0.4)] active:scale-95 transition-all flex items-center justify-center gap-2" href="#" id="cta-add-to-chrome">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">download</span>
+<span>Add to Chrome — free</span>
+</a>
+<a class="w-full sm:w-auto text-center glass-panel text-high hover:text-cyan-300 font-headline font-medium text-sm px-5 py-3.5 rounded-xl hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center gap-2" href="#" id="cta-open-webapp">
+<span class="material-symbols-outlined text-lg">open_in_new</span>
+<span>Open the web app</span>
+</a>
+</div>
+<!-- Reassurance copy -->
+<p class="text-xs text-low flex items-center gap-1.5 font-medium">
+<span class="material-symbols-outlined text-sm text-cyan-400">check_circle</span>
+          Free: one voice, 20 minutes a day. No card required.
+        </p>
+<!-- Trust micro-badges -->
+<div class="pt-4 border-t border-white/5 w-full flex flex-wrap items-center gap-5 sm:gap-8 text-xs text-neutral-300">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-violet-400">lock</span>
+<span>100% On-Device</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-pink-400">highlight</span>
+<span>Web &amp; PDF Highlighting</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-cyan-400">bolt</span>
+<span>Zero Latency Buffer</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Interactive Live Demo Card -->
+<div class="lg:col-span-6 w-full">
+<div class="relative mx-auto rounded-2xl glass-panel p-1 bg-raised-card/80 signature-glow-box">
+<!-- Outer border accent -->
+<div class="rounded-[18px] bg-[#0E0C1C] border border-white/10 overflow-hidden shadow-2xl">
+<!-- Window Bar -->
+<div class="flex items-center justify-between px-4 py-3 bg-white/[0.03] border-b border-white/10">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+<span class="ml-2 text-xs font-mono text-low tracking-tight">article-preview.pdf</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-headline font-semibold text-cyan-400 bg-cyan-400/10 px-2 py-0.5 rounded border border-cyan-400/20">
+                  Article Preview • Demo
+                </span>
+<span class="text-xs text-low flex items-center gap-1 font-mono">
+<span class="material-symbols-outlined text-sm text-violet-400">speed</span> 240 WPM
+                </span>
+</div>
+</div>
+<!-- Article Excerpt Simulation -->
+<div class="p-6 md:p-8 space-y-4 font-body leading-relaxed text-sm md:text-base">
+<p class="text-low opacity-60">
+                Traditional speech models offload audio synthesis to remote GPU servers, generating audible lag between sentence transitions and exposing proprietary text.
+              </p>
+<!-- Current-Sentence Active Glow Highlight -->
+<div class="p-3.5 sentence-active-glow relative border-l-2 border-violet-400 my-2">
+<div class="flex items-center gap-1.5 mb-1.5">
+<span class="text-[10px] tracking-wider font-extrabold uppercase text-cyan-300 font-headline bg-neutral-950/70 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-pulse"></span>
+                    READING NOW
+                  </span>
+</div>
+<p class="text-high font-medium text-base md:text-lg leading-snug">
+                  “Chattatonic reads any page, PDF or document aloud on your own computer, lighting up each sentence as it speaks with studio quality timbre.”
+                </p>
+</div>
+<p class="text-mid/70 border-b border-cyan-400/30 pb-0.5 inline">
+                Upcoming sentences are proactively buffered on your hardware core so narrative rhythm never breaks.
+              </p>
+<p class="text-low opacity-40">
+                You can adjust pitch variance, orchestrate voice swaps for dialogue, and export mastered tracks locally.
+              </p>
+</div>
+<!-- Mini Glass Docked Floating Player Bar -->
+<div class="mx-4 mb-4 p-3 rounded-xl bg-white/[0.04] backdrop-blur-xl border border-white/10 flex flex-col gap-2.5 shadow-lg">
+<!-- Top Row Controls -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<!-- Play/Pause Toggle -->
+<button class="w-10 h-10 rounded-full gradient-signature-bg flex items-center justify-center text-neutral-950 shadow-[0_0_15px_rgba(139,92,246,0.6)] hover:scale-105 active:scale-95 transition-all" id="demo-play">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">pause</span>
+</button>
+<!-- Voice Chip -->
+<div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/5 border border-white/10">
+<div class="w-5 h-5 rounded-full bg-gradient-to-tr from-violet-500 to-cyan-400 p-[1px]">
+<div class="w-full h-full bg-[#14122A] rounded-full flex items-center justify-center text-[10px] font-bold text-cyan-300">
+                        A
+                      </div>
+</div>
+<span class="text-xs font-medium text-high font-headline">Aria (Neural)</span>
+<span class="material-symbols-outlined text-xs text-violet-400" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+</div>
+</div>
+<!-- Speed & Time Remaining -->
+<div class="flex items-center gap-3">
+<span class="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-white/10 text-neutral-200">1.2x</span>
+<span class="text-xs font-mono text-low">03:42 / 12:10</span>
+</div>
+</div>
+<!-- Two-Layer Progress Scrubber -->
+<div class="w-full space-y-1">
+<div class="relative w-full h-2 bg-white/10 rounded-full overflow-hidden">
+<!-- Buffered track (cyan) -->
+<div class="absolute left-0 top-0 bottom-0 w-[58%] bg-cyan-400/30 rounded-full"></div>
+<!-- Played track (gradient) -->
+<div class="absolute left-0 top-0 bottom-0 w-[38%] gradient-signature-bg rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"></div>
+</div>
+<!-- Glowing sentence markers -->
+<div class="flex justify-between px-1 text-[9px] font-mono text-low">
+<span>Sec 01</span>
+<span class="text-cyan-400 font-bold">● Sentence 4 (Active)</span>
+<span>Sec 08</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Section "How it works" -->
+<section class="py-20 border-t border-white/5 max-w-7xl mx-auto px-6" id="nav-how-it-works">
+<div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+<span class="text-xs font-headline font-bold tracking-widest text-cyan-400 uppercase bg-cyan-400/10 px-3 py-1 rounded-full border border-cyan-400/20">
+        ENGINEERED FOR PURE IMMERSION &amp; ZERO AUDIO JITTER
+      </span>
+<h2 class="text-3xl sm:text-4xl font-headline font-extrabold text-high tracking-tight">
+        How it works
+      </h2>
+<p class="text-mid text-sm sm:text-base">
+        A seamless balance of browser orchestration, localized machine intelligence, and adaptive typography highlighting.
+      </p>
+</div>
+<!-- 3 Bento / Glass Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="glass-card-interactive rounded-2xl p-7 flex flex-col justify-between relative overflow-hidden group">
+<div class="space-y-4">
+<div class="w-12 h-12 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center text-violet-400 group-hover:text-cyan-300 group-hover:border-cyan-400/40 transition-colors shadow-[0_0_15px_rgba(139,92,246,0.2)]">
+<span class="material-symbols-outlined text-2xl">memory</span>
+</div>
+<span class="text-xs font-mono text-violet-400 tracking-wider font-semibold">Dynamic Core Allocation</span>
+<h3 class="text-xl font-headline font-bold text-high">
+            1. Calibrate once
+          </h3>
+<p class="text-sm text-mid leading-relaxed">
+            It measures your computer and tunes itself for smooth, latency-free speech synthesis without draining your system battery.
+          </p>
+</div>
+<div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-low">
+<span>Benchmarked in 400ms</span>
+<span class="material-symbols-outlined text-sm text-violet-400">check</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card-interactive rounded-2xl p-7 flex flex-col justify-between relative overflow-hidden group">
+<div class="space-y-4">
+<div class="w-12 h-12 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-400 group-hover:text-violet-300 group-hover:border-violet-400/40 transition-colors shadow-[0_0_15px_rgba(244,114,182,0.2)]">
+<span class="material-symbols-outlined text-2xl">fast_forward</span>
+</div>
+<span class="text-xs font-mono text-pink-400 tracking-wider font-semibold">3-Sentence Anticipatory Buffer</span>
+<h3 class="text-xl font-headline font-bold text-high">
+            2. Reads ahead
+          </h3>
+<p class="text-sm text-mid leading-relaxed">
+            Voices are generated a few sentences ahead in the background so playback never stutters, even when scrolling massive documents.
+          </p>
+</div>
+<div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-low">
+<span>Zero audio hitch</span>
+<span class="material-symbols-outlined text-sm text-pink-400">check</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-card-interactive rounded-2xl p-7 flex flex-col justify-between relative overflow-hidden group">
+<div class="space-y-4">
+<div class="w-12 h-12 rounded-xl bg-cyan-400/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400 group-hover:text-pink-300 group-hover:border-pink-400/40 transition-colors shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+<span class="material-symbols-outlined text-2xl">auto_awesome</span>
+</div>
+<span class="text-xs font-mono text-cyan-400 tracking-wider font-semibold">Fluid Synchronized Focus</span>
+<h3 class="text-xl font-headline font-bold text-high">
+            3. Follow the glow
+          </h3>
+<p class="text-sm text-mid leading-relaxed">
+            Each sentence lights up as it is spoken, on web pages and PDFs with karaoke-style illumination and soft spatial halos.
+          </p>
+</div>
+<div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-low">
+<span>Active viewport tracking</span>
+<span class="material-symbols-outlined text-sm text-cyan-400">check</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Section "Runs on your machine" -->
+<section class="py-20 border-t border-white/5 max-w-7xl mx-auto px-6">
+<div class="max-w-3xl mb-14">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-semibold mb-3">
+<span class="material-symbols-outlined text-sm">shield</span>
+        Air-Gapped Privacy Architecture
+      </div>
+<h2 class="text-3xl sm:text-4xl font-headline font-extrabold text-high tracking-tight">
+        Runs on your machine
+      </h2>
+<p class="text-mid mt-2 text-base">
+        Voices are generated on your device. Your reading never leaves your computer. No logging, no tracking, and zero dependence on third-party cloud outages.
+      </p>
+</div>
+<!-- 3 Stat Tiles / Feature Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="glass-card-interactive rounded-2xl p-7 bg-raised-card">
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-cyan-300">
+<span class="material-symbols-outlined">developer_board</span>
+</div>
+<span class="text-xs font-mono text-cyan-400 uppercase tracking-widest bg-cyan-400/10 px-2 py-0.5 rounded">0ms ping</span>
+</div>
+<h3 class="text-lg font-headline font-bold text-high mb-2">On-device voices</h3>
+<p class="text-sm text-mid leading-relaxed">
+          Zero cloud latency, 100% private. Audio synthesis is computed locally via your computer's CPU/GPU neural cores.
+        </p>
+</div>
+<div class="glass-card-interactive rounded-2xl p-7 bg-raised-card">
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-violet-400">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<span class="text-xs font-mono text-violet-400 uppercase tracking-widest bg-violet-400/10 px-2 py-0.5 rounded">Native DOM</span>
+</div>
+<h3 class="text-lg font-headline font-bold text-high mb-2">Works on PDFs</h3>
+<p class="text-sm text-mid leading-relaxed">
+          Full document &amp; layout parsing without stripped headers, mangled citations, or broken multi-column reading orders.
+        </p>
+</div>
+<div class="glass-card-interactive rounded-2xl p-7 bg-raised-card">
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-pink-400">
+<span class="material-symbols-outlined">no_accounts</span>
+</div>
+<span class="text-xs font-mono text-pink-400 uppercase tracking-widest bg-pink-400/10 px-2 py-0.5 rounded">Frictionless</span>
+</div>
+<h3 class="text-lg font-headline font-bold text-high mb-2">No account needed for Free</h3>
+<p class="text-sm text-mid leading-relaxed">
+          Install the lightweight extension and click play immediately. No email verification hurdles, spam newsletters, or credit card forms.
+        </p>
+</div>
+</div>
+</section>
+<!-- 5. Section "More with a pass" -->
+<section class="py-20 border-t border-white/5 max-w-7xl mx-auto px-6" id="nav-voices">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/25 text-violet-300 text-xs font-semibold mb-3">
+<span class="material-symbols-outlined text-sm">stars</span>
+          Studio Grade Capabilities
+        </div>
+<h2 class="text-3xl sm:text-4xl font-headline font-extrabold text-high tracking-tight">
+          More with a pass
+        </h2>
+<p class="text-mid mt-2 text-base max-w-xl">
+          Unlock orchestrated multi-voice narration and complex document ingestion for the most demanding reading workflows.
+        </p>
+</div>
+<!-- Badges Legend -->
+<div class="flex items-center gap-3">
+<span class="px-2.5 py-1 rounded text-[11px] font-headline font-extrabold bg-pink-500/20 text-pink-300 border border-pink-500/30 tracking-wider">
+          PASS
+        </span>
+<span class="text-xs text-low">Unrestricted feature</span>
+<span class="text-neutral-600">•</span>
+<span class="px-2.5 py-1 rounded text-[11px] font-headline font-extrabold bg-cyan-400/20 text-cyan-300 border border-cyan-400/30 tracking-wider">
+          CREDITS
+        </span>
+<span class="text-xs text-low">Metered hosted task</span>
+</div>
+</div>
+<!-- 3 Feature Cards with Signature Badges -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Feature 1: Cast of voices -->
+<div class="glass-card-interactive rounded-2xl p-7 bg-raised-card flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-5">
+<span class="px-2.5 py-1 rounded text-[11px] font-headline font-extrabold bg-pink-500/20 text-pink-300 border border-pink-500/30 tracking-wider">
+              PASS
+            </span>
+<span class="material-symbols-outlined text-xl text-pink-400">group_work</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-high mb-2">Cast of voices</h3>
+<p class="text-sm text-mid leading-relaxed mb-6">
+            Assign different voices for headings, quotes, footnotes and body text to create an immersive, natural audiobook feel.
+          </p>
+</div>
+<!-- Voice Avatar Chips Demo inside card -->
+<div class="p-3 bg-white/[0.03] rounded-xl border border-white/5 space-y-2">
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-violet-500/30 border border-violet-400 text-violet-300 flex items-center justify-center font-bold text-[10px]">H</span>
+<span class="text-high">Narrator (Callum)</span>
+</div>
+<span class="text-low font-mono text-[10px]">Headings</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-cyan-500/30 border border-cyan-400 text-cyan-300 flex items-center justify-center font-bold text-[10px]">Q</span>
+<span class="text-high">Aria (Studio)</span>
+</div>
+<span class="text-low font-mono text-[10px]">Dialogue</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-amber-500/30 border border-amber-400 text-amber-300 flex items-center justify-center font-bold text-[10px]">B</span>
+<span class="text-high">Julian (Deep)</span>
+</div>
+<span class="text-low font-mono text-[10px]">Body</span>
+</div>
+</div>
+</div>
+<!-- Feature 2: Smart layout -->
+<div class="glass-card-interactive rounded-2xl p-7 bg-raised-card flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-5">
+<span class="px-2.5 py-1 rounded text-[11px] font-headline font-extrabold bg-cyan-400/20 text-cyan-300 border border-cyan-400/30 tracking-wider">
+              CREDITS
+            </span>
+<span class="material-symbols-outlined text-xl text-cyan-400">table_chart</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-high mb-2">Smart layout</h3>
+<p class="text-sm text-mid leading-relaxed mb-6">
+            Understands complex columns, financial tables, mathematical fractions, and academic footnotes in scanned documents without skipping a beat.
+          </p>
+</div>
+<div class="p-3 bg-white/[0.03] rounded-xl border border-white/5 flex items-center justify-between text-xs font-mono">
+<span class="text-mid flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-cyan-400">document_scanner</span>
+            Matrix Parsing Engine
+          </span>
+<span class="text-cyan-400 font-semibold">1 Credit / Page</span>
+</div>
+</div>
+<!-- Feature 3: Clone your voice -->
+<div class="glass-card-interactive rounded-2xl p-7 bg-raised-card flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-5">
+<span class="px-2.5 py-1 rounded text-[11px] font-headline font-extrabold bg-cyan-400/20 text-cyan-300 border border-cyan-400/30 tracking-wider">
+              CREDITS
+            </span>
+<span class="material-symbols-outlined text-xl text-pink-400">record_voice_over</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-high mb-2">Clone your voice</h3>
+<p class="text-sm text-mid leading-relaxed mb-6">
+            Make custom voiceovers, lectures, and narrations in your own authentic personal timbre with just a short audio sample.
+          </p>
+</div>
+<div class="p-3 bg-white/[0.03] rounded-xl border border-white/5 flex items-center justify-between text-xs font-mono">
+<span class="text-mid flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-pink-400">mic</span>
+            30-sec Rapid Snapshot
+          </span>
+<span class="text-pink-400 font-semibold">50 Credits / Profile</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. Pricing Teaser Row -->
+<section class="py-20 border-t border-white/5 max-w-7xl mx-auto px-6" id="nav-pricing">
+<div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+<h2 class="text-3xl sm:text-4xl font-headline font-extrabold text-high tracking-tight">
+        Flexible passes. Zero subscriptions.
+      </h2>
+<p class="text-mid text-base">
+        Pay once when you need it. No surprise monthly rebills, no complex cancellation hoops.
+      </p>
+</div>
+<!-- 4 Pass Cards Side-by-Side -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Day Pass -->
+<div class="glass-panel rounded-2xl p-6 flex flex-col justify-between hover:border-violet-500/40 transition-all duration-200">
+<div>
+<span class="text-xs font-mono text-low uppercase tracking-wider">Short Burst</span>
+<h3 class="text-xl font-headline font-bold text-high mt-1">Day Pass</h3>
+<div class="mt-4 mb-5 flex items-baseline gap-1">
+<span class="text-3xl font-extrabold font-headline text-high">$2</span>
+<span class="text-xs text-low">/ 24 hours</span>
+</div>
+<p class="text-xs text-mid leading-relaxed mb-6">
+            24 hours of unrestricted playback with all standard studio voices. Perfect for intensive research marathons.
+          </p>
+</div>
+<button class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 hover:text-white border border-white/10 font-headline font-semibold text-xs transition-all active:scale-95" id="pass-day-select">
+          Select Day Pass
+        </button>
+</div>
+<!-- Month Pass -->
+<div class="glass-panel rounded-2xl p-6 flex flex-col justify-between hover:border-violet-500/40 transition-all duration-200">
+<div>
+<span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">Student &amp; Reader</span>
+<h3 class="text-xl font-headline font-bold text-high mt-1">Month Pass</h3>
+<div class="mt-4 mb-5 flex items-baseline gap-1">
+<span class="text-3xl font-extrabold font-headline text-high">$8</span>
+<span class="text-xs text-low">/ 30 days</span>
+</div>
+<p class="text-xs text-mid leading-relaxed mb-6">
+            30 days of studio voices, background reading ahead, and speed boost up to 3x with zero throttling.
+          </p>
+</div>
+<button class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 hover:text-white border border-white/10 font-headline font-semibold text-xs transition-all active:scale-95" id="pass-month-select">
+          Select Month Pass
+        </button>
+</div>
+<!-- Year Pass -->
+<div class="glass-panel rounded-2xl p-6 flex flex-col justify-between hover:border-violet-500/40 transition-all duration-200">
+<div>
+<span class="text-xs font-mono text-pink-400 uppercase tracking-wider">High Volume</span>
+<h3 class="text-xl font-headline font-bold text-high mt-1">Year Pass</h3>
+<div class="mt-4 mb-5 flex items-baseline gap-1">
+<span class="text-3xl font-extrabold font-headline text-high">$49</span>
+<span class="text-xs text-low">/ 365 days</span>
+</div>
+<p class="text-xs text-mid leading-relaxed mb-6">
+            365 days of full access, offline speech packages, and priority audio updates throughout the term.
+          </p>
+</div>
+<button class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 hover:text-white border border-white/10 font-headline font-semibold text-xs transition-all active:scale-95" id="pass-year-select">
+          Select Year Pass
+        </button>
+</div>
+<!-- Lifetime Pass (RECOMMENDED / BEST VALUE) -->
+<div class="gradient-border-glow p-6 flex flex-col justify-between shadow-[0_0_30px_rgba(139,92,246,0.3)] relative">
+<div class="absolute -top-3 right-5">
+<span class="gradient-signature-bg text-neutral-950 text-[10px] font-black uppercase font-headline px-2.5 py-0.5 rounded-full shadow-md">
+            BEST VALUE
+          </span>
+</div>
+<div>
+<span class="text-xs font-mono text-violet-300 uppercase tracking-wider font-semibold">One &amp; Done</span>
+<h3 class="text-xl font-headline font-extrabold text-high mt-1">Lifetime Pass</h3>
+<div class="mt-4 mb-5 flex items-baseline gap-1">
+<span class="text-3xl font-extrabold font-headline text-high">$99</span>
+<span class="text-xs text-low">/ Forever</span>
+</div>
+<p class="text-xs text-mid leading-relaxed mb-4">
+            Includes all future engine updates, complete cast orchestration, and 200 bonus render credits.
+          </p>
+<div class="space-y-1 text-[11px] text-cyan-300 font-medium mb-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">check</span>
+<span>All Neural Models included</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">check</span>
+<span>200 Render Credits gift</span>
+</div>
+</div>
+</div>
+<button class="w-full py-2.5 rounded-xl gradient-signature-bg text-neutral-950 font-headline font-bold text-xs shadow-[0_0_15px_rgba(139,92,246,0.5)] hover:opacity-95 transition-all active:scale-95" id="pass-lifetime-select">
+          Get Lifetime Access
+        </button>
+</div>
+</div>
+<!-- Summary line & Detailed CTA -->
+<div class="mt-12 text-center space-y-4">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-mid">
+<span class="material-symbols-outlined text-sm text-cyan-400">bolt</span>
+<span>Passes never auto-renew. Hosted extras use render credits: <strong>100 for $5</strong>.</span>
+</div>
+<div>
+<a class="inline-flex items-center gap-1 text-sm font-headline font-semibold text-violet-400 hover:text-cyan-300 transition-colors" href="#nav-pricing" id="cta-see-pricing">
+<span>See pricing &amp; feature comparisons</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- 7. Footer -->
+<footer class="border-t border-white/10 bg-[#07060D] py-14">
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+<!-- Brand & Pronunciation -->
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-violet-400 text-xl" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+<span class="font-headline font-extrabold text-high text-lg tracking-tight">Chattatonic Reader</span>
+</div>
+<p class="text-xs text-low font-medium">
+          Pronounced “catatonic” • On-device neural text-to-speech studio
+        </p>
+</div>
+<!-- Footer Navigation Links -->
+<div class="flex flex-wrap items-center gap-6 text-xs text-mid font-headline">
+<a class="hover:text-cyan-400 transition-colors" href="#nav-how-it-works">How it works</a>
+<a class="hover:text-cyan-400 transition-colors" href="#nav-voices">Voices</a>
+<a class="hover:text-cyan-400 transition-colors" href="#nav-pricing" id="footer-pricing">Pricing</a>
+<a class="hover:text-cyan-400 transition-colors" href="#">Privacy</a>
+<a class="hover:text-cyan-400 transition-colors" href="#">Terms</a>
+<a class="hover:text-cyan-400 transition-colors" href="#">Support</a>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 mt-8 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs text-low">
+<p>© 2025 Chattatonic Studio. All rights reserved.</p>
+<div class="flex items-center gap-2 mt-2 sm:mt-0">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>Local engine: Ready (WebGPU / WASM)</span>
+</div>
+</div>
+</footer>
+<!-- Interactive script for Demo player toggle micro-interaction -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const demoBtn = document.getElementById('demo-play');
+      let isPlaying = true;
+
+      if (demoBtn) {
+        demoBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          isPlaying = !isPlaying;
+          const icon = demoBtn.querySelector('.material-symbols-outlined');
+          if (icon) {
+            icon.textContent = isPlaying ? 'pause' : 'play_arrow';
+          }
+        });
+      }
+    });
+  </script>
+</body></html>

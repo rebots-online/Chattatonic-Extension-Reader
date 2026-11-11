@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chattatonic Reader - Extension Welcome</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            night: {
+              base: "#0B0A14",
+              card: "#14122A",
+              border: "rgba(255, 255, 255, 0.10)",
+              highlight: "rgba(255, 255, 255, 0.06)"
+            },
+            primary: {
+              violet: "#8B5CF6",
+              cyan: "#22D3EE",
+              pink: "#F472B6",
+              amber: "#FBBF24",
+              green: "#34D399"
+            },
+            text: {
+              high: "#F5F3FF",
+              mid: "#B4B0D0",
+              low: "#6E6A8F"
+            }
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Public Sans", "sans-serif"],
+            display: ["Public Sans", "sans-serif"],
+            body: ["DM Sans", "sans-serif"],
+            label: ["DM Sans", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    /* Custom subtle grid background */
+    .cyber-grid {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+    
+    .glow-conic {
+      background: conic-gradient(from 180deg at 50% 50%, #8B5CF6 0deg, #F472B6 120deg, #22D3EE 240deg, #8B5CF6 360deg);
+    }
+
+    .glow-gradient-120 {
+      background: linear-gradient(120deg, #8B5CF6, #F472B6, #22D3EE);
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+    }
+    
+    .icon-fill {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+<body class="bg-[#0B0A14] text-[#F5F3FF] font-body min-h-screen relative overflow-x-hidden selection:bg-[#8B5CF6]/30 selection:text-[#22D3EE]">
+<!-- Ambient Multi-stop Radiant Glow Background -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] bg-gradient-to-tr from-violet-600/25 via-fuchsia-500/15 to-cyan-400/20 blur-[130px] rounded-full pointer-events-none -z-10"></div>
+<div class="cyber-grid absolute inset-0 pointer-events-none -z-10 opacity-70"></div>
+<!-- Primary Wrapper (Centered Extension Onboarding Journey) -->
+<main class="w-full max-w-7xl mx-auto px-6 py-10 lg:py-14 flex flex-col items-center justify-between min-h-screen">
+<!-- Top Branding & Navigation Anchor -->
+<header class="w-full flex flex-col items-center text-center mb-8 lg:mb-12">
+<!-- Wordmark & Extension Status Badge -->
+<div class="flex items-center gap-3.5 mb-6">
+<div class="relative flex items-center justify-center w-11 h-11 rounded-xl bg-[#14122A] border border-white/10 shadow-[0_0_24px_rgba(139,92,246,0.35)]">
+<span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-300 text-2xl font-bold" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+<span class="absolute -inset-0.5 rounded-xl border border-violet-500/30 blur-sm pointer-events-none"></span>
+</div>
+<div class="text-left">
+<div class="flex items-center gap-2">
+<span class="font-headline font-extrabold text-xl text-neutral-50 tracking-tight">Chattatonic</span>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-label font-bold tracking-wider uppercase bg-white/5 border border-white/10 text-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.2)]">
+              EXTENSION SETUP
+            </span>
+</div>
+<p class="text-xs font-headline font-medium text-[#6E6A8F]">Pronounced ‘catatonic’ • AI Voice Studio</p>
+</div>
+</div>
+<!-- Main Headline & Subhead -->
+<h1 class="font-headline text-4xl sm:text-5xl lg:text-6xl font-black text-neutral-50 tracking-tight max-w-3xl leading-[1.1] mb-3">
+        You're in. <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-400 to-cyan-300">Three quick steps.</span>
+</h1>
+<p class="text-base sm:text-lg text-[#B4B0D0] max-w-xl font-normal leading-relaxed">
+        It reads so you don't have to. Real on-device neural voice, instantaneous and entirely private.
+      </p>
+<!-- Step Indicator Tracker -->
+<div class="mt-8 flex flex-col items-center gap-2.5">
+<div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#14122A] border border-white/10 shadow-[0_0_16px_rgba(34,211,238,0.15)]">
+<span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+<span class="text-xs font-label font-semibold text-cyan-300 tracking-wide uppercase">Step 2 of 3</span>
+</div>
+<!-- Progress Bars (1: Completed, 2: Active, 3: Upcoming) -->
+<div class="flex items-center gap-2 w-48 h-1.5 mt-1">
+<div class="flex-1 h-full rounded-full bg-[#34D399] shadow-[0_0_8px_rgba(52,211,153,0.5)]"></div>
+<div class="flex-1 h-full rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 shadow-[0_0_10px_rgba(139,92,246,0.6)]"></div>
+<div class="flex-1 h-full rounded-full bg-white/10"></div>
+</div>
+</div>
+</header>
+<!-- 3 Large Glass Step Cards (Bento Flow) -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl w-full mx-auto my-auto items-stretch">
+<!-- CARD 1: COMPLETED (Pin Extension) -->
+<article class="relative flex flex-col justify-between rounded-[20px] bg-[#14122A]/85 backdrop-blur-xl border border-white/10 p-7 shadow-[0_4px_30px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-emerald-500/40 group">
+<div>
+<!-- Card Badge Header -->
+<div class="flex items-center justify-between mb-5">
+<span class="text-xs font-headline font-bold text-[#6E6A8F] uppercase tracking-wider">Step 01</span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#34D399]/15 border border-[#34D399]/30 text-[#34D399]">
+<span class="material-symbols-outlined text-sm icon-fill">check_circle</span>
+              Completed
+            </span>
+</div>
+<h2 class="font-headline text-xl font-bold text-neutral-50 mb-2">1. Pin Chattatonic</h2>
+<p class="text-sm text-[#B4B0D0] leading-relaxed mb-6">
+            Click the puzzle icon in your browser toolbar, then click the pin next to Chattatonic.
+          </p>
+<!-- Visual Toolbar Mockup -->
+<div class="w-full bg-[#0B0A14] rounded-xl border border-white/10 p-3 mb-6 relative overflow-hidden">
+<!-- Browser Simulated Search Bar -->
+<div class="flex items-center justify-between gap-2 pb-2.5 border-b border-white/5 text-[11px] text-[#6E6A8F]">
+<div class="flex items-center gap-1.5 bg-white/5 rounded-md px-2 py-1 flex-1 truncate">
+<span class="material-symbols-outlined text-[13px] text-[#6E6A8F]">lock</span>
+<span class="truncate">chrome://extensions</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-neutral-400">extension</span>
+</div>
+<!-- Opened Puzzle Dropdown Mini Panel -->
+<div class="mt-2.5 bg-[#14122A] rounded-lg border border-white/10 p-2.5 shadow-xl flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-md bg-violet-600/30 flex items-center justify-center border border-violet-500/40 text-violet-300">
+<span class="material-symbols-outlined text-xs">graphic_eq</span>
+</div>
+<div>
+<div class="text-xs font-semibold text-neutral-100 leading-tight">Chattatonic</div>
+<div class="text-[9px] text-[#6E6A8F]">Neural Reader</div>
+</div>
+</div>
+<!-- Glowing Active Pin -->
+<div class="flex items-center gap-1.5">
+<div class="w-6 h-6 rounded-md bg-cyan-400/20 border border-cyan-400/50 flex items-center justify-center text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.4)]">
+<span class="material-symbols-outlined text-xs icon-fill">push_pin</span>
+</div>
+<span class="material-symbols-outlined text-emerald-400 text-sm icon-fill">check</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 1 Button -->
+<button class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-label text-sm font-semibold text-emerald-300 bg-emerald-950/40 border border-emerald-500/30 shadow-[0_0_15px_rgba(52,211,153,0.15)] active:scale-95 transition-all duration-150" id="welcome-pinned" type="button">
+<span class="material-symbols-outlined text-base icon-fill">check</span>
+          Done, it's pinned
+        </button>
+</article>
+<!-- CARD 2: ACTIVE (Tune to this computer) -->
+<article class="relative flex flex-col justify-between rounded-[20px] bg-[#14122A] backdrop-blur-xl border-2 border-violet-500/60 p-7 shadow-[0_0_40px_rgba(139,92,246,0.25)] transition-all duration-300 group">
+<!-- Floating gradient halo behind active card -->
+<div class="absolute -top-12 -right-12 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -left-10 w-32 h-32 bg-violet-600/20 rounded-full blur-2xl pointer-events-none"></div>
+<div>
+<!-- Card Badge Header -->
+<div class="flex items-center justify-between mb-5">
+<span class="text-xs font-headline font-bold text-violet-400 uppercase tracking-wider">Step 02 • Active</span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-500/20 border border-violet-400/50 text-violet-300 shadow-[0_0_12px_rgba(139,92,246,0.3)]">
+<span class="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-ping"></span>
+              Recommended
+            </span>
+</div>
+<h2 class="font-headline text-xl font-bold text-neutral-50 mb-2">2. Tune to this computer</h2>
+<p class="text-sm text-[#B4B0D0] leading-relaxed mb-6">
+            We'll time a few test sentences on your machine. About 20 seconds. Nothing leaves your device.
+          </p>
+<!-- Gauge Benchmark Visual -->
+<div class="w-full bg-[#0B0A14]/90 rounded-xl border border-white/10 p-5 mb-6 flex flex-col items-center justify-center relative">
+<div class="relative w-36 h-36 flex items-center justify-center">
+<!-- Radial ring -->
+<svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="42" stroke="rgba(255,255,255,0.06)" stroke-width="7"></circle>
+<circle cx="50" cy="50" fill="none" r="42" stroke="url(#activeGaugeGrad)" stroke-dasharray="264" stroke-dashoffset="65" stroke-linecap="round" stroke-width="7"></circle>
+<defs>
+<lineargradient id="activeGaugeGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#8B5CF6"></stop>
+<stop offset="50%" stop-color="#F472B6"></stop>
+<stop offset="100%" stop-color="#22D3EE"></stop>
+</lineargradient>
+</defs>
+</svg>
+<!-- Center Metric Text -->
+<div class="absolute flex flex-col items-center justify-center text-center">
+<span class="text-3xl font-headline font-extrabold text-neutral-50 tracking-tight drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">3.4x</span>
+<span class="text-[10px] font-label font-semibold text-cyan-300 uppercase tracking-wider">faster</span>
+</div>
+</div>
+<div class="mt-2 text-center">
+<div class="text-xs font-medium text-neutral-300">than real time playback</div>
+<div class="text-[11px] text-[#6E6A8F] mt-0.5 flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-emerald-400">memory</span>
+                Hardware accelerated (Apple Neural / WebGPU)
+              </div>
+</div>
+</div>
+</div>
+<!-- Card 2 Action Buttons -->
+<div class="space-y-3">
+<button class="w-full glow-gradient-120 hover:brightness-110 active:scale-95 text-neutral-950 font-label font-bold text-sm py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_0_24px_rgba(139,92,246,0.4)] transition-all duration-150" id="welcome-calibrate" type="button">
+<span class="material-symbols-outlined text-base icon-fill text-neutral-950">bolt</span>
+            Run calibration
+          </button>
+<button class="w-full text-center text-xs font-label text-[#6E6A8F] hover:text-[#B4B0D0] py-1 transition-colors" id="welcome-skip-calibration" type="button">
+            Skip for now
+          </button>
+</div>
+</article>
+<!-- CARD 3: UPCOMING (Try it) -->
+<article class="relative flex flex-col justify-between rounded-[20px] bg-[#14122A]/85 backdrop-blur-xl border border-white/10 p-7 shadow-[0_4px_30px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20 group">
+<div>
+<!-- Card Badge Header -->
+<div class="flex items-center justify-between mb-5">
+<span class="text-xs font-headline font-bold text-[#6E6A8F] uppercase tracking-wider">Step 03</span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/5 border border-white/10 text-neutral-400">
+              Upcoming
+            </span>
+</div>
+<h2 class="font-headline text-xl font-bold text-neutral-50 mb-2">3. Try it</h2>
+<p class="text-sm text-[#B4B0D0] leading-relaxed mb-6">
+            Hear natural prosody and follow along with real-time luminous sentence highlighting.
+          </p>
+<!-- Signature Sentence Glow Visual Simulation -->
+<div class="w-full bg-[#0B0A14] rounded-xl border border-white/10 p-4 mb-6 text-xs leading-relaxed space-y-2.5">
+<!-- Previous Read Sentence (Dimmed) -->
+<p class="text-[#6E6A8F] font-light transition-opacity">
+              The human ear detects artificial cadences within milliseconds.
+            </p>
+<!-- Signature Glowing Spoken Sentence -->
+<div class="relative py-2 px-3 rounded-lg bg-gradient-to-r from-violet-900/30 via-fuchsia-900/20 to-cyan-900/30 border border-violet-500/30 shadow-[0_0_20px_rgba(139,92,246,0.2)]">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold tracking-wider text-pink-300 bg-pink-500/20 border border-pink-500/30">
+<span class="w-1 h-1 rounded-full bg-pink-400 animate-pulse"></span>
+                  SPEAKING NOW
+                </span>
+<span class="text-[10px] text-[#B4B0D0] font-mono">Rowan (Neutral)</span>
+</div>
+<p class="text-[#F5F3FF] font-semibold tracking-wide">
+                Chattatonic synthesizes fluid punctuation, breath pauses, and lifelike pitch on your device.
+              </p>
+</div>
+<!-- Buffered / Upcoming Sentence (Cyan subtle line) -->
+<p class="text-[#B4B0D0] relative inline-block decoration-cyan-400/60 underline underline-offset-4 decoration-1">
+              Select any text across the web or drop any document to begin.
+            </p>
+</div>
+</div>
+<!-- Interactive Try & Finish Actions -->
+<div class="flex items-center gap-3">
+<button class="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-400/40 text-neutral-200 text-xs font-label font-medium hover:text-cyan-300 active:scale-95 transition-all" id="welcome-try-play" type="button">
+<span class="w-6 h-6 rounded-full glow-gradient-120 flex items-center justify-center text-neutral-950 shadow-[0_0_10px_rgba(34,211,238,0.4)]">
+<span class="material-symbols-outlined text-xs icon-fill leading-none">play_arrow</span>
+</span>
+            Play sample
+          </button>
+<button class="flex-1 py-3 px-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-neutral-100 text-xs font-label font-bold tracking-wide active:scale-95 transition-all text-center" id="welcome-finish" type="button">
+            Finish
+          </button>
+</div>
+</article>
+</section>
+<!-- Glass Strip: What you get on Free & Passes Navigation -->
+<div class="w-full max-w-6xl mt-8">
+<div class="w-full rounded-2xl bg-[#14122A]/70 backdrop-blur-md border border-white/10 px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
+<!-- Left: Free Plan Title & Feature Pills -->
+<div class="flex flex-wrap items-center gap-3 sm:gap-4">
+<div class="flex items-center gap-2 pr-3 md:border-r md:border-white/10">
+<span class="font-headline font-bold text-sm text-neutral-200">What you get on Free</span>
+<span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">DEFAULT</span>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<!-- Pill 1 -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-[#B4B0D0]">
+<span class="material-symbols-outlined text-sm text-violet-400">graphic_eq</span>
+<span>1 voice</span>
+</div>
+<!-- Pill 2 -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-[#B4B0D0]">
+<span class="material-symbols-outlined text-sm text-cyan-400">schedule</span>
+<span>20 minutes a day</span>
+</div>
+<!-- Pill 3 -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-[#B4B0D0]">
+<span class="material-symbols-outlined text-sm text-pink-400">description</span>
+<span>Web pages and PDFs</span>
+</div>
+</div>
+</div>
+<!-- Right: See Passes CTA Link -->
+<a class="inline-flex items-center gap-1.5 text-xs font-label font-semibold text-cyan-300 hover:text-cyan-200 transition-colors group" href="#passes" id="welcome-see-passes">
+<span>See passes</span>
+<span class="material-symbols-outlined text-sm transition-transform duration-150 group-hover:translate-x-0.5">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Centered Minimal Footer -->
+<footer class="mt-8 text-center space-y-2">
+<div class="text-xs text-[#6E6A8F]">
+        Have a licence key? 
+        <a class="text-violet-400 hover:text-violet-300 font-semibold underline underline-offset-2 ml-1 transition-colors" href="#activate" id="welcome-activate">
+          Activate
+        </a>
+</div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0B0A14] border border-white/5 text-[11px] text-[#6E6A8F]">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>100% on-device neural synthesis • Zero cloud telemetry</span>
+</div>
+</footer>
+</main>
+<!-- Interactive script for button states -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const calibrateBtn = document.getElementById('welcome-calibrate');
+      const tryPlayBtn = document.getElementById('welcome-try-play');
+      const finishBtn = document.getElementById('welcome-finish');
+      
+      if (calibrateBtn) {
+        calibrateBtn.addEventListener('click', function() {
+          const originalText = this.innerHTML;
+          this.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">refresh</span> Calibrating machine...';
+          this.classList.add('opacity-80', 'cursor-wait');
+          setTimeout(() => {
+            this.innerHTML = '<span class="material-symbols-outlined text-base icon-fill text-neutral-950">check</span> 3.4x Verified';
+            this.classList.remove('opacity-80', 'cursor-wait');
+          }, 1800);
+        });
+      }
+
+      if (tryPlayBtn) {
+        let isPlaying = false;
+        tryPlayBtn.addEventListener('click', function() {
+          isPlaying = !isPlaying;
+          const iconSpan = this.querySelector('.material-symbols-outlined');
+          if (iconSpan) {
+            iconSpan.textContent = isPlaying ? 'pause' : 'play_arrow';
+          }
+        });
+      }
+
+      if (finishBtn) {
+        finishBtn.addEventListener('click', () => {
+          finishBtn.innerText = 'Ready!';
+          finishBtn.classList.add('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/40');
+        });
+      }
+    });
+  </script>
+</body></html>

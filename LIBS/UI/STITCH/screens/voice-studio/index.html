@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chattatonic — Voice Studio</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&amp;family=Public+Sans:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            night: "#0B0A14",
+            card: "#14122A"
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Public Sans", "sans-serif"],
+            display: ["Bricolage Grotesque", "Public Sans", "sans-serif"],
+            body: ["DM Sans", "sans-serif"],
+            label: ["DM Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+    }
+    
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .glow-signature {
+      background: linear-gradient(120deg, #8B5CF6, #F472B6, #22D3EE);
+    }
+    .text-glow-signature {
+      background: linear-gradient(120deg, #C4B5FD, #FBCFE8, #67E8F9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-[#0B0A14] text-[#F5F3FF] font-body min-h-screen antialiased flex flex-row overflow-x-hidden selection:bg-violet-500/30 selection:text-cyan-200">
+<!-- ========================================================================= -->
+<!-- LEFT FIXED NAVIGATION RAIL (w-20, fixed)                                   -->
+<!-- ========================================================================= -->
+<aside class="fixed top-0 left-0 h-screen w-20 z-50 bg-neutral-950/90 backdrop-blur-xl border-r border-white/10 shadow-[4px_0_24px_rgba(11,10,20,0.8)] flex flex-col items-center justify-between py-5">
+<!-- Top Branding Glyph -->
+<div class="flex flex-col items-center gap-1 group cursor-pointer" title="Chattatonic Voice Studio">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-600/30 to-pink-500/20 border border-violet-500/40 flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.35)] group-hover:scale-105 transition-transform duration-200">
+<span class="material-symbols-outlined text-violet-400 text-2xl" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+</div>
+<span class="font-headline font-black text-violet-400 tracking-tight text-[10px] uppercase">Studio</span>
+</div>
+<!-- Main Navigation Icons -->
+<nav class="flex flex-col items-center gap-4 w-full px-2">
+<!-- Library -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 group w-full" href="#" title="Library">
+<span class="material-symbols-outlined text-2xl group-hover:text-cyan-300">folder_open</span>
+<span class="font-headline text-[10px] font-semibold mt-1 text-neutral-400 group-hover:text-cyan-300">Library</span>
+</a>
+<!-- Reader -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 group w-full" href="#" title="Reader">
+<span class="material-symbols-outlined text-2xl group-hover:text-cyan-300">menu_book</span>
+<span class="font-headline text-[10px] font-semibold mt-1 text-neutral-400 group-hover:text-cyan-300">Reader</span>
+</a>
+<!-- Voices / Studio (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-cyan-400 p-2 rounded-xl bg-white/10 shadow-[0_0_12px_rgba(34,211,238,0.25)] border border-cyan-500/30 active:scale-90 transition-all duration-150 w-full relative" href="#" title="Voice Studio">
+<span class="material-symbols-outlined text-2xl text-cyan-300" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+<span class="font-headline text-[10px] font-semibold mt-1 text-cyan-300">Voices</span>
+<!-- Neon active dot -->
+<span class="absolute right-1.5 top-1.5 w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></span>
+</a>
+<!-- Passes -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 group w-full" href="#" title="Passes">
+<span class="material-symbols-outlined text-2xl group-hover:text-cyan-300">local_activity</span>
+<span class="font-headline text-[10px] font-semibold mt-1 text-neutral-400 group-hover:text-cyan-300">Passes</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 group w-full" href="#" title="Settings">
+<span class="material-symbols-outlined text-2xl group-hover:text-cyan-300">settings</span>
+<span class="font-headline text-[10px] font-semibold mt-1 text-neutral-400 group-hover:text-cyan-300">Settings</span>
+</a>
+</nav>
+<!-- Bottom Actions / Hardware Audio Status -->
+<div class="flex flex-col items-center gap-3">
+<!-- On-Device Neural Engine Online Pill Indicator -->
+<div class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px]" title="On-device neural voice engine active">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="font-mono text-[9px] font-medium tracking-tight">DSP OK</span>
+</div>
+<button class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90" title="Help &amp; Feedback">
+<span class="material-symbols-outlined text-xl">help_outline</span>
+</button>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- MAIN WORKSPACE CANVAS                                                     -->
+<!-- ========================================================================= -->
+<main class="ml-20 flex-1 flex flex-col min-w-0 pb-12">
+<!-- TOP BAR -->
+<header class="h-16 px-6 border-b border-white/10 bg-neutral-950/80 backdrop-blur-md sticky top-0 z-40 flex items-center justify-between gap-4">
+<!-- Left Selector & Breadcrumb -->
+<div class="flex items-center gap-3 min-w-0">
+<span class="font-headline text-xs font-semibold tracking-wider text-neutral-400 uppercase">Library</span>
+<span class="text-neutral-600 text-sm">/</span>
+<div class="relative">
+<button class="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-[#14122A] hover:bg-white/10 border border-white/10 transition-colors text-sm font-medium text-[#F5F3FF] shadow-sm max-w-sm" id="studio-document">
+<span class="material-symbols-outlined text-violet-400 text-lg">description</span>
+<span class="truncate">The Overstory — Chapter 3.pdf</span>
+<span class="material-symbols-outlined text-neutral-400 text-base">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Center & Right Utility Cluster -->
+<div class="flex items-center gap-3">
+<!-- Render Credits Meter -->
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-violet-950/40 border border-violet-500/30 text-violet-300 text-xs font-semibold shadow-[0_0_12px_rgba(139,92,246,0.15)]">
+<span class="text-amber-400 text-sm">⚡</span>
+<span>240 render credits</span>
+</div>
+<!-- Pass Badge -->
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+<span class="material-symbols-outlined text-amber-400 text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span>Year Pass</span>
+</div>
+<div class="h-4 w-px bg-white/10 mx-1"></div>
+<!-- Panel Layout Controls -->
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-neutral-400 hover:text-white hover:bg-white/5 transition-colors" title="Toggle Sidebar">
+<span class="material-symbols-outlined text-lg">view_sidebar</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-neutral-400 hover:text-white hover:bg-white/5 transition-colors" title="Full Screen Canvas">
+<span class="material-symbols-outlined text-lg">fullscreen</span>
+</button>
+</div>
+</header>
+<!-- TITLE ROW -->
+<section class="px-8 pt-7 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/5">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="text-3xl font-display font-extrabold tracking-tight text-white flex items-center gap-3">
+            Voice Studio
+          </h1>
+<span class="bg-pink-500/20 text-pink-400 border border-pink-500/30 text-xs px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider shadow-[0_0_10px_rgba(244,114,182,0.2)]">
+            PASS
+          </span>
+</div>
+<p class="text-[#B4B0D0] text-sm mt-1 font-normal">
+          Give each part of the document its own voice.
+        </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 rounded-xl text-sm font-medium text-neutral-300 hover:text-white hover:bg-white/5 border border-white/10 active:scale-95 transition-all flex items-center gap-2" id="studio-reset">
+<span class="material-symbols-outlined text-base">restart_alt</span>
+<span>Reset to one voice</span>
+</button>
+<button class="px-5 py-2 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-violet-600 via-pink-600 to-cyan-500 hover:opacity-95 shadow-[0_0_24px_rgba(139,92,246,0.4)] active:scale-95 transition-all flex items-center gap-2" id="studio-save">
+<span class="material-symbols-outlined text-lg">play_circle</span>
+<span>Save cast and read</span>
+</button>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- 3-COLUMN STUDIO LAYOUT                                                  -->
+<!-- ======================================================================= -->
+<div class="px-8 pt-6 flex-1 grid grid-cols-12 gap-6 items-start">
+<!-- ===================================================================== -->
+<!-- COLUMN 1: DOCUMENT PARTS (w-80 / col-span-3)                          -->
+<!-- ===================================================================== -->
+<div class="col-span-12 xl:col-span-3 bg-[#14122A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.37)] flex flex-col gap-5">
+<!-- Header -->
+<div class="flex items-center justify-between pb-3 border-b border-white/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-violet-400 text-lg">segment</span>
+<h2 class="font-headline font-bold text-sm tracking-wide text-white">Document parts</h2>
+</div>
+<span class="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-neutral-300 font-mono">5 types</span>
+</div>
+<!-- Document Parts List -->
+<div class="flex flex-col gap-3.5">
+<!-- 1. Headings (Cyan / Orion) -->
+<div class="p-3 rounded-xl bg-neutral-900/60 border border-cyan-500/20 hover:border-cyan-500/40 transition-colors flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-neutral-200">Headings</span>
+<span class="text-[11px] text-neutral-400 font-mono">4 items</span>
+</div>
+<!-- Voice chip selector -->
+<button class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-cyan-950/40 border border-cyan-500/40 hover:bg-cyan-900/30 transition-all text-xs" id="studio-part-headings">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-cyan-400 flex items-center justify-center text-night font-black text-[10px] shadow-[0_0_8px_#22d3ee]">
+                  O
+                </div>
+<span class="font-bold text-cyan-200">Orion</span>
+<span class="text-[10px] text-cyan-400/80">• Clear Lead</span>
+</div>
+<span class="material-symbols-outlined text-neutral-400 text-sm">unfold_more</span>
+</button>
+</div>
+<!-- 2. Body Text (Violet / Aria) -->
+<div class="p-3 rounded-xl bg-neutral-900/60 border border-violet-500/20 hover:border-violet-500/40 transition-colors flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-neutral-200">Body text</span>
+<span class="text-[11px] text-neutral-400 font-mono">38 paragraphs</span>
+</div>
+<!-- Voice chip selector -->
+<button class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-violet-950/40 border border-violet-500/40 hover:bg-violet-900/30 transition-all text-xs" id="studio-part-body">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-violet-400 flex items-center justify-center text-night font-black text-[10px] shadow-[0_0_8px_#8b5cf6]">
+                  A
+                </div>
+<span class="font-bold text-violet-200">Aria</span>
+<span class="text-[10px] text-violet-300/80">• Warm Studio</span>
+</div>
+<span class="material-symbols-outlined text-neutral-400 text-sm">unfold_more</span>
+</button>
+</div>
+<!-- 3. Quotes & Dialogue (Pink / Vesper) -->
+<div class="p-3 rounded-xl bg-pink-950/20 border border-pink-500/30 hover:border-pink-500/50 shadow-[0_0_12px_rgba(244,114,182,0.12)] transition-colors flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-pink-200 flex items-center gap-1.5">
+<span>Quotes and dialogue</span>
+<span class="w-1.5 h-1.5 rounded-full bg-pink-400 animate-ping"></span>
+</span>
+<span class="text-[11px] text-pink-300/70 font-mono">9 quotes</span>
+</div>
+<!-- Voice chip selector -->
+<button class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-pink-950/50 border border-pink-500/50 hover:bg-pink-900/40 transition-all text-xs shadow-[0_0_8px_rgba(236,72,153,0.2)]" id="studio-part-quotes">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-pink-400 flex items-center justify-center text-night font-black text-[10px] shadow-[0_0_8px_#ec4899]">
+                  V
+                </div>
+<span class="font-bold text-pink-100">Vesper</span>
+<span class="text-[10px] text-pink-300">• Intimate Dynamic</span>
+</div>
+<span class="material-symbols-outlined text-pink-300 text-sm">unfold_more</span>
+</button>
+</div>
+<!-- 4. Captions (Amber / Sol) -->
+<div class="p-3 rounded-xl bg-neutral-900/60 border border-amber-500/20 hover:border-amber-500/40 transition-colors flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-neutral-200">Captions</span>
+<span class="text-[11px] text-neutral-400 font-mono">3 items</span>
+</div>
+<!-- Voice chip selector -->
+<button class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-amber-950/40 border border-amber-500/40 hover:bg-amber-900/30 transition-all text-xs" id="studio-part-captions">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-amber-400 flex items-center justify-center text-night font-black text-[10px] shadow-[0_0_8px_#f59e0b]">
+                  S
+                </div>
+<span class="font-bold text-amber-200">Sol</span>
+<span class="text-[10px] text-amber-300/80">• Bright Clear</span>
+</div>
+<span class="material-symbols-outlined text-neutral-400 text-sm">unfold_more</span>
+</button>
+</div>
+<!-- 5. Code & Tables (Green / Juniper) -->
+<div class="p-3 rounded-xl bg-neutral-900/60 border border-emerald-500/20 hover:border-emerald-500/40 transition-colors flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-neutral-200">Code and tables</span>
+<span class="text-[11px] text-neutral-400 font-mono">2 blocks</span>
+</div>
+<!-- Voice chip selector -->
+<button class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-emerald-950/40 border border-emerald-500/40 hover:bg-emerald-900/30 transition-all text-xs" id="studio-part-code">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-emerald-400 flex items-center justify-center text-night font-black text-[10px] shadow-[0_0_8px_#10b981]">
+                  J
+                </div>
+<span class="font-bold text-emerald-200">Juniper</span>
+<span class="text-[10px] text-emerald-300/80">• Precise Monotone</span>
+</div>
+<span class="material-symbols-outlined text-neutral-400 text-sm">unfold_more</span>
+</button>
+</div>
+</div>
+<div class="h-px bg-white/10"></div>
+<!-- Controls / Modulation Helpers -->
+<div class="flex flex-col gap-4">
+<!-- Toggle switch: Announce Headings -->
+<div class="flex items-center justify-between">
+<label class="text-xs text-[#B4B0D0] cursor-pointer select-none leading-relaxed pr-2" for="studio-toggle-pause">
+              Announce headings with a short pause
+            </label>
+<button aria-checked="true" class="w-10 h-6 bg-cyan-500/30 border border-cyan-400/50 rounded-full p-0.5 relative transition-colors focus:outline-none" id="studio-toggle-pause" role="switch" type="button">
+<span class="block w-4 h-4 rounded-full bg-cyan-300 shadow-[0_0_8px_#22d3ee] transform translate-x-4 transition-transform"></span>
+</button>
+</div>
+<!-- Slider: Dialogue pitch dynamic range -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-xs">
+<span class="text-[#B4B0D0]">Dialogue pitch dynamic range</span>
+<span class="text-pink-300 font-mono text-[11px]">+14% wide</span>
+</div>
+<div class="relative w-full h-1.5 bg-neutral-800 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-violet-500 to-pink-500 rounded-full" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- ===================================================================== -->
+<!-- COLUMN 2: INTERACTIVE DOCUMENT PAGE PREVIEW (flex-1 / col-span-6)     -->
+<!-- ===================================================================== -->
+<div class="col-span-12 xl:col-span-6 flex flex-col gap-4">
+<!-- Document Canvas Sheet -->
+<div class="relative bg-[#14122A]/90 border border-white/10 rounded-2xl p-8 shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-2xl min-h-[580px] flex flex-col justify-between overflow-hidden">
+<!-- Subtle Paper Accent Top Glow -->
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-36 bg-violet-600/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Document Header Metadata -->
+<div class="flex items-center justify-between pb-4 border-b border-white/5 mb-6 text-xs text-[#6E6A8F]">
+<span class="font-mono">PAGE 47 • THE OVERSTORY</span>
+<span class="font-mono">HARVEST EDITION</span>
+</div>
+<!-- Prose Content with Voice Cast Bars -->
+<div class="space-y-6 text-[#B4B0D0] text-sm leading-relaxed">
+<!-- Heading (Cyan - Orion) -->
+<div class="relative pl-6 border-l-[3px] border-cyan-400 group">
+<!-- Avatar chip in margin -->
+<span class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-cyan-500/20 border border-cyan-400 text-cyan-300 text-[10px] font-black flex items-center justify-center shadow-[0_0_8px_rgba(34,211,238,0.3)]" title="Voiced by Orion">
+                O
+              </span>
+<h2 class="text-xl font-display font-bold text-white tracking-tight">
+                Chapter 3: Chestnut Blight &amp; Memory
+              </h2>
+</div>
+<!-- Body Paragraph 1 (Violet - Aria) -->
+<div class="relative pl-6 border-l-[3px] border-violet-500">
+<span class="absolute -left-3 top-0.5 w-6 h-6 rounded-full bg-violet-500/20 border border-violet-400 text-violet-300 text-[10px] font-black flex items-center justify-center shadow-[0_0_8px_rgba(139,92,246,0.3)]" title="Voiced by Aria">
+                A
+              </span>
+<p>
+                First there was nothing. Then there were trees. Then a giant chestnut branch grew in the night over the wooden roof of the barn, shielding three generations of Hoels from hail and dry plains storms.
+              </p>
+</div>
+<!-- Block Quote with Currently Speaking Halo (Pink - Vesper) -->
+<div class="relative pl-6 border-l-[3px] border-pink-500">
+<span class="absolute -left-3 top-2 w-6 h-6 rounded-full bg-pink-500/30 border border-pink-400 text-pink-200 text-[10px] font-black flex items-center justify-center shadow-[0_0_10px_rgba(244,114,182,0.6)]" title="Voiced by Vesper (Active)">
+                V
+              </span>
+<!-- ACTIVE SPEAKING SENTENCE WITH PINK HALO & GLOW -->
+<div class="relative rounded-xl p-4 bg-pink-500/15 border border-pink-500/40 text-pink-50 shadow-[0_0_30px_rgba(236,72,153,0.35)] transition-all">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="text-[10px] font-bold tracking-wider uppercase text-pink-300 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs animate-spin" style="animation-duration: 4s;">motion_photos_on</span>
+                    Speaking Now • Vesper
+                  </span>
+</div>
+<blockquote class="text-base font-medium italic text-white leading-relaxed">
+                  “A tree is a passage between earth and sky, an engine running on sunlight and memory that measures time in rings rather than ticking seconds.”
+                </blockquote>
+<!-- Animated bottom waveform bar indicator -->
+<div class="mt-2.5 flex items-center gap-1 h-2">
+<span class="w-1 h-2 bg-pink-400 rounded-full animate-bounce"></span>
+<span class="w-1 h-3.5 bg-pink-300 rounded-full animate-bounce" style="animation-delay: 0.1s"></span>
+<span class="w-1 h-1.5 bg-pink-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+<span class="w-1 h-3 bg-pink-300 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
+<span class="w-1 h-2 bg-pink-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
+<span class="ml-2 text-[10px] font-mono text-pink-300/80">00:14 / 01:28</span>
+</div>
+</div>
+</div>
+<!-- Body continuation (Violet - Aria) -->
+<div class="relative pl-6 border-l-[3px] border-violet-500/40">
+<span class="absolute -left-3 top-0.5 w-6 h-6 rounded-full bg-violet-500/10 border border-violet-400/40 text-violet-400 text-[10px] font-black flex items-center justify-center" title="Voiced by Aria">
+                A
+              </span>
+<p class="text-[#8985A8]">
+                Years went softly on the Iowa limestone. The rings stacked inward, quiet density, while around the trunk the world manufactured cement highways, telegraph lines, and iron implements.
+              </p>
+</div>
+<!-- Figure Caption (Amber - Sol) -->
+<div class="relative pl-6 border-l-[3px] border-amber-400">
+<span class="absolute -left-3 top-0.5 w-6 h-6 rounded-full bg-amber-500/20 border border-amber-400 text-amber-300 text-[10px] font-black flex items-center justify-center shadow-[0_0_8px_rgba(245,158,11,0.3)]" title="Voiced by Sol">
+                S
+              </span>
+<div class="text-xs font-mono text-amber-200/90 italic bg-amber-950/20 border border-amber-500/20 p-2.5 rounded-lg">
+                Figure 3.1: Castanea dentata canopy structure, 1904 botanical field survey.
+              </div>
+</div>
+</div>
+<!-- Bottom Margin Space -->
+<div class="h-6"></div>
+</div>
+<!-- STICKY GLASS MINI-PLAYER -->
+<div class="bg-neutral-950/80 border border-white/10 backdrop-blur-xl rounded-2xl p-4 shadow-[0_8px_24px_rgba(0,0,0,0.5)] flex items-center justify-between gap-4">
+<!-- Play / Pause Toggle Button -->
+<div class="flex items-center gap-3">
+<button class="w-12 h-12 rounded-full bg-gradient-to-tr from-pink-500 to-cyan-400 p-0.5 shadow-[0_0_20px_rgba(236,72,153,0.5)] hover:scale-105 active:scale-95 transition-transform flex items-center justify-center" id="studio-preview-play">
+<div class="w-full h-full bg-[#0B0A14] rounded-full flex items-center justify-center text-pink-200">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">pause</span>
+</div>
+</button>
+<!-- Metadata info -->
+<div>
+<div class="text-xs font-bold text-white flex items-center gap-2">
+<span>Previewing: Vesper (Quotes &amp; Dialogue)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-pink-400"></span>
+<span class="text-pink-300 font-normal">Sentence 3 of 9</span>
+</div>
+<div class="text-[11px] text-[#8985A8]">The Overstory — Chapter 3 • Page 47</div>
+</div>
+</div>
+<!-- Dual-Layer Progress & Waveform -->
+<div class="flex-1 max-w-xs mx-4 hidden md:flex flex-col gap-1">
+<div class="w-full h-2 bg-white/10 rounded-full relative overflow-hidden">
+<!-- Buffered layer (Cyan) -->
+<div class="absolute left-0 top-0 h-full bg-cyan-500/30 rounded-full" style="width: 78%;"></div>
+<!-- Played layer (Pink-to-violet gradient) -->
+<div class="absolute left-0 top-0 h-full bg-gradient-to-r from-pink-500 to-cyan-400 rounded-full shadow-[0_0_8px_#ec4899]" style="width: 32%;"></div>
+</div>
+<div class="flex justify-between text-[10px] font-mono text-[#8985A8]">
+<span>00:14</span>
+<span>-01:14</span>
+</div>
+</div>
+<!-- Pill Actions -->
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-medium text-neutral-300">
+              1.2x
+            </span>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-neutral-400 hover:text-white hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-lg">skip_next</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ===================================================================== -->
+<!-- COLUMN 3: VOICES GLASS PANEL (w-84 / col-span-3)                      -->
+<!-- ===================================================================== -->
+<div class="col-span-12 xl:col-span-3 flex flex-col gap-5">
+<!-- Section: On this device -->
+<div class="bg-[#14122A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.37)] flex flex-col gap-4">
+<div class="flex items-center justify-between pb-3 border-b border-white/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-cyan-400 text-lg">memory</span>
+<h2 class="font-headline font-bold text-sm tracking-wide text-white">On this device</h2>
+</div>
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 font-mono">Neural DSP</span>
+</div>
+<!-- 6 Voice Cards Grid -->
+<div class="flex flex-col gap-2.5">
+<!-- 1. Aria (Violet) -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900/60 border border-violet-500/30 hover:bg-violet-950/20 transition-all group">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-violet-500/20 border border-violet-400 flex items-center justify-center text-violet-300 font-bold text-xs shadow-[0_0_8px_rgba(139,92,246,0.4)]">
+                  A
+                </div>
+<div>
+<div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    Aria
+                    <span class="text-[10px] text-violet-300 font-normal">UK</span>
+</div>
+<div class="text-[10px] text-[#B4B0D0]">Warm • Studio Neural</div>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-white/5 hover:bg-violet-500/20 text-neutral-300 hover:text-violet-300 flex items-center justify-center transition-colors" id="voice-preview-aria">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+</button>
+</div>
+<!-- 2. Orion (Cyan) -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900/60 border border-cyan-500/30 hover:bg-cyan-950/20 transition-all group">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-300 font-bold text-xs shadow-[0_0_8px_rgba(34,211,238,0.4)]">
+                  O
+                </div>
+<div>
+<div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    Orion
+                    <span class="text-[10px] text-cyan-300 font-normal">US</span>
+</div>
+<div class="text-[10px] text-[#B4B0D0]">Authoritative • Clear</div>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-white/5 hover:bg-cyan-500/20 text-neutral-300 hover:text-cyan-300 flex items-center justify-center transition-colors" id="voice-preview-orion">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+</button>
+</div>
+<!-- 3. Vesper (Pink) -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-pink-950/20 border border-pink-500/40 hover:bg-pink-950/30 shadow-[0_0_12px_rgba(244,114,182,0.1)] transition-all group">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-pink-500/30 border border-pink-400 flex items-center justify-center text-pink-200 font-bold text-xs shadow-[0_0_8px_rgba(244,114,182,0.5)]">
+                  V
+                </div>
+<div>
+<div class="text-xs font-bold text-pink-100 flex items-center gap-1.5">
+                    Vesper
+                    <span class="text-[10px] text-pink-300 font-normal">US</span>
+</div>
+<div class="text-[10px] text-pink-200/80">Intimate • Dynamic Dialogue</div>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-pink-500/30 text-pink-200 flex items-center justify-center shadow-[0_0_8px_rgba(244,114,182,0.4)]" id="voice-preview-vesper">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+</button>
+</div>
+<!-- 4. Sol (Amber) -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900/60 border border-amber-500/30 hover:bg-amber-950/20 transition-all group">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center text-amber-300 font-bold text-xs shadow-[0_0_8px_rgba(245,158,11,0.4)]">
+                  S
+                </div>
+<div>
+<div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    Sol
+                    <span class="text-[10px] text-amber-300 font-normal">AU</span>
+</div>
+<div class="text-[10px] text-[#B4B0D0]">Bright • Articulate Captions</div>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-white/5 hover:bg-amber-500/20 text-neutral-300 hover:text-amber-300 flex items-center justify-center transition-colors" id="voice-preview-sol">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+</button>
+</div>
+<!-- 5. Juniper (Green) -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900/60 border border-emerald-500/30 hover:bg-emerald-950/20 transition-all group">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-emerald-300 font-bold text-xs shadow-[0_0_8px_rgba(16,185,129,0.4)]">
+                  J
+                </div>
+<div>
+<div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    Juniper
+                    <span class="text-[10px] text-emerald-300 font-normal">CA</span>
+</div>
+<div class="text-[10px] text-[#B4B0D0]">Precise • Technical Monotone</div>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-white/5 hover:bg-emerald-500/20 text-neutral-300 hover:text-emerald-300 flex items-center justify-center transition-colors" id="voice-preview-juniper">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+</button>
+</div>
+<!-- 6. Marlow (Indigo) -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900/60 border border-indigo-500/30 hover:bg-indigo-950/20 transition-all group">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-400 flex items-center justify-center text-indigo-300 font-bold text-xs shadow-[0_0_8px_rgba(99,102,241,0.4)]">
+                  M
+                </div>
+<div>
+<div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    Marlow
+                    <span class="text-[10px] text-indigo-300 font-normal">UK</span>
+</div>
+<div class="text-[10px] text-[#B4B0D0]">Resonant • Classic Baritone</div>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-white/5 hover:bg-indigo-500/20 text-neutral-300 hover:text-indigo-300 flex items-center justify-center transition-colors" id="voice-preview-marlow">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Section: Your Cloned Voices (Locked State) -->
+<div class="bg-[#14122A]/80 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-5 shadow-[0_8px_24px_rgba(34,211,238,0.08)] flex flex-col gap-3 relative overflow-hidden">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-sm tracking-wide text-white">Your cloned voices</h3>
+<span class="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider">
+              CREDITS
+            </span>
+</div>
+<p class="text-xs text-[#B4B0D0] leading-relaxed">
+            Clone your own voice for voiceovers. 30s sample training to local neural model.
+          </p>
+<button class="w-full py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-cyan-500/40 text-cyan-300 font-semibold text-xs transition-all flex items-center justify-center gap-2 active:scale-95 shadow-[0_0_12px_rgba(34,211,238,0.15)]" id="studio-open-cloning">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span>Open Voice Cloning</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ======================================================================= -->
+<!-- SECTION 4: FREE STATE INSET (Preview Banner Container)                  -->
+<!-- ======================================================================= -->
+<div class="px-8 mt-8">
+<!-- Clearly labeled container badge -->
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[10px] font-mono font-bold tracking-widest text-pink-400 uppercase bg-pink-950/40 px-2 py-0.5 rounded border border-pink-500/30">
+          PREVIEW: FREE STATE BANNER
+        </span>
+<span class="text-xs text-[#6E6A8F]">How this screen looks to users on Free tier</span>
+</div>
+<!-- Glass banner styled exactly as seen by Free tier users -->
+<div class="bg-neutral-900/80 border border-pink-500/30 shadow-[0_0_20px_rgba(236,72,153,0.15)] rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 backdrop-blur-md">
+<div class="flex items-center gap-3.5">
+<!-- Pink Lock Ring -->
+<div class="w-10 h-10 rounded-full bg-pink-500/20 border border-pink-500/50 flex items-center justify-center text-pink-400 shadow-[0_0_12px_rgba(236,72,153,0.3)] shrink-0">
+<span class="material-symbols-outlined text-xl">lock</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-sm text-white">
+              Cast of voices needs a pass
+            </h4>
+<p class="text-xs text-[#B4B0D0] mt-0.5">
+              On Free you have one voice. Passes never auto-renew.
+            </p>
+</div>
+</div>
+<button class="px-5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-violet-600 hover:opacity-90 shadow-[0_0_15px_rgba(244,114,182,0.4)] active:scale-95 transition-all shrink-0" id="studio-get-pass">
+          Get a pass
+        </button>
+</div>
+</div>
+</main>
+<script>
+    // Lightweight micro-interaction for play/pause preview toggle
+    const playBtn = document.getElementById('studio-preview-play');
+    if (playBtn) {
+      let isPlaying = true;
+      playBtn.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        const icon = playBtn.querySelector('.material-symbols-outlined');
+        if (icon) {
+          icon.textContent = isPlaying ? 'pause' : 'play_arrow';
+        }
+      });
+    }
+
+    // Toggle switch handler for Announce Headings
+    const pauseToggle = document.getElementById('studio-toggle-pause');
+    if (pauseToggle) {
+      pauseToggle.addEventListener('click', () => {
+        const isChecked = pauseToggle.getAttribute('aria-checked') === 'true';
+        pauseToggle.setAttribute('aria-checked', (!isChecked).toString());
+        const knob = pauseToggle.querySelector('span');
+        if (isChecked) {
+          knob.classList.remove('translate-x-4', 'bg-cyan-300', 'shadow-[0_0_8px_#22d3ee]');
+          knob.classList.add('translate-x-0', 'bg-neutral-500');
+          pauseToggle.classList.remove('bg-cyan-500/30', 'border-cyan-400/50');
+          pauseToggle.classList.add('bg-neutral-800', 'border-white/10');
+        } else {
+          knob.classList.remove('translate-x-0', 'bg-neutral-500');
+          knob.classList.add('translate-x-4', 'bg-cyan-300', 'shadow-[0_0_8px_#22d3ee]');
+          pauseToggle.classList.remove('bg-neutral-800', 'border-white/10');
+          pauseToggle.classList.add('bg-cyan-500/30', 'border-cyan-400/50');
+        }
+      });
+    }
+  </script>
+</body></html>

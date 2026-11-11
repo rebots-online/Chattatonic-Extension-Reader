@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chattatonic Reader - Web Reader</title>
+<!-- Google Fonts: Bricolage Grotesque, Public Sans, DM Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&amp;family=Public+Sans:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Public Sans", "sans-serif"],
+            display: ["Public Sans", "sans-serif"],
+            body: ["DM Sans", "sans-serif"],
+            label: ["DM Sans", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(11, 10, 20, 0.4);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(139, 92, 246, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-[#0B0A14] text-[#F5F3FF] font-body selection:bg-violet-500/30 selection:text-cyan-300 h-screen overflow-hidden flex flex-col antialiased">
+<!-- Main Shell Wrapper -->
+<div class="flex h-screen w-screen overflow-hidden">
+<!-- 1. Left Icon Rail (Docked fixed style) -->
+<aside class="w-20 bg-neutral-950/90 backdrop-blur-xl border-r border-white/10 z-50 flex flex-col items-center justify-between py-5 shrink-0 shadow-[4px_0_24px_rgba(11,10,20,0.8)]">
+<!-- Top Brand Logo -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-cyan-400 p-[1px] shadow-[0_0_18px_rgba(139,92,246,0.6)] flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-105" id="brand-logo">
+<div class="w-full h-full bg-[#0B0A14] rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-300 text-2xl font-bold" data-icon="graphic_eq">graphic_eq</span>
+</div>
+</div>
+<span class="font-headline font-black text-violet-400 tracking-tight text-[11px] mt-1">Chattatonic</span>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col items-center gap-4 w-full px-2">
+<!-- Library -->
+<button class="group relative flex flex-col items-center justify-center text-neutral-400 p-2.5 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 w-full" id="nav-library" title="Library">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform" data-icon="folder_open">folder_open</span>
+<span class="text-[10px] font-label font-medium mt-1 text-neutral-400 group-hover:text-cyan-200">Library</span>
+</button>
+<!-- Reader (Active) -->
+<button class="group relative flex flex-col items-center justify-center text-cyan-400 p-2.5 rounded-xl bg-white/10 shadow-[0_0_14px_rgba(34,211,238,0.3)] w-full transition-all duration-150" id="nav-reader" title="Reader">
+<div class="absolute -left-2 top-1/2 -translate-y-1/2 w-1.5 h-7 bg-gradient-to-b from-cyan-400 to-violet-500 rounded-r-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"></div>
+<span class="material-symbols-outlined text-2xl" data-icon="auto_stories" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="text-[10px] font-label font-semibold mt-1 text-cyan-300">Reader</span>
+</button>
+<!-- Voice Studio -->
+<button class="group relative flex flex-col items-center justify-center text-neutral-400 p-2.5 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 w-full" id="nav-voice-studio" title="Voice Studio">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform" data-icon="graphic_eq">graphic_eq</span>
+<span class="text-[10px] font-label font-medium mt-1 text-neutral-400 group-hover:text-cyan-200">Voices</span>
+</button>
+<!-- Account -->
+<button class="group relative flex flex-col items-center justify-center text-neutral-400 p-2.5 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 w-full" id="nav-account" title="Account">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform" data-icon="account_circle">account_circle</span>
+<span class="text-[10px] font-label font-medium mt-1 text-neutral-400 group-hover:text-cyan-200">Passes</span>
+</button>
+<!-- Settings -->
+<button class="group relative flex flex-col items-center justify-center text-neutral-400 p-2.5 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 w-full" id="nav-settings" title="Settings">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform" data-icon="settings">settings</span>
+<span class="text-[10px] font-label font-medium mt-1 text-neutral-400 group-hover:text-cyan-200">Settings</span>
+</button>
+</nav>
+<!-- Footer Help & Status -->
+<div class="flex flex-col items-center gap-3">
+<button class="text-neutral-500 hover:text-violet-400 transition-colors p-2 rounded-xl" title="Help &amp; Feedback">
+<span class="material-symbols-outlined text-xl" data-icon="help_outline">help_outline</span>
+</button>
+<div class="w-8 h-[1px] bg-white/10"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" title="Device Engine Active"></div>
+</div>
+</aside>
+<!-- Main Workspace (Center + TopBar + Right Panel + Bottom Dock) -->
+<div class="flex-1 flex flex-col h-full overflow-hidden bg-[#0B0A14] relative">
+<!-- 2. Top Bar -->
+<header class="h-16 border-b border-white/10 bg-neutral-950/80 backdrop-blur-md px-6 flex items-center justify-between shrink-0 z-30 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+<!-- Document Meta & Breadcrumb -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2.5 text-neutral-400">
+<span class="material-symbols-outlined text-violet-400" data-icon="description">description</span>
+<div class="flex items-center gap-2">
+<span class="text-xs uppercase tracking-wider text-neutral-500 font-semibold font-headline">Library</span>
+<span class="text-neutral-600 text-xs">/</span>
+<h1 class="font-headline font-bold text-sm text-[#F5F3FF] tracking-tight flex items-center gap-2" id="doc-title">
+                The Overstory — Chapter 3.pdf
+                <span class="text-[10px] font-normal px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-cyan-300">PDF Document</span>
+</h1>
+</div>
+</div>
+<!-- Page Indicator -->
+<div class="flex items-center bg-[#14122A] border border-white/10 rounded-lg px-2.5 py-1 text-xs text-[#B4B0D0] gap-2 ml-4" id="page-indicator">
+<button class="hover:text-cyan-300 transition-colors flex items-center">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<span class="font-medium text-neutral-200">Page 12 of 48</span>
+<button class="hover:text-cyan-300 transition-colors flex items-center">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Status & Credit Pills (Right) -->
+<div class="flex items-center gap-3">
+<!-- Read-ahead Pill -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 text-xs font-medium shadow-[0_0_12px_rgba(6,182,212,0.15)]" id="pill-read-ahead">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-400 shadow-[0_0_6px_#22d3ee]"></span>
+</span>
+<span>Read-ahead: 6 sentences buffered</span>
+</div>
+<!-- Credit Meter Pill -->
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-violet-950/30 border border-violet-500/40 text-violet-300 text-xs font-semibold shadow-[0_0_15px_rgba(139,92,246,0.2)]" id="pill-credits">
+<span class="material-symbols-outlined text-amber-300 text-sm" data-icon="bolt">bolt</span>
+<span>240 credits</span>
+</div>
+<!-- Pass Pill -->
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-pink-500/20 to-cyan-500/20 border border-amber-400/40 text-amber-200 text-xs font-bold tracking-tight shadow-[0_0_14px_rgba(251,191,36,0.25)]" id="pill-pass">
+<span class="material-symbols-outlined text-amber-300 text-sm" data-icon="verified">verified</span>
+<span class="bg-gradient-to-r from-amber-200 via-pink-200 to-cyan-200 bg-clip-text text-transparent">Year Pass</span>
+</div>
+<!-- Render Credits Action button -->
+<button class="ml-2 flex items-center justify-center p-2 rounded-xl bg-white/5 border border-white/10 text-neutral-300 hover:text-cyan-300 hover:bg-white/10 transition-all duration-150" title="Toggle side panel">
+<span class="material-symbols-outlined text-lg" data-icon="view_sidebar">view_sidebar</span>
+</button>
+</div>
+</header>
+<!-- Center Body Canvas (Reading Sheet + Right Inspector) -->
+<div class="flex-1 flex overflow-hidden relative">
+<!-- 3. Centre Reading Sheet Canvas -->
+<main class="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-10 flex justify-center pb-32">
+<article class="w-full max-w-3xl bg-[#12111d] rounded-2xl border border-white/10 shadow-[0_12px_45px_rgba(0,0,0,0.65)] p-10 lg:p-14 text-neutral-300 leading-relaxed font-body transition-all duration-300" id="reading-surface">
+<!-- Document Paper Header -->
+<div class="border-b border-white/10 pb-6 mb-8 flex items-baseline justify-between">
+<div>
+<span class="text-xs font-semibold tracking-widest text-violet-400 uppercase font-headline">Richard Powers · The Overstory</span>
+<h2 class="font-headline text-2xl lg:text-3xl font-bold text-neutral-100 tracking-tight mt-1">Chapter 3: Chestnut Blight &amp; Memory</h2>
+</div>
+<span class="text-xs text-neutral-500 font-mono">Page 12</span>
+</div>
+<!-- Reading Content with Karaoke Glowing Treatment -->
+<div class="space-y-6 text-[17px] leading-[1.8] font-normal">
+<!-- Dimmed Sentences (Already read) -->
+<p class="text-neutral-500 transition-colors duration-300">
+                First there was nothing. Then there were trees. Then a giant chestnut branch grew in the night over the wooden roof of the barn, shielding three generations of Hoels from hail and dry plains storms. They took photographs of it every month with the ancient bellows camera, recording the unhurried limb spreading millimeter by millimeter against the Iowa sky.
+              </p>
+<p class="text-neutral-500 transition-colors duration-300">
+                For eighty years the tree held steady while the family survived blizzards, mortgages, and European wars. The trunk thickened until three men holding hands could not bridge its circumference.
+              </p>
+<!-- Karaoke Centerpiece -->
+<p class="space-y-2">
+<span class="text-neutral-500 transition-colors duration-300">
+                  By midsummer the leaves turned glossy emerald, whispering in winds that traveled unbroken all the way from the Rockies.
+                </span>
+<!-- CURRENT ACTIVE SENTENCE -->
+<span class="inline-block relative text-[#ffffff] font-medium bg-gradient-to-r from-violet-600/35 via-fuchsia-500/30 to-cyan-500/35 backdrop-blur-md shadow-[0_0_30px_rgba(139,92,246,0.45)] border border-violet-400/40 rounded-lg px-2.5 py-1.5 my-1 tracking-wide leading-relaxed" id="sentence-current">
+<span class="inline-flex items-center gap-1.5 text-cyan-300 mr-2 font-mono text-xs font-bold uppercase tracking-wider align-middle">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-cyan-300 shadow-[0_0_6px_#22d3ee] animate-pulse"></span>
+                    Speaking
+                  </span>
+                  "A tree is a passage between earth and sky, an engine running on sunlight and memory that measures time in rings rather than ticking seconds."
+                </span>
+<!-- Buffered Upcoming Sentences (Faint cyan underline) -->
+<span class="border-b-2 border-cyan-400/50 pb-0.5 text-neutral-200 transition-all duration-300 ml-1">
+                  Nicholas stood beneath the canopy and pressed his palm against the deeply fissured bark.
+                </span>
+<span class="border-b-2 border-cyan-400/50 pb-0.5 text-neutral-200 transition-all duration-300 ml-1">
+                  The damp wood was warm to the touch, thrumming faintly with liters of mineral water rising toward the sun.
+                </span>
+<span class="border-b-2 border-cyan-400/50 pb-0.5 text-neutral-200 transition-all duration-300 ml-1">
+                  He felt the vibration deep in the base of his skull, an ancient low-frequency song older than vowels.
+                </span>
+</p>
+<!-- Upcoming Unbuffered Sentences -->
+<p class="text-neutral-400 transition-colors duration-300">
+                Somewhere far to the east, microscopic spores had already drifted ashore from Chinese nursery stock, landing on the port docks of Brooklyn. The blight had begun its quiet, unstoppable march westward across four billion trees, but here, on this quiet afternoon in Solon, the chestnut leaves still drank the light without fear.
+              </p>
+<p class="text-neutral-400 transition-colors duration-300">
+                His grandfather looked down from the porch, wiping his calloused hands on an oily rag. "Listen to her, Nick," he called out across the yard. "You can hear her breathing if the wind drops just so."
+              </p>
+<p class="text-neutral-400 transition-colors duration-300">
+                And Nicholas listened, not knowing that by the time he grew into a man with cameras of his own, the vast continental forest would be reduced to stumps, charcoal, and black-and-white silver gelatin prints preserved in metal tin boxes.
+              </p>
+</div>
+<!-- Page Footer Annotation -->
+<div class="mt-12 pt-6 border-t border-white/5 flex items-center justify-between text-xs text-neutral-500">
+<span>Section: II. Trunk: Nicholas Hoel</span>
+<span class="flex items-center gap-1.5 text-cyan-400/70">
+<span class="material-symbols-outlined text-sm" data-icon="sync">sync</span>
+                On-device neural synthesis active
+              </span>
+</div>
+</article>
+</main>
+<!-- 4. Right Side Panel (Glass panel) -->
+<aside class="w-80 lg:w-88 border-l border-white/10 bg-neutral-950/70 backdrop-blur-xl flex flex-col shrink-0 overflow-y-auto custom-scrollbar pb-32">
+<!-- Panel Header -->
+<div class="p-5 border-b border-white/10 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-violet-400 text-lg" data-icon="graphic_eq">graphic_eq</span>
+<h3 class="font-headline font-bold text-sm tracking-tight text-neutral-100">Voice &amp; Speech Studio</h3>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-violet-500/20 text-violet-300 border border-violet-500/30">Local Model</span>
+</div>
+<!-- Active Voice Chip Card -->
+<div class="p-5 border-b border-white/10 space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold font-headline">Active Voice</span>
+<span class="text-[11px] text-cyan-400 font-medium">Ultra HD 48kHz</span>
+</div>
+<!-- Voice Avatar & Waveform Ring -->
+<div class="bg-[#14122A] p-3.5 rounded-xl border border-white/10 flex items-center gap-3.5 shadow-[0_0_20px_rgba(139,92,246,0.15)] relative overflow-hidden group" id="voice-chip-aria">
+<div class="absolute inset-0 bg-gradient-to-r from-violet-600/10 to-transparent pointer-events-none"></div>
+<!-- Avatar with pulsing ring -->
+<div class="relative w-12 h-12 rounded-full bg-gradient-to-tr from-violet-600 to-fuchsia-500 p-0.5 shrink-0 shadow-[0_0_15px_rgba(139,92,246,0.5)]">
+<div class="w-full h-full rounded-full bg-[#0B0A14] flex items-center justify-center relative">
+<span class="material-symbols-outlined text-violet-300 text-xl" data-icon="record_voice_over">record_voice_over</span>
+<!-- Glowing animation ring -->
+<div class="absolute inset-0 rounded-full border border-cyan-400/60 animate-ping opacity-30"></div>
+</div>
+</div>
+<!-- Meta -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h4 class="font-headline font-bold text-sm text-[#F5F3FF]">Aria</h4>
+<span class="text-[10px] bg-cyan-400/10 text-cyan-300 border border-cyan-400/30 px-1.5 py-0.5 rounded">Default</span>
+</div>
+<p class="text-xs text-neutral-400 truncate mt-0.5">Warm · Neutral American</p>
+<div class="flex items-center gap-1 mt-1 text-[11px] text-[#B4B0D0]">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]"></span>
+                  Naturalistic Timbre
+                </div>
+</div>
+</div>
+<!-- Change Voice Button -->
+<button class="w-full py-2.5 px-4 rounded-xl border border-violet-500/40 bg-violet-600/10 hover:bg-violet-600/20 text-violet-200 text-xs font-semibold flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(139,92,246,0.15)] hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition-all duration-200 active:scale-[0.98]" id="voice-change">
+<span class="material-symbols-outlined text-base" data-icon="tune">tune</span>
+              Change voice &amp; timbre
+            </button>
+</div>
+<!-- Speed & Reading Controls -->
+<div class="p-5 border-b border-white/10 space-y-5">
+<div class="flex items-center justify-between">
+<span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold font-headline">Reading Pace</span>
+<span class="text-xs font-bold text-cyan-300 bg-cyan-400/10 px-2 py-0.5 rounded-full border border-cyan-400/20">1.2x Speed</span>
+</div>
+<!-- Speed Slider with step markers -->
+<div class="space-y-2">
+<div class="relative w-full flex items-center">
+<input class="w-full h-1.5 bg-[#14122A] rounded-lg appearance-none cursor-pointer accent-cyan-400 border border-white/10 focus:outline-none" id="speed-slider" max="2.0" min="0.8" step="0.1" type="range" value="1.2"/>
+</div>
+<div class="flex justify-between text-[10px] text-neutral-500 font-mono">
+<span>0.8x</span>
+<span>1.0x</span>
+<span class="text-cyan-300 font-bold">1.2x</span>
+<span>1.5x</span>
+<span>2.0x</span>
+</div>
+</div>
+<!-- Toggles -->
+<div class="space-y-3 pt-2">
+<!-- Follow along toggle -->
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-neutral-200">Follow along (auto-scroll)</span>
+<span class="text-[11px] text-neutral-500">Smooth page centering</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer" id="toggle-follow">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-[#14122A] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-violet-600 peer-checked:to-cyan-400 shadow-[0_0_10px_rgba(139,92,246,0.3)]"></div>
+</label>
+</div>
+<!-- Glow highlight toggle -->
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-neutral-200">Glow highlight halo</span>
+<span class="text-[11px] text-neutral-500">Karaoke-style illumination</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer" id="toggle-glow">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-[#14122A] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-violet-600 peer-checked:to-cyan-400 shadow-[0_0_10px_rgba(139,92,246,0.3)]"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Document Outline Section -->
+<div class="p-5 space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold font-headline">Document Outline</span>
+<span class="text-[11px] text-neutral-500">4 Chapters</span>
+</div>
+<div class="space-y-1 text-xs">
+<!-- Item 1 -->
+<a class="flex items-center justify-between p-2 rounded-lg text-neutral-400 hover:text-neutral-200 hover:bg-white/5 transition-colors" href="#roots">
+<span class="truncate">I. Roots</span>
+<span class="font-mono text-[10px] text-neutral-500">p. 1</span>
+</a>
+<!-- Item 2 (Active) -->
+<a class="flex items-center justify-between p-2 rounded-lg bg-white/10 text-cyan-300 font-medium border border-cyan-400/30 shadow-[0_0_12px_rgba(34,211,238,0.15)]" href="#trunk">
+<div class="flex items-center gap-2 truncate">
+<span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+<span class="truncate">II. Trunk: Nicholas Hoel</span>
+</div>
+<span class="font-mono text-[10px] text-cyan-200">p. 8</span>
+</a>
+<!-- Item 3 -->
+<a class="flex items-center justify-between p-2 rounded-lg text-neutral-400 hover:text-neutral-200 hover:bg-white/5 transition-colors" href="#mimi">
+<span class="truncate">III. Mimi Ma</span>
+<span class="font-mono text-[10px] text-neutral-500">p. 22</span>
+</a>
+<!-- Item 4 -->
+<a class="flex items-center justify-between p-2 rounded-lg text-neutral-400 hover:text-neutral-200 hover:bg-white/5 transition-colors" href="#adam">
+<span class="truncate">IV. Adam Appich</span>
+<span class="font-mono text-[10px] text-neutral-500">p. 39</span>
+</a>
+</div>
+</div>
+</aside>
+</div>
+<!-- 5. Docked Glass Player Bar -->
+<footer class="fixed bottom-0 left-20 right-0 h-24 backdrop-blur-2xl bg-neutral-950/90 border-t border-white/10 px-8 py-3.5 z-40 flex flex-col justify-between shadow-[0_-8px_30px_rgba(11,10,20,0.85)]">
+<!-- Audio Progress Track (Two-layer) -->
+<div class="w-full flex items-center gap-3">
+<!-- Elapsed Time -->
+<span class="font-mono text-xs text-neutral-400 shrink-0 w-11 text-right" id="player-elapsed">12:04</span>
+<!-- Scrubber Container -->
+<div class="relative flex-1 h-3 flex items-center cursor-pointer group py-1">
+<!-- Background base track -->
+<div class="w-full h-1.5 bg-[#14122A] rounded-full overflow-hidden border border-white/5 relative">
+<!-- Buffered Track (Cyan) -->
+<div class="absolute left-0 top-0 bottom-0 bg-cyan-500/40 rounded-full" style="width: 58%;"></div>
+<!-- Played Track (Gradient) -->
+<div class="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-400 rounded-full shadow-[0_0_10px_rgba(139,92,246,0.6)]" style="width: 38%;"></div>
+</div>
+<!-- Scrubber Handle with cyan glow dot -->
+<div class="absolute -top-0.5 left-[38%] -translate-x-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_12px_#22d3ee] border-2 border-cyan-400 flex items-center justify-center transition-transform group-hover:scale-125">
+<div class="w-1.5 h-1.5 rounded-full bg-cyan-500"></div>
+</div>
+</div>
+<!-- Remaining Time -->
+<span class="font-mono text-xs text-neutral-400 shrink-0 w-12" id="player-remaining">-31:20</span>
+</div>
+<!-- Controls Cluster -->
+<div class="flex items-center justify-between w-full">
+<!-- Left Controls (Voice & Speed Pills) -->
+<div class="flex items-center gap-3 w-1/4">
+<!-- Voice Avatar Pill -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#14122A] border border-white/10 hover:border-violet-500/40 cursor-pointer transition-colors shadow-[0_0_10px_rgba(0,0,0,0.4)]" id="player-voice-avatar">
+<div class="w-5 h-5 rounded-full bg-violet-500 flex items-center justify-center">
+<span class="material-symbols-outlined text-[13px] text-white" data-icon="graphic_eq">graphic_eq</span>
+</div>
+<span class="text-xs font-medium text-neutral-200">Aria</span>
+<span class="material-symbols-outlined text-xs text-neutral-400" data-icon="expand_more">expand_more</span>
+</div>
+<!-- Speed Pill -->
+<button class="px-2.5 py-1 rounded-full bg-[#14122A] border border-white/10 hover:border-cyan-400/40 text-xs font-mono font-medium text-cyan-300 transition-colors shadow-[0_0_8px_rgba(34,211,238,0.15)]" id="player-speed">
+              1.2x
+            </button>
+</div>
+<!-- Center Transport Buttons -->
+<div class="flex items-center gap-4">
+<!-- Previous Sentence Button -->
+<button class="p-2 rounded-full text-neutral-400 hover:text-white hover:bg-white/5 active:scale-95 transition-all flex items-center justify-center" id="player-prev" title="Previous sentence">
+<span class="material-symbols-outlined text-2xl" data-icon="replay_10">replay_10</span>
+</button>
+<!-- Large Round Gradient Play/Pause Button -->
+<button class="w-12 h-12 rounded-full bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-cyan-400 p-[2px] shadow-[0_0_25px_rgba(139,92,246,0.6)] hover:shadow-[0_0_35px_rgba(34,211,238,0.8)] active:scale-90 transition-all duration-150 flex items-center justify-center group" id="player-play" title="Pause reading">
+<div class="w-full h-full bg-[#0B0A14] group-hover:bg-transparent transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl text-white fill-current" data-icon="pause" style="font-variation-settings: 'FILL' 1;">pause</span>
+</div>
+</button>
+<!-- Next Sentence Button -->
+<button class="p-2 rounded-full text-neutral-400 hover:text-white hover:bg-white/5 active:scale-95 transition-all flex items-center justify-center" id="player-next" title="Next sentence">
+<span class="material-symbols-outlined text-2xl" data-icon="forward_10">forward_10</span>
+</button>
+</div>
+<!-- Right Auxiliary Controls -->
+<div class="flex items-center justify-end gap-3 w-1/4">
+<!-- Volume Control -->
+<div class="flex items-center gap-2 text-neutral-400 hover:text-neutral-200 cursor-pointer">
+<span class="material-symbols-outlined text-xl" data-icon="volume_up">volume_up</span>
+<div class="w-16 h-1 bg-white/10 rounded-full overflow-hidden">
+<div class="bg-cyan-400 h-full w-4/5 rounded-full shadow-[0_0_6px_#22d3ee]"></div>
+</div>
+</div>
+<!-- Pitch/Tone Tuning -->
+<button class="p-2 rounded-lg text-neutral-400 hover:text-cyan-300 hover:bg-white/5 transition-colors" title="Audio Effects">
+<span class="material-symbols-outlined text-xl" data-icon="equalizer">equalizer</span>
+</button>
+<!-- Sleep Timer -->
+<button class="p-2 rounded-lg text-neutral-400 hover:text-cyan-300 hover:bg-white/5 transition-colors" title="Sleep timer">
+<span class="material-symbols-outlined text-xl" data-icon="bedtime">bedtime</span>
+</button>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

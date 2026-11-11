@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chattatonic Reader — Settings &amp; Preferences</title>
+<!-- Google Fonts: Public Sans & DM Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&amp;family=Public+Sans:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim as required -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {},
+          "borderRadius": {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          "spacing": {},
+          "fontFamily": {
+            "headline": [
+              "Public Sans"
+            ],
+            "display": [
+              "Public Sans"
+            ],
+            "body": [
+              "DM Sans"
+            ],
+            "label": [
+              "DM Sans"
+            ]
+          },
+          "fontSize": {}
+        },
+      },
+    }
+  </script>
+<style>
+    /* Night-Studio Luminous Ambient Glows & Signature Tokens */
+    body {
+      background-color: #0B0A14;
+      color: #F5F3FF;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .font-headline {
+      font-family: 'Public Sans', sans-serif;
+    }
+
+    .signature-glow-gradient {
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 50%, #22D3EE 100%);
+    }
+
+    .signature-glow-text {
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 50%, #22D3EE 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-card {
+      background: #14122A;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      box-shadow: 0 4px 24px -2px rgba(11, 10, 20, 0.7);
+    }
+
+    .glass-subcard {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+    }
+
+    /* Range slider custom styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: rgba(255, 255, 255, 0.1);
+      height: 6px;
+      border-radius: 9999px;
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #22D3EE;
+      box-shadow: 0 0 12px #22D3EE;
+      cursor: pointer;
+      border: 2px solid #0B0A14;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      box-shadow: 0 0 16px #22D3EE, 0 0 24px rgba(34, 211, 238, 0.5);
+    }
+
+    /* Custom Checkbox */
+    input[type="checkbox"] {
+      appearance: none;
+      background-color: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      display: inline-grid;
+      place-content: center;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    input[type="checkbox"]:checked {
+      background: linear-gradient(135deg, #8B5CF6, #22D3EE);
+      border-color: #22D3EE;
+      box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+    }
+    input[type="checkbox"]:checked::before {
+      content: "✓";
+      color: #0B0A14;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* Switch toggle */
+    .toggle-checkbox:checked {
+      right: 2px;
+      border-color: #22D3EE;
+      background-color: #22D3EE;
+      box-shadow: 0 0 10px #22D3EE;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.6), rgba(34, 211, 238, 0.6));
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#0B0A14] text-[#F5F3FF] antialiased selection:bg-violet-600 selection:text-white flex flex-col">
+<!-- ========================================================================= -->
+<!-- 1. SLIM LEFT ICON RAIL (Shared Component Anchor - SideNavBar: Settings Active) -->
+<!-- ========================================================================= -->
+<aside class="fixed top-0 left-0 h-screen w-20 z-50 bg-neutral-950/90 backdrop-blur-xl border-r border-white/10 shadow-[4px_0_24px_rgba(11,10,20,0.8)] flex flex-col items-center justify-between py-5">
+<!-- Top Branding / Waveform Glyph -->
+<div class="flex flex-col items-center gap-1 group cursor-pointer" title="Chattatonic Reader">
+<div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-600 via-pink-500 to-cyan-400 p-[1.5px] shadow-[0_0_16px_rgba(139,92,246,0.4)] group-hover:shadow-[0_0_24px_rgba(34,211,238,0.6)] transition-all duration-300">
+<div class="w-full h-full bg-[#0B0A14] rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-300 text-2xl font-bold" data-icon="graphic_eq">graphic_eq</span>
+</div>
+</div>
+<span class="font-headline font-black text-violet-400 tracking-tight text-[11px] mt-1">Chattatonic</span>
+<span class="text-[9px] text-[#6E6A8F] uppercase tracking-widest font-mono">Neural</span>
+</div>
+<!-- Primary Vertical Rail Navigation -->
+<nav aria-label="Main Navigation" class="flex flex-col items-center gap-3 w-full px-2">
+<!-- Library -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 w-14 group" href="#library">
+<span class="material-symbols-outlined text-xl mb-0.5 group-hover:scale-110 transition-transform" data-icon="folder_open">folder_open</span>
+<span class="font-headline text-[10px] font-semibold tracking-tight">Library</span>
+</a>
+<!-- Browse / Reader -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 w-14 group" href="#reader">
+<span class="material-symbols-outlined text-xl mb-0.5 group-hover:scale-110 transition-transform" data-icon="explore">explore</span>
+<span class="font-headline text-[10px] font-semibold tracking-tight">Browse</span>
+</a>
+<!-- Voices -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 w-14 group" href="#voices">
+<span class="material-symbols-outlined text-xl mb-0.5 group-hover:scale-110 transition-transform" data-icon="graphic_eq">graphic_eq</span>
+<span class="font-headline text-[10px] font-semibold tracking-tight">Voices</span>
+</a>
+<!-- Passes -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 w-14 group" href="#passes">
+<span class="material-symbols-outlined text-xl mb-0.5 group-hover:scale-110 transition-transform" data-icon="local_activity">local_activity</span>
+<span class="font-headline text-[10px] font-semibold tracking-tight">Passes</span>
+</a>
+<!-- Settings (CURRENT ACTIVE STATE AS SPECIFIED IN JSON & DESIGN SYSTEM) -->
+<a aria-current="page" class="flex flex-col items-center justify-center text-cyan-400 p-2 rounded-xl bg-white/10 shadow-[0_0_12px_rgba(34,211,238,0.25)] active:scale-90 w-14 border border-cyan-400/30" href="#settings">
+<span class="material-symbols-outlined text-xl mb-0.5 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" data-icon="settings" data-weight="fill" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-headline text-[10px] font-semibold tracking-tight text-cyan-300">Settings</span>
+</a>
+</nav>
+<!-- Rail Footer -->
+<div class="flex flex-col items-center gap-3 w-full px-2">
+<button class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90 w-14" title="Help &amp; Feedback">
+<span class="material-symbols-outlined text-xl mb-0.5" data-icon="help_outline">help_outline</span>
+<span class="font-headline text-[9px] font-medium text-[#6E6A8F]">Help</span>
+</button>
+<!-- Active User Profile Avatar -->
+<div class="w-9 h-9 rounded-full ring-2 ring-violet-500/40 p-0.5 cursor-pointer hover:ring-cyan-400 transition-all">
+<div class="w-full h-full rounded-full bg-gradient-to-tr from-violet-600 to-pink-500 flex items-center justify-center text-xs font-bold text-white shadow-inner">
+          CT
+        </div>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- 2. TOP SUB-HEADER / APP BAR (Offset by 80px left rail) -->
+<!-- ========================================================================= -->
+<header class="ml-20 sticky top-0 z-40 bg-[#0B0A14]/85 backdrop-blur-md border-b border-white/10 px-8 py-3.5 flex items-center justify-between shadow-[0_4px_20px_rgba(11,10,20,0.8)]">
+<!-- Breadcrumb / Header Title -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 text-sm font-headline tracking-tight font-medium text-[#B4B0D0]">
+<span class="text-neutral-400 hover:text-neutral-200 transition-colors cursor-pointer">Chattatonic</span>
+<span class="text-white/20 text-xs">/</span>
+<span class="text-cyan-400 font-bold uppercase tracking-wider text-xs">Settings</span>
+</div>
+<span class="hidden sm:inline-block h-4 w-[1px] bg-white/10"></span>
+<span class="text-xs text-[#6E6A8F] hidden sm:inline-block">Preferences &amp; On-Device Engine</span>
+</div>
+<!-- Badges & Action Cluster -->
+<div class="flex items-center gap-3">
+<!-- Engine badge -->
+<div class="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-cyan-500/30 text-xs text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.15)]">
+<span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+<span class="font-medium">Engine: On-device Neural (WebGPU)</span>
+</div>
+<!-- Render Credits Pill -->
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/40 border border-cyan-400/40 text-xs text-cyan-300" title="Available Render Credits">
+<span class="material-symbols-outlined text-sm text-cyan-400" data-icon="bolt">bolt</span>
+<span class="font-bold font-headline">240</span>
+<span class="text-[10px] text-cyan-200/80 font-semibold tracking-wider uppercase">Credits</span>
+</div>
+<!-- Year Pass Badge -->
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-950/40 border border-pink-500/40 text-xs text-pink-300 shadow-[0_0_12px_rgba(244,114,182,0.15)]" title="Year Pass Active">
+<span class="material-symbols-outlined text-sm text-pink-400" data-icon="local_activity">local_activity</span>
+<span class="font-bold font-headline">Year Pass</span>
+</div>
+<!-- Close / Back Action button -->
+<a class="ml-2 w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-white/10 transition-colors" href="#reader" title="Back to Reader">
+<span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+</a>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- 3. MAIN SETTINGS WORKSPACE (Two-Column Layout) -->
+<!-- ========================================================================= -->
+<main class="ml-20 flex-1 flex justify-center px-6 lg:px-12 py-8">
+<div class="w-full max-w-7xl flex gap-10">
+<!-- LEFT COLUMN: Sticky Section Anchor Jump Menu (w-64) -->
+<aside class="hidden md:block w-64 shrink-0">
+<div class="sticky top-24 space-y-6">
+<div>
+<h2 class="text-xs uppercase font-headline tracking-widest text-[#6E6A8F] font-bold px-3 mb-2">Preferences</h2>
+<nav class="space-y-1 text-sm font-medium" id="settings-anchor-nav">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-violet-600/15 border border-violet-500/30 text-violet-300 shadow-[0_0_14px_rgba(139,92,246,0.2)] transition-all" href="#section-playback">
+<span class="material-symbols-outlined text-lg text-violet-400" data-icon="volume_up">volume_up</span>
+<span>Playback</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#B4B0D0] hover:text-cyan-300 hover:bg-white/5 transition-all" href="#section-highlight">
+<span class="material-symbols-outlined text-lg" data-icon="auto_awesome">auto_awesome</span>
+<span>Highlight &amp; Glow</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#B4B0D0] hover:text-cyan-300 hover:bg-white/5 transition-all" href="#section-performance">
+<span class="material-symbols-outlined text-lg" data-icon="speed">speed</span>
+<span>Performance</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#B4B0D0] hover:text-cyan-300 hover:bg-white/5 transition-all" href="#section-voices">
+<span class="material-symbols-outlined text-lg" data-icon="record_voice_over">record_voice_over</span>
+<span>Voices on this device</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#B4B0D0] hover:text-cyan-300 hover:bg-white/5 transition-all" href="#section-storage">
+<span class="material-symbols-outlined text-lg" data-icon="hard_drive">hard_drive</span>
+<span>Storage</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#B4B0D0] hover:text-cyan-300 hover:bg-white/5 transition-all" href="#section-shortcuts">
+<span class="material-symbols-outlined text-lg" data-icon="keyboard">keyboard</span>
+<span>Keyboard shortcuts</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#B4B0D0] hover:text-cyan-300 hover:bg-white/5 transition-all" href="#section-about">
+<span class="material-symbols-outlined text-lg" data-icon="info">info</span>
+<span>About</span>
+</a>
+</nav>
+</div>
+<!-- Quick Tip Glass Card in sidebar -->
+<div class="glass-subcard p-4 border-violet-500/20 bg-gradient-to-b from-violet-950/20 to-transparent">
+<div class="flex items-center gap-2 text-violet-400 text-xs font-semibold uppercase tracking-wider mb-1">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+<span>Local On-Device</span>
+</div>
+<p class="text-xs text-[#B4B0D0] leading-relaxed">
+              Models run directly inside your browser via WebGPU compute shaders. Zero network latency and total privacy.
+            </p>
+</div>
+</div>
+</aside>
+<!-- RIGHT COLUMN: Stacked Glass Cards (flex-1 max-w-4xl space-y-8) -->
+<div class="flex-1 max-w-4xl space-y-8 pb-20">
+<!-- ========================================== -->
+<!-- SECTION: PLAYBACK                          -->
+<!-- ========================================== -->
+<section class="glass-card p-7 scroll-mt-24 border border-violet-500/20 relative overflow-hidden" id="section-playback">
+<div class="absolute -top-16 -right-16 w-44 h-44 bg-violet-600/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Section Header -->
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-xl bg-violet-950/60 border border-violet-500/30 flex items-center justify-center text-violet-400 shadow-[0_0_12px_rgba(139,92,246,0.3)]">
+<span class="material-symbols-outlined text-2xl" data-icon="volume_up">volume_up</span>
+</div>
+<div>
+<h2 class="text-xl font-bold font-headline tracking-tight text-[#F5F3FF]">Playback</h2>
+<p class="text-xs text-[#B4B0D0]">Audio tuning, pitch, cadence, and automated syntactical omission</p>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Speed Control -->
+<div class="glass-subcard p-5">
+<div class="flex items-center justify-between mb-3">
+<label class="text-sm font-semibold text-[#F5F3FF] flex items-center gap-2" for="settings-speed">
+<span>Default reading speed</span>
+<span class="text-xs text-[#6E6A8F] font-normal">(Preserves natural formant balance)</span>
+</label>
+<span class="px-2.5 py-0.5 rounded-full bg-violet-950 border border-violet-500/40 text-violet-300 font-mono text-xs font-bold shadow-[0_0_8px_rgba(139,92,246,0.25)]" id="speed-display-badge">
+                  1.2x
+                </span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-mono text-[#6E6A8F]">0.75x</span>
+<input class="w-full accent-cyan-400" id="settings-speed" max="3.0" min="0.75" oninput="document.getElementById('speed-display-badge').textContent = parseFloat(this.value).toFixed(2) + 'x'" step="0.05" type="range" value="1.2"/>
+<span class="text-xs font-mono text-[#6E6A8F]">3.0x</span>
+</div>
+</div>
+<!-- Default Voice Dropdown Selector -->
+<div class="glass-subcard p-5">
+<label class="block text-sm font-semibold text-[#F5F3FF] mb-2" for="settings-voice">
+                Default voice model
+              </label>
+<div class="relative">
+<select class="w-full bg-[#0B0A14] border border-white/15 rounded-xl px-4 py-3 text-sm text-[#F5F3FF] focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-all cursor-pointer appearance-none pr-10" id="settings-voice">
+<option selected="" value="aria">Aria (Warm · Neutral American - Default)</option>
+<option value="orion">Orion (Authoritative · Clear British)</option>
+<option value="vesper">Vesper (Dynamic · Narrative Dialogue)</option>
+<option value="solis">Solis (Bright · Uplifting Amber)</option>
+<option value="kael">Kael (Deep · Natural Resonant)</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-[#B4B0D0]">
+<span class="material-symbols-outlined text-lg" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<p class="text-xs text-[#6E6A8F] mt-2">Rendered with local 4-bit quantised neural vocoders.</p>
+</div>
+<!-- Checkboxes: Skip while reading -->
+<div class="glass-subcard p-5 space-y-4">
+<span class="text-xs font-bold uppercase tracking-wider text-[#6E6A8F] block">Skip while reading</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+<!-- Skip Citations -->
+<label class="flex items-start gap-3 p-3 rounded-lg bg-black/20 border border-white/5 hover:border-violet-500/30 cursor-pointer transition-colors">
+<input checked="" class="mt-0.5" id="settings-skip-citations" type="checkbox"/>
+<div class="text-xs">
+<span class="font-medium text-[#F5F3FF] block">Citations like [12]</span>
+<span class="text-[#6E6A8F]">Omits brackets &amp; footnote indices</span>
+</div>
+</label>
+<!-- Skip URLs -->
+<label class="flex items-start gap-3 p-3 rounded-lg bg-black/20 border border-white/5 hover:border-violet-500/30 cursor-pointer transition-colors">
+<input checked="" class="mt-0.5" id="settings-skip-urls" type="checkbox"/>
+<div class="text-xs">
+<span class="font-medium text-[#F5F3FF] block">Web addresses</span>
+<span class="text-[#6E6A8F]">Skips raw http/https strings</span>
+</div>
+</label>
+<!-- Skip Headers and Footers -->
+<label class="flex items-start gap-3 p-3 rounded-lg bg-black/20 border border-white/5 hover:border-violet-500/30 cursor-pointer transition-colors">
+<input checked="" class="mt-0.5" id="settings-skip-headers" type="checkbox"/>
+<div class="text-xs">
+<span class="font-medium text-[#F5F3FF] block">Page headers and footers</span>
+<span class="text-[#6E6A8F]">Filters out repetitive PDF margins</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- SECTION: HIGHLIGHT & GLOW                  -->
+<!-- ========================================== -->
+<section class="glass-card p-7 scroll-mt-24 border border-cyan-500/20 relative overflow-hidden" id="section-highlight">
+<div class="absolute -top-16 -right-16 w-44 h-44 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Section Header -->
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-xl bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.3)]">
+<span class="material-symbols-outlined text-2xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<h2 class="text-xl font-bold font-headline tracking-tight text-[#F5F3FF]">Highlight &amp; Glow</h2>
+<p class="text-xs text-[#B4B0D0]">Customise the night-studio kinetic sentence halo and reading aura</p>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Glow colour mode segmented control -->
+<div class="glass-subcard p-5">
+<label class="block text-sm font-semibold text-[#F5F3FF] mb-3">Glow colour mode</label>
+<div class="grid grid-cols-3 gap-2 bg-[#0B0A14] p-1.5 rounded-xl border border-white/10" id="settings-glow-mode">
+<button class="py-2 text-xs font-bold rounded-lg text-cyan-300 bg-white/10 shadow-[0_0_12px_rgba(34,211,238,0.25)] border border-cyan-400/30 flex items-center justify-center gap-1.5 transition-all" type="button">
+<span class="w-2 h-2 rounded-full signature-glow-gradient"></span>
+<span>Gradient</span>
+</button>
+<button class="py-2 text-xs font-medium rounded-lg text-[#B4B0D0] hover:text-white hover:bg-white/5 flex items-center justify-center gap-1.5 transition-all" type="button">
+<span class="w-2 h-2 rounded-full bg-violet-400"></span>
+<span>Voice colour</span>
+</button>
+<button class="py-2 text-xs font-medium rounded-lg text-[#B4B0D0] hover:text-white hover:bg-white/5 flex items-center justify-center gap-1.5 transition-all" type="button">
+<span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+<span>Single colour</span>
+</button>
+</div>
+</div>
+<!-- Glow Intensity Slider -->
+<div class="glass-subcard p-5">
+<div class="flex items-center justify-between mb-3">
+<label class="text-sm font-semibold text-[#F5F3FF]" for="settings-glow-intensity">
+                  Glow intensity &amp; diffusion
+                </label>
+<span class="text-xs font-mono font-bold text-cyan-400 px-2 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/30" id="glow-intensity-val">
+                  75%
+                </span>
+</div>
+<input class="w-full accent-cyan-400" id="settings-glow-intensity" max="100" min="0" oninput="document.getElementById('glow-intensity-val').textContent = this.value + '%'" type="range" value="75"/>
+</div>
+<!-- Interactive Sample Sentence Glowing in Real Time inside Dark Reader Card Preview -->
+<div class="rounded-2xl p-6 bg-[#08070F] border border-white/15 relative overflow-hidden shadow-[inset_0_2px_12px_rgba(0,0,0,0.8)]">
+<div class="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-yellow-500/70"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-green-500/70"></span>
+<span class="text-[11px] font-mono text-[#6E6A8F] ml-2">LIVE CANVAS PREVIEW</span>
+</div>
+<span class="text-[10px] font-mono tracking-widest text-violet-400 uppercase font-semibold">120° TRI-TONAL SHIFT</span>
+</div>
+<!-- Paragraph showing already-read, currently speaking glowing sentence, and buffered upcoming sentences -->
+<div class="space-y-3 font-serif leading-relaxed text-base">
+<!-- Dimmed Already Read sentence -->
+<p class="text-[#6E6A8F] transition-opacity duration-300">
+                  Every living organism stores the cadence of its environment in physical form.
+                </p>
+<!-- ACTIVE SPEAKING SENTENCE WITH SIGNATURE GLOW -->
+<div class="relative py-2 px-3 -mx-3 rounded-xl bg-gradient-to-r from-violet-600/15 via-pink-500/15 to-cyan-500/15 border-l-4 border-cyan-400 shadow-[0_0_30px_rgba(139,92,246,0.35)] backdrop-blur-sm">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="inline-flex items-center gap-1 text-[10px] font-mono font-bold tracking-wider text-cyan-300 uppercase px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-400/40">
+<span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                      SPEAKING
+                    </span>
+<span class="text-[11px] font-mono text-[#B4B0D0]">Sentence 14 of 42</span>
+</div>
+<p class="text-[#F5F3FF] font-medium text-lg leading-relaxed drop-shadow-[0_0_12px_rgba(244,114,182,0.4)]">
+                    “A tree is a passage between earth and sky, an engine running on sunlight and memory that measures time in rings rather than ticking seconds.”
+                  </p>
+<!-- Subtle gradient aura line beneath active sentence -->
+<div class="h-[2px] w-full mt-2.5 signature-glow-gradient rounded-full shadow-[0_0_12px_#22D3EE]"></div>
+</div>
+<!-- Buffered upcoming sentence with faint cyan underline -->
+<p class="text-[#B4B0D0] relative inline-block pt-1">
+                  In doing so, the roots drink from silent subterranean aquifers that remember ancient rainfall.
+                  <span class="absolute bottom-0 left-0 right-0 h-[1.5px] bg-cyan-400/40 border-b border-dashed border-cyan-300/40"></span>
+</p>
+</div>
+</div>
+<!-- Toggles (Styled Switches) -->
+<div class="glass-subcard p-5 divide-y divide-white/5">
+<!-- Toggle 1: Dim sentences already read -->
+<div class="flex items-center justify-between py-3 first:pt-0 last:pb-0">
+<div>
+<label class="text-sm font-semibold text-[#F5F3FF] cursor-pointer block" for="settings-dim-read">
+                    Dim sentences already read
+                  </label>
+<p class="text-xs text-[#6E6A8F]">Dims completed text down to 40% opacity to heighten focus</p>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-cyan-400 border-2 border-transparent appearance-none cursor-pointer right-0 top-0 transition-all" id="settings-dim-read" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-cyan-950/80 border border-cyan-500/40 cursor-pointer" for="settings-dim-read"></label>
+</div>
+</div>
+<!-- Toggle 2: Auto-scroll to follow -->
+<div class="flex items-center justify-between py-3">
+<div>
+<label class="text-sm font-semibold text-[#F5F3FF] cursor-pointer block" for="settings-autoscroll">
+                    Auto-scroll to follow
+                  </label>
+<p class="text-xs text-[#6E6A8F]">Smooth viewport tracking locked to the highlighted aura</p>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-cyan-400 border-2 border-transparent appearance-none cursor-pointer right-0 top-0 transition-all" id="settings-autoscroll" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-cyan-950/80 border border-cyan-500/40 cursor-pointer" for="settings-autoscroll"></label>
+</div>
+</div>
+<!-- Toggle 3: Reduce motion -->
+<div class="flex items-center justify-between py-3">
+<div>
+<label class="text-sm font-semibold text-[#F5F3FF] cursor-pointer block" for="settings-reduce-motion">
+                    Reduce motion
+                  </label>
+<p class="text-xs text-[#6E6A8F]">Replaces continuous gradient pulsing with static highlights</p>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white/20 border-2 border-transparent appearance-none cursor-pointer left-0 top-0 transition-all" id="settings-reduce-motion" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-black/40 border border-white/10 cursor-pointer" for="settings-reduce-motion"></label>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- SECTION: PERFORMANCE & HARDWARE ACCELERATION -->
+<!-- ========================================== -->
+<section class="glass-card p-7 scroll-mt-24 border border-violet-500/20 relative overflow-hidden" id="section-performance">
+<div class="absolute -top-16 -right-16 w-44 h-44 bg-violet-600/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Section Header -->
+<div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-violet-950/60 border border-violet-500/30 flex items-center justify-center text-violet-400 shadow-[0_0_12px_rgba(139,92,246,0.3)]">
+<span class="material-symbols-outlined text-2xl" data-icon="speed">speed</span>
+</div>
+<div>
+<h2 class="text-xl font-bold font-headline tracking-tight text-[#F5F3FF]">Performance &amp; Hardware Acceleration</h2>
+<p class="text-xs text-[#B4B0D0]">On-device neural inference thread pooling &amp; memory allocations</p>
+</div>
+</div>
+<!-- Run Calibration Button -->
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl signature-glow-gradient text-[#0B0A14] font-headline font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:shadow-[0_0_28px_rgba(34,211,238,0.7)] active:scale-95 transition-all" id="settings-run-calibration">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="bolt">bolt</span>
+<span>Run calibration</span>
+</button>
+</div>
+<!-- Three Stat Tiles -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+<!-- Stat Tile 1: Speed -->
+<div class="glass-subcard p-4 relative overflow-hidden border-emerald-500/20 bg-emerald-950/10">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-semibold uppercase tracking-wider text-[#6E6A8F]">Inference Speed</span>
+<span class="px-2 py-0.5 rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-400 text-[10px] font-bold">Optimal</span>
+</div>
+<div class="text-2xl font-black font-headline text-emerald-300">3.4x</div>
+<span class="text-[11px] text-[#B4B0D0]">Real-time synthesis multiplier</span>
+</div>
+<!-- Stat Tile 2: Workers -->
+<div class="glass-subcard p-4 relative overflow-hidden border-cyan-500/20 bg-cyan-950/10">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-semibold uppercase tracking-wider text-[#6E6A8F]">Background Workers</span>
+<span class="px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-500/40 text-cyan-300 text-[10px] font-bold">Active</span>
+</div>
+<div class="text-2xl font-black font-headline text-cyan-300">3</div>
+<span class="text-[11px] text-[#B4B0D0]">Allocated GPU compute shaders</span>
+</div>
+<!-- Stat Tile 3: Read-ahead -->
+<div class="glass-subcard p-4 relative overflow-hidden border-violet-500/20 bg-violet-950/10">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-semibold uppercase tracking-wider text-[#6E6A8F]">Anticipatory Buffer</span>
+<span class="px-2 py-0.5 rounded-full bg-violet-950 border border-violet-500/40 text-violet-300 text-[10px] font-bold">Ready</span>
+</div>
+<div class="text-2xl font-black font-headline text-violet-300">8 sentences</div>
+<span class="text-[11px] text-[#B4B0D0]">Pre-synthesised waveform cache</span>
+</div>
+</div>
+<!-- Info line -->
+<div class="flex items-center gap-2 p-3 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-[#B4B0D0] mb-6">
+<span class="material-symbols-outlined text-sm text-cyan-400" data-icon="check_circle">check_circle</span>
+<span>Last calibrated 2 Nov 2026 · WebGPU (Apple M-Series / Vulkan active)</span>
+</div>
+<div class="space-y-6">
+<!-- Acceleration Selector Segmented Control -->
+<div class="glass-subcard p-5">
+<label class="block text-sm font-semibold text-[#F5F3FF] mb-2">Hardware Acceleration Engine</label>
+<div class="grid grid-cols-3 gap-2 bg-[#0B0A14] p-1.5 rounded-xl border border-white/10" id="settings-acceleration">
+<button class="py-2.5 text-xs font-medium rounded-lg text-[#B4B0D0] hover:text-white hover:bg-white/5 transition-all text-center" type="button">
+                  Automatic
+                </button>
+<button class="py-2.5 text-xs font-bold rounded-lg text-cyan-300 bg-white/10 shadow-[0_0_12px_rgba(34,211,238,0.25)] border border-cyan-400/40 text-center flex items-center justify-center gap-1.5" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+<span>WebGPU (Active)</span>
+</button>
+<button class="py-2.5 text-xs font-medium rounded-lg text-[#B4B0D0] hover:text-white hover:bg-white/5 transition-all text-center" type="button">
+                  WASM (CPU Fallback)
+                </button>
+</div>
+</div>
+<!-- Background Workers Slider -->
+<div class="glass-subcard p-5">
+<div class="flex items-center justify-between mb-3">
+<label class="text-sm font-semibold text-[#F5F3FF]" for="settings-workers">
+                  Background workers
+                </label>
+<span class="font-mono text-xs font-bold text-violet-300 px-2 py-0.5 rounded bg-violet-950 border border-violet-500/30" id="workers-val">
+                  3 workers
+                </span>
+</div>
+<input class="w-full accent-violet-400" id="settings-workers" max="8" min="1" oninput="document.getElementById('workers-val').textContent = this.value + ' workers'" step="1" type="range" value="3"/>
+<div class="flex justify-between text-[10px] font-mono text-[#6E6A8F] mt-2">
+<span>1 (Power saver)</span>
+<span>4 (Balanced)</span>
+<span>8 (Maximum throughput)</span>
+</div>
+</div>
+<!-- Read-ahead Sentences Slider -->
+<div class="glass-subcard p-5">
+<div class="flex items-center justify-between mb-3">
+<label class="text-sm font-semibold text-[#F5F3FF]" for="settings-readahead">
+                  Read-ahead sentences
+                </label>
+<span class="font-mono text-xs font-bold text-cyan-300 px-2 py-0.5 rounded bg-cyan-950 border border-cyan-500/30" id="readahead-val">
+                  8 sentences
+                </span>
+</div>
+<input class="w-full accent-cyan-400" id="settings-readahead" max="24" min="2" oninput="document.getElementById('readahead-val').textContent = this.value + ' sentences'" step="1" type="range" value="8"/>
+<div class="flex justify-between text-[10px] font-mono text-[#6E6A8F] mt-2">
+<span>2 sentences</span>
+<span>12 sentences</span>
+<span>24 sentences</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- SECTION: VOICES ON THIS DEVICE             -->
+<!-- ========================================== -->
+<section class="glass-card p-7 scroll-mt-24 border border-pink-500/20 relative overflow-hidden" id="section-voices">
+<div class="absolute -top-16 -right-16 w-44 h-44 bg-pink-600/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Section Header -->
+<div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-pink-950/60 border border-pink-500/30 flex items-center justify-center text-pink-400 shadow-[0_0_12px_rgba(244,114,182,0.3)]">
+<span class="material-symbols-outlined text-2xl" data-icon="record_voice_over">record_voice_over</span>
+</div>
+<div>
+<h2 class="text-xl font-bold font-headline tracking-tight text-[#F5F3FF]">Voices on this device</h2>
+<p class="text-xs text-[#B4B0D0]">Local quantized neural models stored in Origin Private File System</p>
+</div>
+</div>
+<!-- Get More Voices Button -->
+<button class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs font-semibold text-white transition-all shadow-[0_0_14px_rgba(255,255,255,0.05)] active:scale-95" id="settings-more-voices">
+<span class="material-symbols-outlined text-sm text-cyan-300" data-icon="download">download</span>
+<span>Get more voices</span>
+</button>
+</div>
+<!-- Downloaded Voice Models List -->
+<div class="space-y-3">
+<!-- Voice 1: Aria -->
+<div class="glass-subcard p-4 flex items-center justify-between hover:border-violet-500/30 transition-all group">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-full bg-violet-950 border border-violet-400/40 p-0.5 shadow-[0_0_10px_rgba(139,92,246,0.3)]">
+<div class="w-full h-full rounded-full bg-violet-600/30 flex items-center justify-center text-violet-300 font-bold text-sm">
+                    A
+                  </div>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline font-bold text-sm text-[#F5F3FF]">Aria</span>
+<span class="text-xs text-[#6E6A8F]">· 82 MB</span>
+<span class="px-2 py-0.5 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-[10px] text-cyan-300 font-semibold">Default</span>
+</div>
+<p class="text-xs text-[#B4B0D0]">UK/US Neutral · Natural cadence, ideal for long essays and books</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-cyan-300 hover:text-cyan-200 transition-colors" title="Preview Aria voice">
+<span class="material-symbols-outlined text-base" data-icon="play_arrow">play_arrow</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg text-xs font-medium text-red-400/80 hover:text-red-300 hover:bg-red-950/40 border border-transparent hover:border-red-500/30 transition-all" id="settings-voice-remove-aria">
+                  Remove
+                </button>
+</div>
+</div>
+<!-- Voice 2: Orion -->
+<div class="glass-subcard p-4 flex items-center justify-between hover:border-cyan-500/30 transition-all group">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-full bg-cyan-950 border border-cyan-400/40 p-0.5 shadow-[0_0_10px_rgba(34,211,238,0.3)]">
+<div class="w-full h-full rounded-full bg-cyan-600/30 flex items-center justify-center text-cyan-300 font-bold text-sm">
+                    O
+                  </div>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline font-bold text-sm text-[#F5F3FF]">Orion</span>
+<span class="text-xs text-[#6E6A8F]">· 82 MB</span>
+</div>
+<p class="text-xs text-[#B4B0D0]">Authoritative · Clear British articulation, perfect for technical papers</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-cyan-300 hover:text-cyan-200 transition-colors" title="Preview Orion voice">
+<span class="material-symbols-outlined text-base" data-icon="play_arrow">play_arrow</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg text-xs font-medium text-red-400/80 hover:text-red-300 hover:bg-red-950/40 border border-transparent hover:border-red-500/30 transition-all" id="settings-voice-remove-orion">
+                  Remove
+                </button>
+</div>
+</div>
+<!-- Voice 3: Vesper -->
+<div class="glass-subcard p-4 flex items-center justify-between hover:border-pink-500/30 transition-all group">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-full bg-pink-950 border border-pink-400/40 p-0.5 shadow-[0_0_10px_rgba(244,114,182,0.3)]">
+<div class="w-full h-full rounded-full bg-pink-600/30 flex items-center justify-center text-pink-300 font-bold text-sm">
+                    V
+                  </div>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline font-bold text-sm text-[#F5F3FF]">Vesper</span>
+<span class="text-xs text-[#6E6A8F]">· 82 MB</span>
+</div>
+<p class="text-xs text-[#B4B0D0]">Dynamic · Deep expressive range for fictional narrative and screenplay dialogue</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-pink-300 hover:text-pink-200 transition-colors" title="Preview Vesper voice">
+<span class="material-symbols-outlined text-base" data-icon="play_arrow">play_arrow</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg text-xs font-medium text-red-400/80 hover:text-red-300 hover:bg-red-950/40 border border-transparent hover:border-red-500/30 transition-all" id="settings-voice-remove-vesper">
+                  Remove
+                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- SECTION: STORAGE                           -->
+<!-- ========================================== -->
+<section class="glass-card p-7 scroll-mt-24 border border-violet-500/20 relative overflow-hidden" id="section-storage">
+<div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-violet-950/60 border border-violet-500/30 flex items-center justify-center text-violet-400 shadow-[0_0_12px_rgba(139,92,246,0.3)]">
+<span class="material-symbols-outlined text-2xl" data-icon="hard_drive">hard_drive</span>
+</div>
+<div>
+<h2 class="text-xl font-bold font-headline tracking-tight text-[#F5F3FF]">Local Storage &amp; Cache</h2>
+<p class="text-xs text-[#B4B0D0]">Browser OPFS partition usage and cached synthesized wave audio</p>
+</div>
+</div>
+<!-- Clear Cached Audio Button -->
+<button class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-rose-300 bg-rose-950/30 hover:bg-rose-950/50 border border-rose-500/30 transition-all shadow-[0_0_12px_rgba(244,63,94,0.15)] active:scale-95" id="settings-clear-audio">
+<span class="material-symbols-outlined text-sm" data-icon="delete_outline">delete_outline</span>
+<span>Clear cached audio</span>
+</button>
+</div>
+<!-- Storage Meter & Breakdown -->
+<div class="glass-subcard p-5 mb-5">
+<div class="flex items-center justify-between text-xs mb-3">
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-violet-500"></span>
+<span class="text-[#F5F3FF] font-semibold">Library 412 MB</span>
+</span>
+<span class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+<span class="text-[#F5F3FF] font-semibold">Cached audio 96 MB</span>
+</span>
+<span class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-pink-500"></span>
+<span class="text-[#F5F3FF] font-semibold">Voices 246 MB</span>
+</span>
+</div>
+<span class="font-mono text-[#6E6A8F]">754 MB / 4.0 GB Reserved</span>
+</div>
+<!-- Multi-segment visual bar -->
+<div class="w-full h-3 rounded-full bg-[#0B0A14] p-0.5 border border-white/10 flex overflow-hidden gap-0.5">
+<div class="h-full bg-violet-500 rounded-l-full" style="width: 45%;"></div>
+<div class="h-full bg-cyan-400" style="width: 15%;"></div>
+<div class="h-full bg-pink-500" style="width: 25%;"></div>
+<div class="h-full bg-white/5" style="width: 15%;"></div>
+</div>
+</div>
+<!-- Privacy callout note -->
+<div class="flex items-start gap-3.5 p-4 rounded-xl bg-violet-950/30 border border-violet-500/25">
+<span class="material-symbols-outlined text-violet-400 text-lg shrink-0 mt-0.5" data-icon="lock">lock</span>
+<p class="text-xs text-[#B4B0D0] leading-relaxed">
+<strong class="text-[#F5F3FF] font-semibold">Zero-cloud telemetry promise:</strong> Your documents stay on this computer. Audio synthesis and text parsing execute 100% locally with zero server upload.
+            </p>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- SECTION: KEYBOARD SHORTCUTS                -->
+<!-- ========================================== -->
+<section class="glass-card p-7 scroll-mt-24 border border-violet-500/20 relative overflow-hidden" id="section-shortcuts">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-xl bg-violet-950/60 border border-violet-500/30 flex items-center justify-center text-violet-400 shadow-[0_0_12px_rgba(139,92,246,0.3)]">
+<span class="material-symbols-outlined text-2xl" data-icon="keyboard">keyboard</span>
+</div>
+<div>
+<h2 class="text-xl font-bold font-headline tracking-tight text-[#F5F3FF]">Keyboard shortcuts</h2>
+<p class="text-xs text-[#B4B0D0]">Quick navigation keys mapped to speed controls and reading jumps</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<!-- Play / pause -->
+<div class="glass-subcard p-3.5 flex items-center justify-between">
+<span class="text-sm font-medium text-[#F5F3FF]">Play / pause</span>
+<kbd class="px-3 py-1 rounded-md bg-[#0B0A14] border border-white/15 text-xs font-mono font-semibold text-cyan-300 shadow-sm">Space</kbd>
+</div>
+<!-- Next sentence -->
+<div class="glass-subcard p-3.5 flex items-center justify-between">
+<span class="text-sm font-medium text-[#F5F3FF]">Next sentence</span>
+<kbd class="px-3 py-1 rounded-md bg-[#0B0A14] border border-white/15 text-xs font-mono font-semibold text-cyan-300 shadow-sm">→</kbd>
+</div>
+<!-- Previous sentence -->
+<div class="glass-subcard p-3.5 flex items-center justify-between">
+<span class="text-sm font-medium text-[#F5F3FF]">Previous sentence</span>
+<kbd class="px-3 py-1 rounded-md bg-[#0B0A14] border border-white/15 text-xs font-mono font-semibold text-cyan-300 shadow-sm">←</kbd>
+</div>
+<!-- Faster -->
+<div class="glass-subcard p-3.5 flex items-center justify-between">
+<span class="text-sm font-medium text-[#F5F3FF]">Faster</span>
+<kbd class="px-3 py-1 rounded-md bg-[#0B0A14] border border-white/15 text-xs font-mono font-semibold text-cyan-300 shadow-sm">]</kbd>
+</div>
+<!-- Slower -->
+<div class="glass-subcard p-3.5 flex items-center justify-between">
+<span class="text-sm font-medium text-[#F5F3FF]">Slower</span>
+<kbd class="px-3 py-1 rounded-md bg-[#0B0A14] border border-white/15 text-xs font-mono font-semibold text-cyan-300 shadow-sm">[</kbd>
+</div>
+<!-- Read from selection -->
+<div class="glass-subcard p-3.5 flex items-center justify-between">
+<span class="text-sm font-medium text-[#F5F3FF]">Read from selection</span>
+<div class="flex items-center gap-1">
+<kbd class="px-2.5 py-1 rounded-md bg-[#0B0A14] border border-white/15 text-xs font-mono font-semibold text-cyan-300 shadow-sm">Alt</kbd>
+<span class="text-xs text-[#6E6A8F]">+</span>
+<kbd class="px-2.5 py-1 rounded-md bg-[#0B0A14] border border-white/15 text-xs font-mono font-semibold text-cyan-300 shadow-sm">R</kbd>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- SECTION: ABOUT                             -->
+<!-- ========================================== -->
+<section class="glass-card p-7 scroll-mt-24 border border-white/10 relative overflow-hidden" id="section-about">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-neutral-300">
+<span class="material-symbols-outlined text-2xl" data-icon="info">info</span>
+</div>
+<div>
+<h2 class="text-xl font-bold font-headline tracking-tight text-[#F5F3FF]">About Chattatonic Reader</h2>
+<p class="text-xs text-[#B4B0D0]">Engine version, pass licensing, and telemetry compliance</p>
+</div>
+</div>
+<div class="glass-subcard p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="font-headline font-bold text-base text-[#F5F3FF]">Chattatonic Reader 1.0.0</span>
+<span class="px-2 py-0.5 rounded-full bg-violet-950 border border-violet-500/30 text-[10px] text-violet-300 font-mono">Build 2026.11.02</span>
+</div>
+<p class="text-xs text-[#6E6A8F]">© 2026 Chattatonic Audio Labs Inc. All rights reserved.</p>
+<p class="text-xs text-[#B4B0D0] pt-1">On-Device Neural Synthesis with WebGPU Acceleration.</p>
+</div>
+<!-- Links with hover states -->
+<div class="flex items-center gap-6 text-sm font-medium">
+<a class="text-[#B4B0D0] hover:text-cyan-300 transition-colors" href="#privacy">Privacy</a>
+<span class="text-white/10">·</span>
+<a class="text-[#B4B0D0] hover:text-cyan-300 transition-colors" href="#terms">Terms</a>
+<span class="text-white/10">·</span>
+<a class="text-[#B4B0D0] hover:text-cyan-300 transition-colors" href="#support">Support</a>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Lightweight Inline Interaction Script for Anchor Highlight Sync -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const anchors = document.querySelectorAll('#settings-anchor-nav a');
+      const sections = Array.from(anchors).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const top = section.offsetTop - 140;
+          if (window.scrollY >= top) {
+            current = '#' + section.getAttribute('id');
+          }
+        });
+
+        anchors.forEach(a => {
+          if (a.getAttribute('href') === current) {
+            a.className = 'flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-violet-600/15 border border-violet-500/30 text-violet-300 shadow-[0_0_14px_rgba(139,92,246,0.2)] transition-all';
+          } else {
+            a.className = 'flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#B4B0D0] hover:text-cyan-300 hover:bg-white/5 transition-all';
+          }
+        });
+      }, { passive: true });
+    });
+  </script>
+</body></html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chattatonic Reader — Limit Reached</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300..900;1,300..900&amp;family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Public Sans", "sans-serif"],
+            display: ["Public Sans", "sans-serif"],
+            body: ["DM Sans", "sans-serif"],
+            label: ["DM Sans", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+    }
+    .material-symbols-fill {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    /* Signature Glow Gradients */
+    .glow-gradient {
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 50%, #22D3EE 100%);
+    }
+    .glow-border-gradient {
+      border-image: linear-gradient(120deg, #8B5CF6, #F472B6, #22D3EE) 1;
+    }
+    .hero-glow-shadow {
+      box-shadow: 0 0 50px rgba(139, 92, 246, 0.25), 0 0 25px rgba(34, 211, 238, 0.15);
+    }
+    .active-sentence-glow {
+      background: linear-gradient(90deg, rgba(139, 92, 246, 0.22) 0%, rgba(34, 211, 238, 0.12) 100%);
+      box-shadow: 0 0 35px rgba(139, 92, 246, 0.35);
+    }
+  </style>
+</head>
+<body class="bg-[#0B0A14] text-[#F5F3FF] font-body antialiased overflow-hidden h-screen w-screen select-none relative">
+<!-- ============================================================== -->
+<!-- BACKGROUND CANVAS: HIGH-FIDELITY WEB READER SCREEN (PAUSED)   -->
+<!-- ============================================================== -->
+<div class="absolute inset-0 flex flex-col h-full w-full pointer-events-none filter blur-[1.5px] scale-[0.99] transition-transform duration-700">
+<!-- Top Bar Navigation (Shared Component Specification) -->
+<header class="flex justify-between items-center w-full px-6 py-3 border-b border-white/10 bg-neutral-950/80 backdrop-blur-md z-30 shrink-0">
+<div class="flex items-center gap-6">
+<div class="font-headline text-lg font-extrabold tracking-tight text-neutral-50 flex items-center gap-2">
+<span class="w-7 h-7 rounded-xl glow-gradient flex items-center justify-center shadow-[0_0_12px_rgba(139,92,246,0.6)]">
+<span class="material-symbols-outlined text-white text-base font-bold">graphic_eq</span>
+</span>
+<span>Chattatonic</span>
+</div>
+<!-- Breadcrumb / Doc Title -->
+<div class="flex items-center gap-2 text-xs font-mono text-neutral-400 bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
+<span class="text-neutral-500 uppercase font-semibold">LIBRARY</span>
+<span class="text-neutral-600">/</span>
+<span class="text-neutral-200 font-medium">The Overstory — Chapter 3.pdf</span>
+</div>
+</div>
+<!-- Center Status / Pills -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-neutral-300">
+<span class="material-symbols-outlined text-xs text-neutral-400">auto_stories</span>
+<span>Page 12 of 48</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/30 border border-cyan-500/20 text-xs text-cyan-300">
+<span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+<span>Read-ahead: 6 sentences buffered</span>
+</div>
+</div>
+<!-- Trailing Controls -->
+<div class="flex items-center gap-4">
+<!-- Render Credits Pill -->
+<div class="flex items-center gap-1.5 px-3 py-1 bg-violet-950/40 border border-violet-500/30 rounded-full text-xs font-medium text-violet-300">
+<span class="material-symbols-outlined text-sm text-violet-400">bolt</span>
+<span>240 Render Credits</span>
+</div>
+<!-- Free Tier Badge -->
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase bg-neutral-800 text-neutral-400 border border-white/10">Free Tier</span>
+<div class="flex items-center gap-2 text-neutral-400 border-l border-white/10 pl-4">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Workspace (SideNav + Reading Pane + Voice Studio Panel) -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Left Rail Nav -->
+<nav class="w-20 bg-neutral-950/90 backdrop-blur-xl border-r border-white/10 flex flex-col items-center justify-between py-5 z-20 shrink-0">
+<div class="flex flex-col items-center gap-6 w-full">
+<button class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl">
+<span class="material-symbols-outlined text-xl">folder_open</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Library</span>
+</button>
+<button class="flex flex-col items-center justify-center text-cyan-400 p-2 rounded-xl bg-white/10 shadow-[0_0_12px_rgba(34,211,238,0.25)]">
+<span class="material-symbols-outlined text-xl">chrome_reader_mode</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Reader</span>
+</button>
+<button class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl">
+<span class="material-symbols-outlined text-xl">graphic_eq</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Voices</span>
+</button>
+<button class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl">
+<span class="material-symbols-outlined text-xl">local_activity</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Passes</span>
+</button>
+<button class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Settings</span>
+</button>
+</div>
+<div class="flex flex-col items-center gap-4">
+<button class="flex flex-col items-center justify-center text-neutral-500 p-2">
+<span class="material-symbols-outlined text-xl">help_outline</span>
+<span class="text-[9px] mt-0.5">Help</span>
+</button>
+</div>
+</nav>
+<!-- Center Reading Document Area -->
+<main class="flex-1 overflow-y-auto px-16 py-12 flex justify-center bg-[#0B0A14]">
+<article class="max-w-2xl w-full text-left space-y-6 pt-6">
+<p class="text-neutral-500 text-base leading-relaxed">
+            First there was nothing. Then there were all kinds of things. The chestnut leaf unfolds in late spring with the crisp geometry of green origami, reaching outward into the damp light of the valley.
+          </p>
+<!-- ILLUMINATED CURRENT SENTENCE HALO -->
+<div class="relative p-4 -mx-4 rounded-xl active-sentence-glow border border-violet-500/30">
+<p class="text-lg text-white font-medium leading-relaxed tracking-normal">
+              “A tree is a passage between earth and sky, a conduit through which light turns into living wood and carbon enters into the memory of rings.”
+            </p>
+<div class="absolute -left-2 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-cyan-400 rounded-full shadow-[0_0_10px_#22D3EE]"></div>
+</div>
+<p class="text-neutral-400 text-base leading-relaxed border-b border-cyan-400/30 pb-1">
+            Now consider the soil beneath it: a kingdom of fungi knit into root tips, transmitting sugar, water, and warning sirens between elder branches and sprout seedlings miles apart.
+          </p>
+<p class="text-neutral-600 text-base leading-relaxed">
+            Nicholas Hoel sits under the branches with an ancestral camera mounted upon a heavy wooden tripod, waiting for the shutter to open against the damp stillness of dawn.
+          </p>
+</article>
+</main>
+<!-- Right Voice & Speech Sidebar -->
+<aside class="w-80 bg-neutral-950/60 border-l border-white/10 p-5 flex flex-col gap-6 shrink-0">
+<div>
+<div class="text-[11px] font-bold text-neutral-400 tracking-wider uppercase mb-3 flex items-center justify-between">
+<span>Voice &amp; Speech Studio</span>
+<span class="material-symbols-outlined text-sm">tune</span>
+</div>
+<!-- Selected Voice Chip -->
+<div class="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative w-10 h-10 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-400 flex items-center justify-center p-0.5">
+<div class="w-full h-full rounded-full bg-[#14122A] flex items-center justify-center">
+<span class="material-symbols-outlined text-violet-400 text-lg">record_voice_over</span>
+</div>
+<div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-neutral-950"></div>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-white leading-tight">Aria</h4>
+<p class="text-[11px] text-neutral-400">Neural • Warm &amp; Expressive</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-neutral-500">expand_more</span>
+</div>
+</div>
+<!-- Reading Pace Control -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs text-neutral-400">
+<span>Reading Pace</span>
+<span class="text-cyan-400 font-mono font-semibold">1.20×</span>
+</div>
+<div class="w-full h-1.5 bg-neutral-800 rounded-full overflow-hidden relative">
+<div class="h-full bg-gradient-to-r from-violet-500 to-cyan-400 w-[55%]"></div>
+</div>
+</div>
+<!-- Document Outline -->
+<div class="flex-1 space-y-2">
+<span class="text-[11px] font-bold text-neutral-400 tracking-wider uppercase">Document Outline</span>
+<div class="space-y-1.5 text-xs text-neutral-400 pt-1">
+<div class="p-2 rounded bg-white/5 text-neutral-200">1. Roots of the Chestnut</div>
+<div class="p-2 rounded hover:bg-white/5 text-neutral-400">2. The Seedling Register</div>
+<div class="p-2 rounded bg-violet-950/30 text-violet-300 font-medium flex items-center justify-between border border-violet-500/20">
+<span>3. The Canopy Threshold</span>
+<span class="w-2 h-2 rounded-full bg-violet-400"></span>
+</div>
+<div class="p-2 rounded hover:bg-white/5 text-neutral-400">4. Mycelial Whispers</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Docked Glass Player Bar -->
+<footer class="h-20 bg-neutral-950/80 backdrop-blur-xl border-t border-white/10 px-8 flex items-center justify-between z-30 shrink-0">
+<div class="flex items-center gap-4 w-72">
+<span class="material-symbols-outlined text-neutral-400">skip_previous</span>
+<button class="w-11 h-11 rounded-full glow-gradient flex items-center justify-center text-white shadow-[0_0_18px_rgba(139,92,246,0.6)]">
+<span class="material-symbols-outlined text-2xl font-bold">play_arrow</span>
+</button>
+<span class="material-symbols-outlined text-neutral-400">skip_next</span>
+<div class="text-xs font-mono text-neutral-400 pl-2">
+<span class="text-white font-medium">12:04</span> / 31:20
+        </div>
+</div>
+<!-- Central Scrubbing Bar -->
+<div class="flex-1 max-w-xl mx-8">
+<div class="h-2 bg-neutral-800 rounded-full overflow-hidden relative">
+<div class="h-full bg-cyan-900/60 w-[65%] absolute left-0 top-0"></div>
+<div class="h-full glow-gradient w-[38%] relative z-10 rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center gap-5 w-72 justify-end">
+<span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-neutral-300">1.2× Speed</span>
+<span class="material-symbols-outlined text-neutral-400">volume_up</span>
+<div class="w-20 h-1.5 bg-neutral-800 rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-neutral-300"></div>
+</div>
+</div>
+</footer>
+</div>
+<!-- ============================================================== -->
+<!-- MODAL OVERLAY SCRIM                                            -->
+<!-- ============================================================== -->
+<div class="fixed inset-0 bg-black/75 backdrop-blur-md z-40 flex items-center justify-center p-4">
+<!-- ============================================================== -->
+<!-- CENTER MODAL OVERLAY: LIMIT REACHED                           -->
+<!-- ============================================================== -->
+<div class="relative bg-neutral-900/85 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 max-w-2xl w-full hero-glow-shadow text-neutral-100 flex flex-col items-center">
+<!-- Close Button -->
+<button aria-label="Close dialog" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white transition-colors duration-150" id="limit-close">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+<!-- Waveform Luminous Glyph -->
+<div class="w-14 h-14 rounded-2xl bg-neutral-950/80 border border-violet-500/40 p-2.5 flex items-center justify-center gap-1 shadow-[0_0_20px_rgba(139,92,246,0.35)] mb-4">
+<span class="w-1 h-3 bg-violet-400 rounded-full"></span>
+<span class="w-1 h-6 bg-pink-400 rounded-full"></span>
+<span class="w-1 h-8 bg-cyan-400 rounded-full shadow-[0_0_8px_#22D3EE]"></span>
+<span class="w-1 h-5 bg-violet-400 rounded-full"></span>
+<span class="w-1 h-2 bg-pink-400 rounded-full"></span>
+</div>
+<!-- Heading & Subtext -->
+<h2 class="font-headline font-bold text-2xl text-white tracking-tight text-center">That’s today’s 20 free minutes.</h2>
+<p class="text-neutral-300 text-sm text-center mt-1">Come back tomorrow, or keep listening with a pass.</p>
+<!-- Usage Meter Card -->
+<div class="w-full mt-6 bg-[#14122A]/80 border border-white/10 rounded-2xl p-4 flex flex-col gap-2.5">
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-400 text-base">timer</span>
+<span class="font-semibold text-white">20 of 20 minutes used today</span>
+</div>
+<span class="text-neutral-400 font-mono">Resets in 6h 42m</span>
+</div>
+<!-- 100% Progress Bar -->
+<div class="w-full h-2.5 bg-neutral-800/80 rounded-full overflow-hidden p-0.5 border border-white/5">
+<div class="w-full h-full rounded-full glow-gradient shadow-[0_0_12px_rgba(244,114,182,0.5)]"></div>
+</div>
+<div class="flex justify-between items-center text-[11px] text-neutral-400 pt-0.5">
+<span>Free Daily Allowance: 20m</span>
+<span class="text-pink-400 font-medium">Daily cap reached</span>
+</div>
+</div>
+<!-- Passes Option Cards (4 Columns Bento Grid) -->
+<div class="grid grid-cols-4 gap-3 w-full mt-6">
+<!-- Day Pass -->
+<button class="group relative rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 p-3.5 flex flex-col items-center justify-between text-center transition-all duration-150" id="limit-pass-day">
+<span class="text-xs font-semibold text-neutral-300">Day Pass</span>
+<span class="font-headline font-bold text-xl text-white my-1 group-hover:text-cyan-300 transition-colors">$2</span>
+<span class="text-[11px] text-neutral-400">24 hours</span>
+</button>
+<!-- Month Pass -->
+<button class="group relative rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 p-3.5 flex flex-col items-center justify-between text-center transition-all duration-150" id="limit-pass-month">
+<span class="text-xs font-semibold text-neutral-300">Month Pass</span>
+<span class="font-headline font-bold text-xl text-white my-1 group-hover:text-cyan-300 transition-colors">$8</span>
+<span class="text-[11px] text-neutral-400">30 days</span>
+</button>
+<!-- Year Pass (Selected Default) -->
+<button class="relative rounded-2xl bg-violet-950/40 border-2 border-violet-500 shadow-[0_0_20px_rgba(139,92,246,0.3)] p-3.5 flex flex-col items-center justify-between text-center" id="limit-pass-year">
+<div class="absolute -top-2.5 bg-violet-600 text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full shadow-[0_0_8px_#8B5CF6]">
+            Selected
+          </div>
+<span class="text-xs font-semibold text-violet-200 mt-1">Year Pass</span>
+<span class="font-headline font-bold text-xl text-white my-0.5">$49</span>
+<span class="text-[11px] text-violet-300">365 days</span>
+</button>
+<!-- Lifetime Pass (Best Value Pill + Animated Accent) -->
+<button class="group relative rounded-2xl p-[1px] glow-gradient flex flex-col items-center justify-between text-center shadow-[0_0_20px_rgba(34,211,238,0.25)]" id="limit-pass-lifetime">
+<div class="w-full h-full bg-[#14122A] rounded-[15px] p-3.5 flex flex-col items-center justify-between">
+<div class="absolute -top-2.5 bg-gradient-to-r from-pink-500 to-cyan-400 text-neutral-950 font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(244,114,182,0.5)]">
+              Best value
+            </div>
+<span class="text-xs font-semibold text-cyan-200 mt-1">Lifetime</span>
+<span class="font-headline font-bold text-xl text-transparent bg-clip-text glow-gradient my-0.5">$99</span>
+<span class="text-[11px] text-cyan-300">Once</span>
+</div>
+</button>
+</div>
+<!-- Supporting Caption -->
+<p class="text-xs text-neutral-400 text-center mt-3">Passes never auto-renew.</p>
+<!-- Action Buttons Row -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full mt-6">
+<button class="w-full sm:w-auto px-7 py-3 rounded-full glow-gradient text-neutral-950 font-headline font-bold text-sm tracking-wide shadow-[0_0_25px_rgba(139,92,246,0.5)] hover:shadow-[0_0_35px_rgba(34,211,238,0.7)] hover:scale-[1.02] active:scale-95 transition-all duration-150 flex items-center justify-center gap-2" id="limit-get-pass">
+<span>Get a pass</span>
+<span class="material-symbols-outlined text-lg font-bold">arrow_forward</span>
+</button>
+<button class="w-full sm:w-auto px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/20 text-neutral-200 font-headline font-semibold text-sm hover:border-white/30 active:scale-95 transition-all duration-150" id="limit-have-key">
+          I have a licence key
+        </button>
+</div>
+<!-- Text Link: Remind me -->
+<button class="text-xs text-neutral-400 hover:text-white underline underline-offset-4 mt-4 transition-colors" id="limit-remind">
+        Remind me tomorrow
+      </button>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- FLOATING INSET: LOCKED FEATURE VARIANT (BOTTOM RIGHT)          -->
+<!-- ============================================================== -->
+<aside aria-label="Feature preview" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+<!-- Subtle Tag / Pill Label -->
+<div class="mb-2 px-2.5 py-0.5 rounded-md bg-neutral-900/90 border border-white/10 text-[10px] font-mono tracking-widest text-violet-300 uppercase shadow-lg backdrop-blur-md">
+      Locked feature variant
+    </div>
+<!-- Glass Modal Card -->
+<div class="bg-neutral-900/90 backdrop-blur-xl border border-white/15 rounded-2xl p-5 shadow-[0_10px_35px_rgba(0,0,0,0.8),0_0_20px_rgba(244,114,182,0.15)] max-w-sm w-80 text-left relative overflow-hidden">
+<!-- Glow ambient accent -->
+<div class="absolute -top-12 -right-12 w-28 h-28 bg-pink-500/15 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Header with PASS badge & Lock -->
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-1.5">
+<span class="bg-pink-500/20 text-pink-400 border border-pink-500/30 font-bold text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-full">
+            PASS
+          </span>
+<span class="material-symbols-outlined text-pink-400 text-sm">lock</span>
+</div>
+<span class="text-[10px] text-neutral-500 font-mono">MULTI-VOICE</span>
+</div>
+<!-- Heading -->
+<h3 class="font-headline font-bold text-base text-white leading-snug">
+        Cast of voices needs a pass
+      </h3>
+<!-- Copy -->
+<p class="text-xs text-neutral-300 mt-1.5 leading-relaxed">
+        On Free you have one voice. A pass lets headings, quotes and body text each have their own.
+      </p>
+<!-- Actions -->
+<div class="flex items-center justify-between mt-4 pt-2 border-t border-white/10">
+<button class="px-4 py-2 rounded-full glow-gradient text-neutral-950 font-headline font-bold text-xs shadow-[0_0_15px_rgba(244,114,182,0.4)] hover:scale-105 active:scale-95 transition-all" id="locked-get-pass">
+          Get a pass
+        </button>
+<button class="text-xs text-neutral-400 hover:text-neutral-200 transition-colors px-2 py-1" id="locked-dismiss">
+          Not now
+        </button>
+</div>
+</div>
+</aside>
+<!-- Interactive JavaScript for pass selection micro-interactions -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const passButtons = [
+        document.getElementById('limit-pass-day'),
+        document.getElementById('limit-pass-month'),
+        document.getElementById('limit-pass-year'),
+        document.getElementById('limit-pass-lifetime')
+      ];
+
+      passButtons.forEach(btn => {
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+          passButtons.forEach(b => {
+            if (b.id !== 'limit-pass-lifetime') {
+              b.className = "group relative rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 p-3.5 flex flex-col items-center justify-between text-center transition-all duration-150";
+              const tag = b.querySelector('.selected-tag');
+              if (tag) tag.remove();
+            }
+          });
+
+          if (btn.id !== 'limit-pass-lifetime') {
+            btn.className = "relative rounded-2xl bg-violet-950/40 border-2 border-violet-500 shadow-[0_0_20px_rgba(139,92,246,0.3)] p-3.5 flex flex-col items-center justify-between text-center";
+            const tag = document.createElement('div');
+            tag.className = 'selected-tag absolute -top-2.5 bg-violet-600 text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full shadow-[0_0_8px_#8B5CF6]';
+            tag.innerText = 'Selected';
+            btn.prepend(tag);
+          }
+        });
+      });
+
+      // Quick toast/alert on CTAs for testing
+      const getPassBtn = document.getElementById('limit-get-pass');
+      if (getPassBtn) {
+        getPassBtn.addEventListener('click', () => {
+          console.log('Navigating to checkout for pass');
+        });
+      }
+    });
+  </script>
+</body></html>

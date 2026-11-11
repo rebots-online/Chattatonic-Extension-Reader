@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In-page Player - Chattatonic Overlay</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Newsreader', 'Georgia', 'serif'],
+            headline: ['Cinzel', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              violet: '#8B5CF6',
+              cyan: '#22D3EE',
+              pink: '#EC4899',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Glowing Halo for Active Sentence on White Page */
+    .chattatonic-glow-halo {
+      position: relative;
+      display: inline;
+      background: linear-gradient(90deg, rgba(139, 92, 246, 0.22) 0%, rgba(236, 72, 153, 0.18) 50%, rgba(34, 211, 238, 0.22) 100%);
+      box-shadow: 
+        0 0 20px 4px rgba(139, 92, 246, 0.28),
+        0 0 35px 8px rgba(34, 211, 238, 0.15);
+      border-radius: 4px;
+      padding: 3px 6px;
+      margin: -3px -4px;
+      color: #0f172a;
+      font-weight: 550;
+      border-bottom: 2px solid rgba(139, 92, 246, 0.7);
+      animation: pulseGlow 3.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 0 16px 2px rgba(139, 92, 246, 0.25), 0 0 28px 6px rgba(34, 211, 238, 0.12);
+      }
+      100% {
+        box-shadow: 0 0 24px 6px rgba(139, 92, 246, 0.38), 0 0 42px 10px rgba(34, 211, 238, 0.25);
+      }
+    }
+
+    /* Read-ahead underline */
+    .read-ahead-sentence {
+      position: relative;
+      text-decoration: underline;
+      text-decoration-color: rgba(34, 211, 238, 0.75);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+    }
+
+    /* Dark night-studio glass effect */
+    .night-studio-pill {
+      background: rgba(10, 10, 18, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 
+        0 14px 40px -6px rgba(0, 0, 0, 0.6),
+        0 0 28px 2px rgba(139, 92, 246, 0.28),
+        0 0 1px 1px rgba(255, 255, 255, 0.15) inset;
+    }
+
+    .night-studio-tooltip {
+      background: rgba(12, 10, 22, 0.94);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.45),
+        0 0 16px rgba(139, 92, 246, 0.25);
+    }
+
+    /* Mini custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-neutral-900 text-neutral-100 min-h-screen flex flex-col items-center justify-start antialiased selection:bg-violet-500 selection:text-white">
+
+  <!-- Host Page Metadata / Caption Strip (Outside mock-up) -->
+  <header class="w-full bg-neutral-950 border-b border-neutral-800 text-neutral-300 text-xs px-6 py-2.5 flex items-center justify-between z-50">
+    <div class="flex items-center gap-3">
+      <span class="inline-flex items-center gap-1.5 font-mono text-[11px] bg-neutral-800/80 text-violet-300 px-2.5 py-0.5 rounded-full border border-violet-500/30">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+        EXTENSION LIVE INJECTION SPEC
+      </span>
+      <span class="text-neutral-400 font-medium">
+        Host page: <span class="text-neutral-200">third-party article</span>. Chattatonic elements: <span class="text-violet-400">sentence glow</span>, <span class="text-cyan-400">cyan read-ahead underline</span>, <span class="text-violet-300">floating player</span>, <span class="text-cyan-300">Start from here</span>.
+      </span>
+    </div>
+    <div class="flex items-center gap-4 text-[11px] text-neutral-400 font-mono">
+      <span>DOM Sandbox: #chattatonic-root</span>
+      <span class="text-neutral-600">•</span>
+      <span class="text-emerald-400 flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">bolt</span> Zero-Latency Local Buffer
+      </span>
+    </div>
+  </header>
+
+  <!-- Browser Window Wrapper -->
+  <main class="w-full max-w-[1440px] px-4 py-6 flex-1 flex flex-col items-center">
+    
+    <div class="w-full bg-neutral-100 rounded-2xl shadow-2xl overflow-hidden border border-neutral-700/60 relative flex flex-col">
+      
+      <!-- Fake Chrome Window Chrome Header -->
+      <div class="bg-neutral-200/90 border-b border-neutral-300 px-4 py-2.5 flex items-center justify-between select-none">
+        <!-- Mac Window Dots -->
+        <div class="flex items-center gap-2 w-24">
+          <div class="w-3 h-3 rounded-full bg-rose-400 border border-rose-500/50"></div>
+          <div class="w-3 h-3 rounded-full bg-amber-400 border border-amber-500/50"></div>
+          <div class="w-3 h-3 rounded-full bg-emerald-400 border border-emerald-500/50"></div>
+        </div>
+
+        <!-- Chrome Address / Omnibox -->
+        <div class="flex-1 max-w-2xl bg-white rounded-lg border border-neutral-300/80 px-3.5 py-1 text-xs text-neutral-600 flex items-center justify-between shadow-xs">
+          <div class="flex items-center gap-2 overflow-hidden truncate">
+            <span class="material-symbols-outlined text-neutral-400 text-sm">lock</span>
+            <span class="text-neutral-900 font-medium font-sans">meridianpost.org</span>
+            <span class="text-neutral-400">/science/2026/04/how-forests-talk-mycorrhizal-networks</span>
+          </div>
+          <div class="flex items-center gap-2 text-neutral-400">
+            <span class="material-symbols-outlined text-sm hover:text-neutral-700 cursor-pointer">star</span>
+            <span class="material-symbols-outlined text-sm hover:text-neutral-700 cursor-pointer">share</span>
+          </div>
+        </div>
+
+        <!-- Chrome Toolbar Extensions Area (Showing Chattatonic Active) -->
+        <div class="w-36 flex items-center justify-end gap-2.5">
+          <!-- Other benign extension icon -->
+          <div class="w-6 h-6 rounded flex items-center justify-center text-neutral-500 hover:bg-neutral-300 cursor-pointer">
+            <span class="material-symbols-outlined text-sm">translate</span>
+          </div>
+
+          <!-- Chattatonic Active Browser Toolbar Hint -->
+          <div id="browser-toolbar-extension-active" class="relative group cursor-pointer" title="Chattatonic Reader (Active on this page)">
+            <div class="w-8 h-8 rounded-lg bg-neutral-950 border border-violet-500/60 shadow-[0_0_12px_rgba(139,92,246,0.5)] flex items-center justify-center p-1 relative">
+              <!-- Chattatonic mini wave glyph -->
+              <svg class="w-5 h-5 text-violet-400" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="3" y="10" width="2" height="4" rx="1" fill="#8B5CF6"/>
+                <rect x="7" y="6" width="2" height="12" rx="1" fill="#22D3EE"/>
+                <rect x="11" y="3" width="2" height="18" rx="1" fill="#C084FC"/>
+                <rect x="15" y="7" width="2" height="10" rx="1" fill="#22D3EE"/>
+                <rect x="19" y="10" width="2" height="4" rx="1" fill="#8B5CF6"/>
+              </svg>
+              <!-- Live active beacon dot -->
+              <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-cyan-400 border-2 border-white rounded-full shadow-[0_0_6px_#22d3ee]"></span>
+            </div>
+            
+            <!-- Mini Popover Badge on toolbar -->
+            <div class="absolute right-0 top-10 w-44 bg-neutral-950 text-neutral-200 border border-violet-500/30 text-[10px] rounded-lg p-2 shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+              <div class="font-semibold text-white flex items-center justify-between">
+                <span>Chattatonic Reader</span>
+                <span class="text-cyan-400 font-mono">ACTIVE</span>
+              </div>
+              <p class="text-neutral-400 mt-1">Speaking: Aria (1.2x)</p>
+            </div>
+          </div>
+
+          <!-- Chrome profile avatar -->
+          <div class="w-7 h-7 rounded-full bg-neutral-400 border border-neutral-300 flex items-center justify-center text-[11px] font-bold text-white">
+            R
+          </div>
+        </div>
+      </div>
+
+      <!-- HOST PAGE CONTENT CONTAINER (Pure White, Black Serif Editorial) -->
+      <div id="host-webpage" class="relative bg-white text-neutral-900 w-full min-h-[920px] px-8 sm:px-16 md:px-24 py-12 overflow-y-auto selection:bg-violet-200">
+        
+        <!-- Host Masthead -->
+        <header class="max-w-3xl mx-auto border-b-2 border-neutral-900 pb-5 mb-10 text-center">
+          <div class="text-[11px] font-sans tracking-[0.25em] font-semibold text-neutral-500 uppercase mb-2">
+            The Independent Voice of Science & Ecology • Vol. 142 • Issue 18
+          </div>
+          <h1 class="font-headline text-3xl sm:text-4xl md:text-5xl tracking-tight text-neutral-950 uppercase font-black">
+            The Meridian Post
+          </h1>
+          <div class="flex items-center justify-between text-xs text-neutral-500 font-serif italic mt-3 pt-2 border-t border-neutral-200">
+            <span>Special Report: Subterranean Botany</span>
+            <span>Published April 14, 2026</span>
+            <span>11 Min Read</span>
+          </div>
+        </header>
+
+        <!-- Article Container -->
+        <article class="max-w-2xl mx-auto font-serif text-lg leading-[1.8] text-neutral-800">
+          
+          <!-- Article Title & Deck -->
+          <h2 class="text-3xl sm:text-4xl md:text-[42px] font-bold font-serif text-neutral-950 leading-tight tracking-tight mb-4">
+            How Forests Talk to Each Other
+          </h2>
+          <p class="font-serif italic text-xl text-neutral-600 leading-relaxed mb-6">
+            Beneath the leaf litter of the Pacific Northwest lies a fungal nervous system that trades carbon, sound, and distress alarms across miles of ancient canopy.
+          </p>
+
+          <!-- Byline -->
+          <div class="flex items-center gap-3 font-sans text-xs text-neutral-600 uppercase tracking-wider pb-6 mb-8 border-b border-neutral-200">
+            <span class="font-bold text-neutral-900">By Dr. Julian Rhys</span>
+            <span>•</span>
+            <span>Forest Ecology Institute, Corvallis</span>
+            <span>•</span>
+            <span class="text-neutral-400">Photos by Clara Holm</span>
+          </div>
+
+          <!-- Grey Hero Image Placeholder -->
+          <figure class="my-8">
+            <div class="w-full h-80 bg-neutral-200 rounded-sm border border-neutral-300 flex flex-col items-center justify-center text-neutral-500 gap-2.5 p-6 text-center select-none">
+              <span class="material-symbols-outlined text-4xl text-neutral-400">image</span>
+              <span class="font-sans text-xs tracking-wider uppercase font-semibold text-neutral-600">Fig. 1 — Subterranean Mycelial Network Scanning Electron Micrograph</span>
+              <span class="font-serif italic text-xs text-neutral-500 max-w-md">Ectomycorrhizal fungal hyphae enveloping Douglas fir root tips at the Olympic Experimental State Forest.</span>
+            </div>
+            <figcaption class="text-xs font-sans text-neutral-500 mt-2 text-right">
+              Archive reference: PL-882-FOR / The Meridian Post
+            </figcaption>
+          </figure>
+
+          <!-- Paragraph 1 -->
+          <p class="mb-7 text-neutral-800">
+            For more than a century, standard silviculture treated the temperate rainforest as a battlefield of ruthless individuals. Every hemlock and cedar was presumed to fight its neighbours in an unyielding zero-sum scramble for sunward photons and soil moisture. Modern forestry textbooks chronicled canopies thinning their competitors through shade and saplings starving in the dim understory.
+          </p>
+
+          <!-- Paragraph 2 with Active Glowing Sentence and Read-Ahead Underline Sentences -->
+          <p class="mb-7 text-neutral-900 relative">
+            Yet whenever a canopy pioneer falls, the surrounding grove responds not with opportunistic conquest, but with an orchestrated metabolic pulse. 
+            <!-- Exactly one sentence is the current sentence with glowing halo -->
+            <span id="overlay-sentence-current" class="chattatonic-glow-halo inline">
+              Trees share sugar and nitrogen through a vast web of fungal threads, actively feeding injured neighbours before allocating surplus starch to their own younger shoots.
+            </span>
+            <!-- Next three sentences have faint cyan underline (already synthesised read-ahead) -->
+            <span id="overlay-sentence-next-1" class="read-ahead-sentence ml-1">
+              Radioisotope tracers injected into a single birch migrate into shaded fir saplings within forty-eight hours.
+            </span>
+            <span id="overlay-sentence-next-2" class="read-ahead-sentence ml-1">
+              When western tent caterpillars chew the needles of a Douglas fir, neighbouring trees ramp up tannin synthesis before a single insect reaches their bark.
+            </span>
+            <span id="overlay-sentence-next-3" class="read-ahead-sentence ml-1">
+              The communication is chemical, electrical, and continuous across an uninterrupted mycorrhizal grid.
+            </span>
+            In effect, no tree stands alone in the old growth; the forest behaves as a single conscious super-organism.
+          </p>
+
+          <!-- Paragraph 3 -->
+          <p class="mb-7 text-neutral-800">
+            Microbiologists refer to this mutualistic architecture as the common mycorrhizal network. The thread-like hyphae of fungi weave into the outer cortical cells of root tips, trading mineralized phosphorus mined from deep rock fissures in exchange for the carbon sugars generated by photosynthetic needles high above in the mist.
+          </p>
+
+          <!-- Paragraph 4 with Hover Tooltip ("Start from here") -->
+          <div class="relative group my-8">
+            <!-- Overlay: "Start from here" Tooltip Button beside 4th paragraph -->
+            <div class="absolute -left-36 top-1 hidden md:flex items-center">
+              <button id="overlay-start-here" class="night-studio-tooltip text-white flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-sans font-medium transition-all duration-200 hover:scale-105 active:scale-95 group/btn shadow-[0_0_16px_rgba(139,92,246,0.4)] border border-violet-400/50">
+                <span class="w-5 h-5 rounded-full bg-gradient-to-tr from-violet-600 to-cyan-400 flex items-center justify-center text-white">
+                  <span class="material-symbols-outlined text-[13px] fill-1">play_arrow</span>
+                </span>
+                <span class="text-neutral-100 font-semibold tracking-wide text-[11px] whitespace-nowrap">Start from here</span>
+                <!-- Connecting dotted line pointing to paragraph -->
+                <div class="w-4 h-[1px] bg-cyan-400/60 ml-0.5"></div>
+              </button>
+            </div>
+
+            <!-- Paragraph 4 text -->
+            <p class="text-neutral-800 bg-neutral-50/70 p-3 rounded-lg border-l-2 border-violet-400/70 transition-colors">
+              When drought parches the south-facing ridges in August, older "mother trees" with root networks anchoring sixty feet down funnel litres of mineral water upward into the network to sustain younger saplings that would otherwise desiccate within hours. The architecture of survival in the wild canopy is deeply cooperative.
+            </p>
+          </div>
+
+          <!-- Paragraph 5 -->
+          <p class="mb-14 text-neutral-800">
+            To listen to this silent conversation is to reconsider our fundamental definitions of intelligence, agency, and community. What we once dismissed as static timber turns out to possess memory, anticipation, and an unhurried, generous wisdom honed across four hundred million years of coexistence.
+          </p>
+
+          <!-- Article Footer -->
+          <div class="border-t border-neutral-300 pt-6 text-neutral-500 font-sans text-xs flex justify-between items-center mb-16">
+            <span>© 2026 The Meridian Post Publishing Group</span>
+            <div class="flex gap-4">
+              <span class="hover:underline cursor-pointer">Reprint Permissions</span>
+              <span class="hover:underline cursor-pointer">Botanical Archives</span>
+            </div>
+          </div>
+
+        </article>
+
+        <!-- ======================================================== -->
+        <!-- CHATTATONIC IN-PAGE OVERLAY: FLOATING DRAGGABLE PLAYER PILL -->
+        <!-- ======================================================== -->
+        <aside 
+          id="overlay-player" 
+          aria-label="Chattatonic Reader In-Page Player"
+          class="night-studio-pill fixed bottom-8 left-1/2 -translate-x-1/2 z-50 rounded-2xl px-5 py-3.5 flex flex-col gap-2.5 w-[94%] max-w-[690px] text-white select-none transition-all duration-200"
+        >
+          <!-- Top Row: Drag grip, controls, metadata, voice, speed, close -->
+          <div class="flex items-center justify-between gap-3">
+            
+            <!-- Drag Grip -->
+            <div id="overlay-drag" class="cursor-grab active:cursor-grabbing text-neutral-400 hover:text-cyan-300 transition-colors px-1 py-1" title="Drag to reposition anywhere on page">
+              <span class="material-symbols-outlined text-[19px] leading-none">drag_indicator</span>
+            </div>
+
+            <!-- Brand Mini Glyph Indicator -->
+            <div class="flex items-center gap-2 pl-1 border-r border-white/10 pr-3">
+              <div class="w-6 h-6 rounded-md bg-violet-950/80 border border-violet-500/40 flex items-center justify-center text-violet-400">
+                <span class="material-symbols-outlined text-sm">graphic_eq</span>
+              </div>
+              <span class="font-sans font-bold text-xs tracking-tight text-white hidden sm:inline">Chattatonic</span>
+            </div>
+
+            <!-- Playback Stepper Buttons & Gradient Play/Pause -->
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <!-- Previous Sentence Button -->
+              <button id="overlay-prev" class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 hover:text-white flex items-center justify-center transition-all active:scale-95" title="Previous sentence (Alt + [)">
+                <span class="material-symbols-outlined text-[18px]">skip_previous</span>
+              </button>
+
+              <!-- Round Gradient Play/Pause Button with Glow -->
+              <button 
+                id="overlay-play" 
+                class="w-11 h-11 rounded-full bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-cyan-400 p-[1.5px] shadow-[0_0_22px_rgba(139,92,246,0.65)] hover:shadow-[0_0_28px_rgba(34,211,238,0.7)] transition-all active:scale-90 flex items-center justify-center group" 
+                title="Pause / Resume reading (Spacebar)"
+              >
+                <div class="w-full h-full rounded-full bg-neutral-950/40 backdrop-blur-xs flex items-center justify-center text-white">
+                  <!-- Currently playing: pause bars shown -->
+                  <span class="material-symbols-outlined text-[22px] group-hover:scale-105 transition-transform">pause</span>
+                </div>
+              </button>
+
+              <!-- Next Sentence Button -->
+              <button id="overlay-next" class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 hover:text-white flex items-center justify-center transition-all active:scale-95" title="Next sentence (Alt + ])">
+                <span class="material-symbols-outlined text-[18px]">skip_next</span>
+              </button>
+            </div>
+
+            <!-- Voice Chip: "Aria" with Waveform Ring -->
+            <div 
+              id="overlay-voice" 
+              class="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-neutral-900/90 border border-violet-500/30 hover:border-cyan-400/50 cursor-pointer transition-all hover:bg-neutral-800/80 group"
+              title="Current Voice: Aria (Neural On-device)"
+            >
+              <!-- Waveform ring avatar -->
+              <div class="relative w-5 h-5 rounded-full bg-gradient-to-tr from-violet-500 to-cyan-400 p-[1px] flex items-center justify-center">
+                <div class="w-full h-full rounded-full bg-neutral-950 flex items-center justify-center text-[10px] font-bold text-cyan-300">
+                  <span class="material-symbols-outlined text-[12px] animate-pulse">waves</span>
+                </div>
+              </div>
+              <div class="flex flex-col text-left">
+                <span class="text-[11px] font-semibold text-neutral-200 group-hover:text-cyan-300 leading-tight">Aria</span>
+              </div>
+              <span class="material-symbols-outlined text-[14px] text-neutral-500 group-hover:text-neutral-300">expand_more</span>
+            </div>
+
+            <!-- Speed Pill: "1.2x" -->
+            <button 
+              id="overlay-speed" 
+              class="px-2.5 py-1 rounded-xl bg-neutral-900/90 border border-white/10 hover:border-violet-400/40 text-cyan-400 hover:text-cyan-300 font-mono text-xs font-semibold tracking-wide transition-all active:scale-95"
+              title="Playback speed (Current: 1.2x)"
+            >
+              1.2x
+            </button>
+
+            <!-- Time Remaining -->
+            <div class="font-mono text-xs text-neutral-400 font-medium pl-1">
+              -5:48
+            </div>
+
+            <!-- Close Overlay Button -->
+            <button 
+              id="overlay-close" 
+              class="w-7 h-7 rounded-lg hover:bg-white/10 text-neutral-400 hover:text-rose-400 flex items-center justify-center transition-colors ml-1"
+              title="Close Chattatonic Overlay (Esc)"
+            >
+              <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+
+          <!-- Bottom Row: Thin Two-layer Progress Line & Status Badges -->
+          <div class="w-full flex flex-col gap-1.5 pt-0.5">
+            <!-- Two-Layer Progress Line: Background track, cyan buffered/read-ahead layer, violet/pink active playback progress -->
+            <div class="relative w-full h-1.5 bg-neutral-800/80 rounded-full overflow-hidden">
+              <!-- Layer 1: Read-ahead synthesised buffer (Cyan layer up to 68%) -->
+              <div class="absolute left-0 top-0 bottom-0 bg-cyan-400/50 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.5)] transition-all duration-300" style="width: 68%;"></div>
+              
+              <!-- Layer 2: Currently spoken sentence progress (Violet-Pink gradient up to 34%) -->
+              <div class="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-300 rounded-full shadow-[0_0_12px_rgba(139,92,246,0.8)] transition-all duration-200" style="width: 34%;"></div>
+            </div>
+
+            <!-- Subtext Line: Sentence counter & buffer telemetry -->
+            <div class="flex items-center justify-between text-[10px] text-neutral-400 font-sans px-0.5">
+              <div class="flex items-center gap-2">
+                <span class="flex items-center gap-1 text-violet-300 font-medium">
+                  <span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-ping"></span>
+                  Sentence 4 of 28
+                </span>
+                <span class="text-neutral-600">•</span>
+                <span class="text-neutral-400">Paragraph 2</span>
+              </div>
+              <div class="flex items-center gap-2 font-mono text-[10px]">
+                <span class="text-cyan-400 flex items-center gap-1">
+                  <span class="inline-block w-1 h-1 rounded-full bg-cyan-400"></span>
+                  Buffer: 3 sentences pre-cached
+                </span>
+                <span class="text-neutral-600">•</span>
+                <span class="text-neutral-500">Alt+R to toggle</span>
+              </div>
+            </div>
+
+          </div>
+
+        </aside>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

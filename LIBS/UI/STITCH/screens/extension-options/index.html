@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chattatonic Reader - Extension Options</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts: Bricolage Grotesque / Public Sans & DM Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Public+Sans:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            night: {
+              base: '#0B0A14',
+              surface: '#14122A',
+              card: 'rgba(20, 18, 42, 0.7)',
+              border: 'rgba(255, 255, 255, 0.08)'
+            },
+            accent: {
+              violet: '#8B5CF6',
+              cyan: '#22D3EE',
+              pink: '#F472B6',
+              amber: '#FBBF24',
+              emerald: '#34D399'
+            }
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Public Sans", "sans-serif"],
+            display: ["Public Sans", "sans-serif"],
+            body: ["DM Sans", "sans-serif"],
+            label: ["DM Sans", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    
+    /* Subtle custom track and range styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: rgba(255, 255, 255, 0.1);
+      height: 6px;
+      border-radius: 9999px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #22D3EE;
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.8), 0 0 4px #8B5CF6;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      transition: transform 0.1s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    
+    /* Custom glow gradient helper */
+    .glow-aura {
+      box-shadow: 0 0 35px -5px rgba(139, 92, 246, 0.35), 0 0 15px -3px rgba(34, 211, 238, 0.25);
+    }
+    .active-nav-glow {
+      box-shadow: 0 0 20px -3px rgba(139, 92, 246, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-[#0B0A14] text-[#F5F3FF] font-body min-h-screen selection:bg-accent-violet/30 selection:text-accent-cyan antialiased overflow-x-hidden">
+<!-- Ambient Glow Canvas Elements -->
+<div class="fixed top-0 left-1/4 w-[600px] h-[300px] bg-accent-violet/10 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+<div class="fixed top-1/3 right-10 w-[500px] h-[400px] bg-accent-cyan/10 rounded-full blur-[160px] pointer-events-none -z-10"></div>
+<div class="fixed bottom-10 left-1/3 w-[550px] h-[350px] bg-accent-pink/5 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+<!-- Top Sticky Header -->
+<header class="sticky top-0 z-40 w-full bg-[#0B0A14]/85 backdrop-blur-xl border-b border-white/10 px-6 py-3.5 transition-all">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<!-- Wordmark, Glyph & Context -->
+<div class="flex items-center gap-3">
+<div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-accent-violet via-accent-pink to-accent-cyan p-[1px] shadow-[0_0_16px_rgba(139,92,246,0.35)]">
+<div class="w-full h-full bg-[#14122A] rounded-[11px] flex items-center justify-center">
+<span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan to-accent-pink text-xl" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+</div>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline font-extrabold tracking-tight text-lg text-white">Chattatonic Reader</span>
+<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-wide bg-accent-violet/20 text-accent-violet border border-accent-violet/30">Chrome Extension</span>
+</div>
+<p class="text-xs text-[#B4B0D0] flex items-center gap-1.5 font-normal">
+<span>Extension Options</span>
+<span class="inline-block w-1 h-1 rounded-full bg-[#6E6A8F]"></span>
+<span class="text-[#6E6A8F]">v1.0.0</span>
+</p>
+</div>
+</div>
+<!-- Trailing Action Indicators -->
+<div class="flex items-center gap-3">
+<!-- Pass Active Badge -->
+<div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-pink/10 border border-accent-pink/30 text-accent-pink text-xs font-semibold">
+<span class="inline-block w-2 h-2 rounded-full bg-accent-pink animate-pulse"></span>
+<span>Year Pass Active</span>
+</div>
+<!-- Render Credits Pill -->
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-[#B4B0D0]">
+<span class="material-symbols-outlined text-sm text-accent-amber" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-medium text-white">4,820</span>
+<span class="text-[#6E6A8F]">Render Credits</span>
+</div>
+<!-- Help / Support link icon -->
+<a class="w-9 h-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-[#B4B0D0] hover:text-white transition-colors border border-white/10" href="#section-about" title="About &amp; Help">
+<span class="material-symbols-outlined text-lg">help_outline</span>
+</a>
+</div>
+</div>
+</header>
+<!-- Main Grid Layout (Sticky Nav + Stacked Options Cards) -->
+<main class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row gap-8 items-start relative">
+<!-- LEFT COLUMN: Sticky Vertical Navigation Menu (w-64) -->
+<aside class="w-full md:w-64 md:sticky md:top-24 flex-shrink-0 space-y-6">
+<!-- Nav List -->
+<nav aria-label="Extension settings navigation" class="p-2 rounded-2xl bg-[#14122A]/80 border border-white/10 backdrop-blur-md shadow-xl space-y-1">
+<a class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-accent-cyan bg-white/10 shadow-[0_0_14px_rgba(34,211,238,0.2)]" href="#section-general">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span>General</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-[#B4B0D0] hover:text-white hover:bg-white/5" href="#section-highlight">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+<span>Highlight &amp; Glow</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-[#B4B0D0] hover:text-white hover:bg-white/5" href="#section-sites">
+<span class="material-symbols-outlined text-lg">language</span>
+<span>Sites</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-[#B4B0D0] hover:text-white hover:bg-white/5" href="#section-shortcuts">
+<span class="material-symbols-outlined text-lg">keyboard</span>
+<span>Shortcuts</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-[#B4B0D0] hover:text-white hover:bg-white/5" href="#section-performance">
+<span class="material-symbols-outlined text-lg">memory</span>
+<span>Performance</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-[#B4B0D0] hover:text-white hover:bg-white/5" href="#section-licence">
+<span class="material-symbols-outlined text-lg">badge</span>
+<span>Licence</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-[#B4B0D0] hover:text-white hover:bg-white/5" href="#section-about">
+<span class="material-symbols-outlined text-lg">info</span>
+<span>About</span>
+</a>
+</nav>
+<!-- Quick Engine Status Card -->
+<div class="p-4 rounded-2xl bg-[#14122A]/50 border border-white/5 backdrop-blur-md space-y-3">
+<div class="text-[11px] font-semibold tracking-wider uppercase text-[#6E6A8F]">System Telemetry</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-[#B4B0D0] flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-accent-emerald shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+            WebGPU Engine
+          </span>
+<span class="font-medium text-accent-emerald">Online</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-[#B4B0D0]">Licence Tier</span>
+<span class="font-medium text-accent-pink">Year Pass</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-[#B4B0D0]">Neural Cache</span>
+<span class="text-white font-mono text-[11px]">42 MB</span>
+</div>
+</div>
+<!-- Quick Reset / Sync Notice -->
+<div class="px-2 text-xs text-[#6E6A8F] leading-relaxed">
+        All changes save automatically to your on-device extension profile.
+      </div>
+</aside>
+<!-- RIGHT COLUMN: Stacked Glass Section Cards (flex-1 max-w-4xl space-y-8) -->
+<div class="flex-1 max-w-4xl space-y-8 w-full">
+<!-- ======================================================== -->
+<!-- 1. SECTION: GENERAL -->
+<!-- ======================================================== -->
+<section class="rounded-2xl border border-white/10 bg-[#14122A]/70 backdrop-blur-md p-6 shadow-xl relative overflow-hidden transition-all hover:border-white/15" id="section-general">
+<!-- Section Header -->
+<div class="flex items-start gap-4 pb-6 border-b border-white/10">
+<div class="w-10 h-10 rounded-xl bg-accent-violet/20 border border-accent-violet/30 flex items-center justify-center text-accent-violet">
+<span class="material-symbols-outlined text-2xl">tune</span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-xl text-white tracking-tight">General</h2>
+<p class="text-sm text-[#B4B0D0]">Core playback preferences and extension behavior across open browser tabs.</p>
+</div>
+</div>
+<div class="space-y-6 pt-6">
+<!-- Default Voice Dropdown -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-center">
+<div>
+<label class="block font-medium text-sm text-white" for="options-voice">Default voice</label>
+<span class="text-xs text-[#6E6A8F]">Select on-device neural voice archetype</span>
+</div>
+<div class="md:col-span-2 relative">
+<select class="w-full bg-[#0B0A14] text-white rounded-xl border border-white/15 px-4 py-2.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-accent-violet focus:border-transparent transition-all pr-10" id="options-voice">
+<option selected="" value="aria">Aria (Warm · Neutral American)</option>
+<option value="orion">Orion (Resonant · British English)</option>
+<option value="solaris">Solaris (Crisp · Australian English)</option>
+<option value="lyra">Lyra (Gentle · Soft Narration)</option>
+<option value="kallisto">Kallisto (Deep · Studio Baritone)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3.5 top-2.5 text-[#B4B0D0] pointer-events-none text-lg">expand_more</span>
+</div>
+</div>
+<!-- Default Speed Slider with Badge Readout -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-center pt-2">
+<div>
+<label class="block font-medium text-sm text-white" for="options-speed">Playback speed</label>
+<span class="text-xs text-[#6E6A8F]">Default narration pace multiplier</span>
+</div>
+<div class="md:col-span-2 flex items-center gap-4">
+<span class="text-xs text-[#6E6A8F] font-mono">0.75x</span>
+<input class="w-full h-2 cursor-pointer" id="options-speed" max="2.5" min="0.75" step="0.05" type="range" value="1.2"/>
+<span class="text-xs text-[#6E6A8F] font-mono">2.5x</span>
+<span class="min-w-14 text-center px-2.5 py-1 rounded-full text-xs font-semibold bg-accent-cyan/15 text-accent-cyan border border-accent-cyan/30" id="speed-readout">
+                1.2x
+              </span>
+</div>
+</div>
+<!-- Radio Group: When toolbar icon is clicked -->
+<div class="pt-3 border-t border-white/5">
+<label class="block font-medium text-sm text-white mb-2">When I click the toolbar icon</label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 bg-[#0B0A14]/60 hover:bg-white/5 cursor-pointer transition-colors">
+<input class="text-accent-violet focus:ring-accent-violet focus:ring-offset-[#0B0A14] bg-white/10 border-white/20" id="options-click-read" name="click-action" type="radio"/>
+<span class="text-sm text-[#F5F3FF]">Start reading straight away</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-xl border border-accent-violet/40 bg-accent-violet/10 hover:bg-accent-violet/15 cursor-pointer transition-colors">
+<input checked="" class="text-accent-violet focus:ring-accent-violet focus:ring-offset-[#0B0A14] bg-white/10 border-white/20" id="options-click-popup" name="click-action" type="radio"/>
+<span class="text-sm font-medium text-white">Open the popup</span>
+</label>
+</div>
+</div>
+<!-- Toggle: Floating Player -->
+<div class="pt-4 border-t border-white/5 flex items-start justify-between gap-4">
+<div class="space-y-0.5">
+<label class="font-medium text-sm text-white cursor-pointer" for="options-floating-player">Show the floating player on pages</label>
+<p class="text-xs text-[#B4B0D0]">Renders a docked frosted glass mini-player at the bottom of active tabs with skip, scrub and voice controls.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+<input checked="" class="sr-only peer" id="options-floating-player" type="checkbox"/>
+<div class="w-11 h-6 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-accent-violet peer-checked:to-accent-cyan shadow-[0_0_10px_rgba(139,92,246,0.3)]"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- 2. SECTION: HIGHLIGHT & GLOW -->
+<!-- ======================================================== -->
+<section class="rounded-2xl border border-white/10 bg-[#14122A]/70 backdrop-blur-md p-6 shadow-xl relative overflow-hidden transition-all hover:border-white/15" id="section-highlight">
+<!-- Section Header -->
+<div class="flex items-start gap-4 pb-6 border-b border-white/10">
+<div class="w-10 h-10 rounded-xl bg-accent-cyan/20 border border-accent-cyan/30 flex items-center justify-center text-accent-cyan">
+<span class="material-symbols-outlined text-2xl">auto_awesome</span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-xl text-white tracking-tight">Highlight &amp; Glow</h2>
+<p class="text-sm text-[#B4B0D0]">Visual sentence tracking, luminous kinetic aura, and document readability styling.</p>
+</div>
+</div>
+<div class="space-y-6 pt-6">
+<!-- Segmented Control: Glow Color Mode -->
+<div>
+<label class="block font-medium text-sm text-white mb-2">Glow colour mode</label>
+<div class="inline-flex p-1 rounded-xl bg-[#0B0A14] border border-white/10" id="options-glow-mode">
+<button class="px-4 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-accent-violet to-accent-cyan text-white shadow-[0_0_12px_rgba(139,92,246,0.4)]" type="button">
+                Gradient
+              </button>
+<button class="px-4 py-2 rounded-lg text-xs font-medium text-[#B4B0D0] hover:text-white transition-colors" type="button">
+                Voice colour
+              </button>
+<button class="px-4 py-2 rounded-lg text-xs font-medium text-[#B4B0D0] hover:text-white transition-colors" type="button">
+                Single colour
+              </button>
+</div>
+</div>
+<!-- Glow Intensity Slider -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-center">
+<div>
+<label class="block font-medium text-sm text-white" for="options-glow-intensity">Glow intensity</label>
+<span class="text-xs text-[#6E6A8F]">Radial luminescence of active aura</span>
+</div>
+<div class="md:col-span-2 flex items-center gap-4">
+<span class="text-xs text-[#6E6A8F] font-mono">0%</span>
+<input class="w-full h-2 cursor-pointer" id="options-glow-intensity" max="100" min="10" type="range" value="75"/>
+<span class="text-xs text-[#6E6A8F] font-mono">100%</span>
+<span class="min-w-12 text-center px-2.5 py-1 rounded-full text-xs font-semibold bg-accent-violet/20 text-accent-violet border border-accent-violet/30" id="intensity-readout">
+                75%
+              </span>
+</div>
+</div>
+<!-- Live Sample Sentence Preview -->
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold uppercase tracking-wider text-[#6E6A8F]">Live Interactive Preview</span>
+<span class="text-[11px] text-accent-cyan flex items-center gap-1 font-mono">
+<span class="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse"></span>
+                Synthesizing
+              </span>
+</div>
+<!-- Preview Card mimicking reading viewport -->
+<div class="p-5 rounded-xl bg-[#0B0A14] border border-white/10 relative overflow-hidden">
+<div class="text-xs text-[#6E6A8F] mb-3 font-mono">Page excerpt · Arboric Systems</div>
+<p class="text-sm md:text-base leading-relaxed text-[#6E6A8F]">
+<span>Photosynthesis converts radiant photons directly into biological sugars. </span>
+<!-- Active glowing sentence -->
+<span class="relative inline-block my-1 px-2.5 py-1 text-white font-medium rounded-lg bg-gradient-to-r from-accent-violet/25 via-accent-pink/20 to-accent-cyan/25 shadow-[0_0_24px_rgba(139,92,246,0.5)] border border-accent-cyan/40">
+                  A tree is a passage between earth and sky, an engine running on sunlight and memory that measures time in rings rather than ticking seconds.
+                </span>
+<span class="text-[#8480A8] border-b border-accent-cyan/40 border-dotted ml-1"> The mycorrhizal web distributes hydration along the forest bedrock.</span>
+</p>
+</div>
+</div>
+<!-- Toggles for Highlighting -->
+<div class="space-y-4 pt-2 border-t border-white/5">
+<!-- Dim read sentences -->
+<div class="flex items-center justify-between gap-4">
+<div>
+<label class="font-medium text-sm text-white cursor-pointer" for="options-dim-read">Dim sentences already read</label>
+<p class="text-xs text-[#B4B0D0]">Lowers opacity of prior sentences to maintain visual focus on current speech.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+<input checked="" class="sr-only peer" id="options-dim-read" type="checkbox"/>
+<div class="w-11 h-6 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-accent-violet peer-checked:to-accent-cyan shadow-[0_0_10px_rgba(139,92,246,0.3)]"></div>
+</label>
+</div>
+<!-- Auto scroll -->
+<div class="flex items-center justify-between gap-4">
+<div>
+<label class="font-medium text-sm text-white cursor-pointer" for="options-autoscroll">Auto-scroll to follow</label>
+<p class="text-xs text-[#B4B0D0]">Smoothly centers the browser viewpoint over the actively read block.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+<input checked="" class="sr-only peer" id="options-autoscroll" type="checkbox"/>
+<div class="w-11 h-6 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-accent-violet peer-checked:to-accent-cyan shadow-[0_0_10px_rgba(139,92,246,0.3)]"></div>
+</label>
+</div>
+<!-- Reduce motion -->
+<div class="flex items-center justify-between gap-4">
+<div>
+<label class="font-medium text-sm text-white cursor-pointer" for="options-reduce-motion">Reduce motion</label>
+<p class="text-xs text-[#B4B0D0]">Disables fluid spring translations for reading cursor and ambient pulse.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+<input class="sr-only peer" id="options-reduce-motion" type="checkbox"/>
+<div class="w-11 h-6 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-accent-violet peer-checked:to-accent-cyan"></div>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- 3. SECTION: SITES -->
+<!-- ======================================================== -->
+<section class="rounded-2xl border border-white/10 bg-[#14122A]/70 backdrop-blur-md p-6 shadow-xl relative overflow-hidden transition-all hover:border-white/15" id="section-sites">
+<!-- Section Header -->
+<div class="flex items-start gap-4 pb-6 border-b border-white/10">
+<div class="w-10 h-10 rounded-xl bg-accent-pink/20 border border-accent-pink/30 flex items-center justify-center text-accent-pink">
+<span class="material-symbols-outlined text-2xl">language</span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-xl text-white tracking-tight">Sites</h2>
+<p class="text-sm text-[#B4B0D0]">Domain whitelist and exclusion rules for automated text detection and overlays.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+<!-- Left List: Always allow -->
+<div class="p-4 rounded-xl bg-[#0B0A14] border border-white/10 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="text-sm font-semibold text-white flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-accent-emerald"></span>
+                  Always allow
+                </span>
+<span class="text-[11px] text-[#6E6A8F]">Auto-read ready</span>
+</div>
+<p class="text-xs text-[#B4B0D0] mb-4">Floating player and hotkeys automatically engage on these domains.</p>
+<!-- Domain Rows -->
+<div class="space-y-2 mb-4">
+<div class="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/5 text-xs text-white">
+<span class="font-mono">en.wikipedia.org</span>
+<button class="text-[#6E6A8F] hover:text-accent-pink transition-colors p-1" id="options-allow-remove-1" title="Remove domain" type="button">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+<div class="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/5 text-xs text-white">
+<span class="font-mono">arxiv.org</span>
+<button class="text-[#6E6A8F] hover:text-accent-pink transition-colors p-1" id="options-allow-remove-2" title="Remove domain" type="button">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Add Input Row -->
+<div class="flex items-center gap-2 pt-2 border-t border-white/5">
+<input class="flex-1 bg-[#14122A] text-xs text-white placeholder-[#6E6A8F] rounded-lg border border-white/15 px-3 py-2 focus:outline-none focus:border-accent-cyan" id="options-allow-input" placeholder="e.g. substack.com" type="text"/>
+<button class="px-3 py-2 rounded-lg bg-accent-violet hover:bg-accent-violet/90 text-xs font-semibold text-white transition-all shadow-[0_0_10px_rgba(139,92,246,0.3)]" id="options-allow-add" type="button">
+                + Add
+              </button>
+</div>
+</div>
+<!-- Right List: Never read -->
+<div class="p-4 rounded-xl bg-[#0B0A14] border border-white/10 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="text-sm font-semibold text-white flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-accent-pink"></span>
+                  Never read
+                </span>
+<span class="text-[11px] text-[#6E6A8F]">Blacklisted</span>
+</div>
+<p class="text-xs text-[#B4B0D0] mb-4">Completely disable hooks, hotkeys, and DOM scanning on sensitive pages.</p>
+<!-- Domain Rows -->
+<div class="space-y-2 mb-4">
+<div class="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/5 text-xs text-white">
+<span class="font-mono">mail.google.com</span>
+<button class="text-[#6E6A8F] hover:text-accent-pink transition-colors p-1" id="options-never-remove-1" title="Remove domain" type="button">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+<div class="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/5 text-xs text-white">
+<span class="font-mono">bank.example.com</span>
+<button class="text-[#6E6A8F] hover:text-accent-pink transition-colors p-1" id="options-never-remove-2" title="Remove domain" type="button">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Add Input Row -->
+<div class="flex items-center gap-2 pt-2 border-t border-white/5">
+<input class="flex-1 bg-[#14122A] text-xs text-white placeholder-[#6E6A8F] rounded-lg border border-white/15 px-3 py-2 focus:outline-none focus:border-accent-pink" id="options-never-input" placeholder="e.g. docs.internal.net" type="text"/>
+<button class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold text-white transition-all border border-white/15" id="options-never-add" type="button">
+                + Add
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- 4. SECTION: SHORTCUTS -->
+<!-- ======================================================== -->
+<section class="rounded-2xl border border-white/10 bg-[#14122A]/70 backdrop-blur-md p-6 shadow-xl relative overflow-hidden transition-all hover:border-white/15" id="section-shortcuts">
+<!-- Section Header -->
+<div class="flex items-start gap-4 pb-6 border-b border-white/10">
+<div class="w-10 h-10 rounded-xl bg-accent-amber/20 border border-accent-amber/30 flex items-center justify-center text-accent-amber">
+<span class="material-symbols-outlined text-2xl">keyboard</span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-xl text-white tracking-tight">Shortcuts</h2>
+<p class="text-sm text-[#B4B0D0]">Fast keyboard shortcuts for instant reading, jumping sentences, and continuous playback.</p>
+</div>
+</div>
+<div class="space-y-3 pt-6">
+<!-- Row: Play / pause -->
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-[#0B0A14] border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#B4B0D0] text-lg">play_circle</span>
+<span class="text-sm font-medium text-white">Play / pause</span>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/20 font-mono text-xs text-accent-cyan font-bold shadow-[0_0_8px_rgba(34,211,238,0.2)] transition-all" id="options-shortcut-play" type="button">
+              Alt + P
+            </button>
+</div>
+<!-- Row: Read from selection -->
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-[#0B0A14] border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#B4B0D0] text-lg">format_quote</span>
+<span class="text-sm font-medium text-white">Read from selection</span>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/20 font-mono text-xs text-accent-cyan font-bold shadow-[0_0_8px_rgba(34,211,238,0.2)] transition-all" id="options-shortcut-selection" type="button">
+              Alt + R
+            </button>
+</div>
+<!-- Row: Next sentence -->
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-[#0B0A14] border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#B4B0D0] text-lg">skip_next</span>
+<span class="text-sm font-medium text-white">Next sentence</span>
+</div>
+<span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 font-mono text-xs text-[#B4B0D0]">
+              Alt + →
+            </span>
+</div>
+<!-- Row: Previous sentence -->
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-[#0B0A14] border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#B4B0D0] text-lg">skip_previous</span>
+<span class="text-sm font-medium text-white">Previous sentence</span>
+</div>
+<span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 font-mono text-xs text-[#B4B0D0]">
+              Alt + ←
+            </span>
+</div>
+<!-- Chrome shortcuts external button -->
+<div class="pt-4 flex justify-end">
+<a class="inline-flex items-center gap-2 text-xs font-semibold text-accent-cyan hover:text-white transition-colors py-1.5 px-3 rounded-lg hover:bg-white/5" href="chrome://extensions/shortcuts" id="options-chrome-shortcuts" rel="noopener noreferrer" target="_blank">
+<span>Change in Chrome shortcuts</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- 5. SECTION: PERFORMANCE -->
+<!-- ======================================================== -->
+<section class="rounded-2xl border border-white/10 bg-[#14122A]/70 backdrop-blur-md p-6 shadow-xl relative overflow-hidden transition-all hover:border-white/15" id="section-performance">
+<!-- Section Header -->
+<div class="flex items-start gap-4 pb-6 border-b border-white/10">
+<div class="w-10 h-10 rounded-xl bg-accent-emerald/20 border border-accent-emerald/30 flex items-center justify-center text-accent-emerald">
+<span class="material-symbols-outlined text-2xl">memory</span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-xl text-white tracking-tight">Performance</h2>
+<p class="text-sm text-[#B4B0D0]">On-device WebGPU acceleration, thread scheduling, and dynamic speech lookahead buffer.</p>
+</div>
+</div>
+<div class="space-y-6 pt-6">
+<!-- 3 Stat Tiles -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<!-- Tile 1 -->
+<div class="p-4 rounded-xl bg-[#0B0A14] border border-white/10 relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 w-16 h-16 bg-accent-cyan/10 rounded-full blur-xl group-hover:bg-accent-cyan/20 transition-all"></div>
+<div class="text-[11px] font-semibold text-[#6E6A8F] uppercase tracking-wider mb-1">Synthesizer Velocity</div>
+<div class="text-xl font-bold font-headline text-white tracking-tight">3.4x <span class="text-xs font-normal text-accent-cyan font-mono">real-time</span></div>
+<div class="text-xs text-[#B4B0D0] mt-1.5 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-accent-emerald"></span>
+                Optimal WebGPU
+              </div>
+</div>
+<!-- Tile 2 -->
+<div class="p-4 rounded-xl bg-[#0B0A14] border border-white/10 relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 w-16 h-16 bg-accent-violet/10 rounded-full blur-xl group-hover:bg-accent-violet/20 transition-all"></div>
+<div class="text-[11px] font-semibold text-[#6E6A8F] uppercase tracking-wider mb-1">Compute Pipelines</div>
+<div class="text-xl font-bold font-headline text-white tracking-tight">3 Workers</div>
+<div class="text-xs text-[#B4B0D0] mt-1.5">
+                Allocated compute shaders
+              </div>
+</div>
+<!-- Tile 3 -->
+<div class="p-4 rounded-xl bg-[#0B0A14] border border-white/10 relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 w-16 h-16 bg-accent-pink/10 rounded-full blur-xl group-hover:bg-accent-pink/20 transition-all"></div>
+<div class="text-[11px] font-semibold text-[#6E6A8F] uppercase tracking-wider mb-1">Lookahead Buffer</div>
+<div class="text-xl font-bold font-headline text-white tracking-tight">8 sentences</div>
+<div class="text-xs text-[#B4B0D0] mt-1.5">
+                Zero-jitter audio buffer
+              </div>
+</div>
+</div>
+<!-- Metadata & Action Line -->
+<div class="p-4 rounded-xl bg-white/5 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-accent-cyan text-lg">precision_manufacturing</span>
+<div>
+<p class="text-xs text-white font-medium">Last calibrated 2 Nov 2026 · WebGPU (Apple M-Series / Vulkan active)</p>
+<p class="text-[11px] text-[#6E6A8F]">Latency index 18ms · Peak VRAM overhead 114MB</p>
+</div>
+</div>
+<button class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-headline text-xs font-bold text-white bg-gradient-to-r from-accent-violet via-accent-pink to-accent-cyan hover:opacity-95 shadow-[0_0_15px_rgba(139,92,246,0.35)] transition-all active:scale-95 flex-shrink-0" id="options-run-calibration" type="button">
+<span class="material-symbols-outlined text-sm">speed</span>
+<span>Run calibration</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- 6. SECTION: LICENCE -->
+<!-- ======================================================== -->
+<section class="rounded-2xl border border-white/10 bg-[#14122A]/70 backdrop-blur-md p-6 shadow-xl relative overflow-hidden transition-all hover:border-white/15" id="section-licence">
+<!-- Section Header -->
+<div class="flex items-start gap-4 pb-6 border-b border-white/10">
+<div class="w-10 h-10 rounded-xl bg-accent-violet/20 border border-accent-violet/30 flex items-center justify-center text-accent-violet">
+<span class="material-symbols-outlined text-2xl">badge</span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-xl text-white tracking-tight">Licence</h2>
+<p class="text-sm text-[#B4B0D0]">Licence keys, device pass bindings, and unlocked studio tier permissions.</p>
+</div>
+</div>
+<div class="space-y-6 pt-6">
+<!-- Active Licence Card -->
+<div class="p-5 rounded-xl bg-gradient-to-b from-[#14122A] to-[#0B0A14] border border-white/15 relative overflow-hidden">
+<!-- Glow Corner -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-accent-pink/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-accent-emerald shadow-[0_0_10px_rgba(52,211,153,0.8)]"></span>
+<span class="font-headline font-bold text-white text-base">Year Pass · Active</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent-pink/20 text-accent-pink border border-accent-pink/30 uppercase tracking-wider">PASS</span>
+</div>
+<p class="text-xs text-[#B4B0D0]">Entitlement ends <span class="text-white font-medium">14 Mar 2027</span> · Unlimited on-device synthesis</p>
+</div>
+<!-- Masked Key Chip -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/40 border border-white/10">
+<span class="font-mono text-xs text-accent-cyan tracking-wider">CHAT-••••-••••-••••-7K2Q</span>
+<button class="text-[#B4B0D0] hover:text-white transition-colors" title="Copy licence key" type="button">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="pt-4 flex flex-wrap items-center justify-between gap-3">
+<button class="text-xs text-rose-400 hover:text-rose-300 font-medium py-1.5 px-3 rounded-lg hover:bg-rose-500/10 transition-colors flex items-center gap-1.5" id="options-deactivate" type="button">
+<span class="material-symbols-outlined text-sm">link_off</span>
+<span>Deactivate on this computer</span>
+</button>
+<button class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white border border-white/10 transition-all flex items-center gap-1.5" id="options-manage-account" type="button">
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+<span>Manage account</span>
+</button>
+</div>
+</div>
+<!-- Inset: Free State Preview Box -->
+<div class="p-4 rounded-xl bg-[#0B0A14] border border-dashed border-white/15">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold uppercase tracking-wider text-[#6E6A8F]">Free state preview</span>
+<span class="text-[10px] text-[#6E6A8F]">Diagnostic mock</span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-3 rounded-lg bg-white/5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-[#B4B0D0]">
+<span class="material-symbols-outlined text-base">hourglass_empty</span>
+</div>
+<div>
+<p class="text-xs font-medium text-white">You're on Free</p>
+<p class="text-[11px] text-[#6E6A8F]">20 min daily allowance remaining today</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-xs font-medium text-white transition-all" id="options-activate" type="button">
+                  Activate
+                </button>
+<button class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-accent-violet to-accent-pink hover:opacity-90 text-xs font-bold text-white shadow-[0_0_10px_rgba(244,114,182,0.3)] transition-all" id="options-get-pass" type="button">
+                  Get a pass
+                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- 7. SECTION: ABOUT -->
+<!-- ======================================================== -->
+<section class="rounded-2xl border border-white/10 bg-[#14122A]/70 backdrop-blur-md p-6 shadow-xl relative overflow-hidden transition-all hover:border-white/15" id="section-about">
+<!-- Header & Logo Badge -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-accent-violet to-accent-cyan p-[1px]">
+<div class="w-full h-full bg-[#14122A] rounded-[11px] flex items-center justify-center">
+<span class="material-symbols-outlined text-accent-cyan text-xl">graphic_eq</span>
+</div>
+</div>
+<div>
+<h2 class="font-headline font-bold text-lg text-white">Chattatonic Reader extension 1.0.0</h2>
+<p class="text-xs text-[#B4B0D0]">Build 2026.11.02 · Chromium Manifest V3</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-white/5 border border-white/10 text-accent-cyan">
+              On-Device Neural Synthesis
+            </span>
+</div>
+</div>
+<!-- Description & Links -->
+<div class="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-[#B4B0D0]">
+<p class="max-w-md text-[#6E6A8F] leading-relaxed">
+            All text audio synthesis runs locally on your computer via WebGPU. No page content or voice signals leave your device without explicit cloud render requests.
+          </p>
+<div class="flex items-center gap-4 text-sm font-medium">
+<a class="text-[#B4B0D0] hover:text-accent-cyan transition-colors" href="#privacy">Privacy</a>
+<span class="text-white/20">/</span>
+<a class="text-[#B4B0D0] hover:text-accent-cyan transition-colors" href="#terms">Terms</a>
+<span class="text-white/20">/</span>
+<a class="text-[#B4B0D0] hover:text-accent-cyan transition-colors" href="#support">Support</a>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Interactive UI micro-script for sliders and navigation scrolling -->
+<script>
+    // Live slider readouts
+    const speedInput = document.getElementById('options-speed');
+    const speedReadout = document.getElementById('speed-readout');
+    if (speedInput && speedReadout) {
+      speedInput.addEventListener('input', (e) => {
+        speedReadout.textContent = parseFloat(e.target.value).toFixed(2) + 'x';
+      });
+    }
+
+    const intensityInput = document.getElementById('options-glow-intensity');
+    const intensityReadout = document.getElementById('intensity-readout');
+    if (intensityInput && intensityReadout) {
+      intensityInput.addEventListener('input', (e) => {
+        intensityReadout.textContent = e.target.value + '%';
+      });
+    }
+
+    // Scrollspy for sidebar navigation
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-item');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navItems.forEach(item => {
+        item.classList.remove('text-accent-cyan', 'bg-white/10', 'shadow-[0_0_14px_rgba(34,211,238,0.2)]');
+        item.classList.add('text-[#B4B0D0]');
+        if (item.getAttribute('href') === '#' + current) {
+          item.classList.remove('text-[#B4B0D0]');
+          item.classList.add('text-accent-cyan', 'bg-white/10', 'shadow-[0_0_14px_rgba(34,211,238,0.2)]');
+        }
+      });
+    });
+  </script>
+</body></html>

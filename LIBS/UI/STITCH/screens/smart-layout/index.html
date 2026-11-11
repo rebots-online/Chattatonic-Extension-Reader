@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Smart Layout - Chattatonic Reader</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&amp;family=Public+Sans:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Public Sans", "sans-serif"],
+            display: ["Public Sans", "sans-serif"],
+            body: ["DM Sans", "sans-serif"],
+            label: ["DM Sans", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    /* Glowing Gradients & Visual Studio Accents */
+    .glow-signature {
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 50%, #22D3EE 100%);
+    }
+    .text-glow-gradient {
+      background: linear-gradient(120deg, #8B5CF6 0%, #F472B6 50%, #22D3EE 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glass-card {
+      background: rgba(20, 18, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-panel-subtle {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(11, 10, 20, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(139, 92, 246, 0.25);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(139, 92, 246, 0.5);
+    }
+
+    /* Scan Paper Texture Effect */
+    .scan-paper {
+      background-color: #F8F6EF;
+      color: #1A1A24;
+      box-shadow: inset 0 0 80px rgba(180, 160, 120, 0.15), 0 12px 36px rgba(0, 0, 0, 0.6);
+    }
+  </style>
+</head>
+<body class="bg-[#0B0A14] text-[#F5F3FF] font-body min-h-screen flex flex-col antialiased selection:bg-violet-500/30 selection:text-cyan-300">
+<!-- ==================== SIDE NAV BAR (Shared Components JSON Anchor) ==================== -->
+<aside class="fixed top-0 left-0 h-screen w-20 z-50 bg-neutral-950/90 backdrop-blur-xl border-r border-white/10 shadow-[4px_0_24px_rgba(11,10,20,0.8)] flex flex-col items-center justify-between py-5">
+<!-- Brand Avatar & Logo -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 via-pink-500 to-cyan-400 p-[1px] shadow-[0_0_15px_rgba(139,92,246,0.4)] flex items-center justify-center">
+<div class="w-full h-full bg-[#0B0A14] rounded-[11px] flex items-center justify-center">
+<span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-300 text-2xl font-bold" data-icon="graphic_eq">graphic_eq</span>
+</div>
+</div>
+<span class="font-headline font-black text-violet-400 tracking-tight text-xs mt-1">Chattatonic</span>
+</div>
+<!-- Main Navigation Icons -->
+<nav class="flex flex-col items-center gap-3">
+<!-- Library (Inactive) -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90" href="#library" title="Library">
+<span class="material-symbols-outlined text-2xl" data-icon="folder_open">folder_open</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Library</span>
+</a>
+<!-- Browse / Reader (Active - Review Context) -->
+<a class="flex flex-col items-center justify-center text-cyan-400 p-2 rounded-xl bg-white/10 shadow-[0_0_12px_rgba(34,211,238,0.25)] transition-all duration-150 active:scale-90" href="#browse" title="Browse">
+<span class="material-symbols-outlined text-2xl" data-icon="explore">explore</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Browse</span>
+</a>
+<!-- Voices -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90" href="#voices" title="Voices">
+<span class="material-symbols-outlined text-2xl" data-icon="graphic_eq">graphic_eq</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Voices</span>
+</a>
+<!-- Passes -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90" href="#passes" title="Passes">
+<span class="material-symbols-outlined text-2xl" data-icon="local_activity">local_activity</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Passes</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150 active:scale-90" href="#settings" title="Settings">
+<span class="material-symbols-outlined text-2xl" data-icon="settings">settings</span>
+<span class="font-headline text-[10px] font-semibold mt-1">Settings</span>
+</a>
+</nav>
+<!-- Bottom Actions -->
+<div class="flex flex-col items-center gap-3">
+<button class="px-2 py-1 rounded-full bg-violet-600/20 text-violet-300 border border-violet-500/30 text-[10px] font-headline font-bold hover:bg-violet-600/40 transition-colors">
+        Get Pass
+      </button>
+<button class="flex flex-col items-center justify-center text-neutral-400 p-2 rounded-xl hover:text-cyan-300 hover:bg-white/5 transition-all duration-150" title="Help &amp; Feedback">
+<span class="material-symbols-outlined text-xl" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</aside>
+<!-- ==================== TOP NAV BAR (Shared Components JSON Anchor) ==================== -->
+<header class="fixed top-0 left-20 right-0 h-14 z-40 bg-neutral-950/80 backdrop-blur-md border-b border-white/10 shadow-[0_0_20px_rgba(139,92,246,0.15)] flex justify-between items-center px-6">
+<!-- Left: Breadcrumb & Scanned doc indicator -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 text-xs font-headline tracking-tight text-neutral-400">
+<a class="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-medium" href="#library">
+<span class="material-symbols-outlined text-base" data-icon="folder_open">folder_open</span>
+<span>LIBRARY</span>
+</a>
+<span class="text-neutral-600">/</span>
+<div class="flex items-center gap-2 text-neutral-100 font-bold bg-white/5 px-2.5 py-1 rounded-lg border border-white/10">
+<span class="material-symbols-outlined text-violet-400 text-sm" data-icon="picture_as_pdf">picture_as_pdf</span>
+<span class="truncate max-w-[280px]">Field Notes on Lichens (scan).pdf</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold">OCR PREVIEW</span>
+</div>
+</div>
+</div>
+<!-- Center: Quick Switch Nav Links from JSON -->
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-xs font-headline text-neutral-400 font-normal hover:text-cyan-400 transition-colors" href="#library">Library</a>
+<a class="text-xs font-headline text-cyan-400 font-medium hover:text-cyan-400 transition-colors flex items-center gap-1" href="#recent">
+<span>Recent</span>
+<span class="w-1 h-1 rounded-full bg-cyan-400"></span>
+</a>
+<a class="text-xs font-headline text-neutral-400 font-normal hover:text-cyan-400 transition-colors" href="#passes">Passes</a>
+</nav>
+<!-- Right Trail Actions -->
+<div class="flex items-center gap-3">
+<!-- Credit Meter Pill (Render Credits) -->
+<div class="flex items-center gap-2 bg-[#14122A] px-3 py-1.5 rounded-full border border-violet-500/30 shadow-[0_0_12px_rgba(139,92,246,0.2)]">
+<span class="material-symbols-outlined text-amber-400 text-sm animate-pulse" data-icon="bolt">bolt</span>
+<span class="text-xs font-headline font-bold text-neutral-200">240 <span class="text-neutral-400 font-normal">credits</span></span>
+<span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#22D3EE]"></span>
+</div>
+<!-- Secondary Pass Active Pill -->
+<div class="hidden sm:flex items-center gap-1.5 bg-gradient-to-r from-amber-500/10 to-violet-500/10 px-3 py-1.5 rounded-full border border-amber-500/40 text-xs font-headline font-semibold text-amber-300">
+<span class="text-amber-400 font-bold">★</span>
+<span>Year Pass</span>
+</div>
+<div class="h-4 w-[1px] bg-white/10 mx-1"></div>
+<!-- Trailing Action Icons -->
+<button class="p-1.5 text-neutral-400 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors" title="Toggle Inspector">
+<span class="material-symbols-outlined text-xl" data-icon="view_sidebar">view_sidebar</span>
+</button>
+<button class="p-1.5 text-neutral-400 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors" title="Account">
+<span class="material-symbols-outlined text-xl" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- ==================== MAIN WORKSPACE ==================== -->
+<main class="ml-20 mt-14 flex-1 flex flex-col p-6 max-w-[1720px] mx-auto w-[calc(100%-5rem)]">
+<!-- Title Row Banner -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h1 class="font-headline font-extrabold text-2xl lg:text-3xl text-neutral-100 tracking-tight flex items-center gap-3">
+<span>Smart Layout</span>
+<span class="text-[11px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-cyan-400/10 text-cyan-300 border border-cyan-400/30 uppercase">
+              CREDITS
+            </span>
+</h1>
+<span class="hidden sm:inline-flex items-center gap-1 text-xs px-2.5 py-0.5 rounded-md bg-violet-950/60 text-violet-300 border border-violet-500/30 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            Matrix Parsing Engine · 48 pages scanned
+          </span>
+</div>
+<p class="text-sm text-[#B4B0D0] max-w-2xl">
+          We work out columns, tables, captions and footnotes so the reading order is right before voice synthesis.
+        </p>
+</div>
+<div class="flex items-center gap-2 self-start md:self-auto">
+<span class="text-xs text-[#6E6A8F]">Current Stage:</span>
+<span class="text-xs font-semibold px-2 py-1 rounded bg-violet-600/20 text-violet-300 border border-violet-500/30">
+          Review &amp; Structural Ordering
+        </span>
+</div>
+</div>
+<!-- ==================== THREE COLUMN REVIEW WORKSPACE ==================== -->
+<div class="grid grid-cols-12 gap-5 flex-1 min-h-[700px]">
+<!-- ==================== 1. LEFT COLUMN: PAGE STRIP ==================== -->
+<section class="col-span-12 lg:col-span-2 xl:col-span-2 glass-card rounded-2xl p-3 flex flex-col border border-white/10">
+<div class="flex items-center justify-between px-2 pb-3 border-b border-white/5 mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-cyan-400" data-icon="auto_stories">auto_stories</span>
+<span class="font-headline text-xs font-bold uppercase tracking-wider text-neutral-300">Pages (48)</span>
+</div>
+<span class="text-[10px] text-neutral-500 font-mono">1 - 8 shown</span>
+</div>
+<!-- Thumbnails Rail -->
+<div class="flex-1 overflow-y-auto space-y-3 pr-1 max-h-[660px]">
+<!-- Page 1 (Analysed) -->
+<div class="group cursor-pointer p-2 rounded-xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/5 transition-all">
+<div class="flex justify-between items-center mb-1.5">
+<span class="font-headline text-[11px] font-bold text-neutral-300">Page 1</span>
+<span class="flex items-center gap-1 text-[10px] text-emerald-400 font-medium bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/20">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+                Analysed
+              </span>
+</div>
+<div class="h-24 w-full bg-[#EAE7DC] rounded-lg p-2 overflow-hidden shadow-inner flex flex-col gap-1 relative opacity-70 group-hover:opacity-100 transition-opacity">
+<div class="h-2 w-3/4 bg-neutral-400 rounded-sm"></div>
+<div class="h-1.5 w-full bg-neutral-300 rounded-sm"></div>
+<div class="h-1.5 w-5/6 bg-neutral-300 rounded-sm"></div>
+<div class="h-1.5 w-4/6 bg-neutral-300 rounded-sm"></div>
+<div class="mt-2 h-7 w-full bg-neutral-300/70 rounded border border-dashed border-neutral-400 flex items-center justify-center">
+<span class="text-[8px] text-neutral-500 font-mono">Fig 1.1</span>
+</div>
+</div>
+</div>
+<!-- Page 2 (Analysed) -->
+<div class="group cursor-pointer p-2 rounded-xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/5 transition-all">
+<div class="flex justify-between items-center mb-1.5">
+<span class="font-headline text-[11px] font-bold text-neutral-300">Page 2</span>
+<span class="flex items-center gap-1 text-[10px] text-emerald-400 font-medium bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/20">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+                Analysed
+              </span>
+</div>
+<div class="h-24 w-full bg-[#EAE7DC] rounded-lg p-2 overflow-hidden shadow-inner flex flex-col gap-1 relative opacity-70 group-hover:opacity-100 transition-opacity">
+<div class="grid grid-cols-2 gap-1.5 h-full">
+<div class="space-y-1">
+<div class="h-1.5 w-full bg-neutral-300 rounded-sm"></div>
+<div class="h-1.5 w-full bg-neutral-300 rounded-sm"></div>
+<div class="h-1.5 w-3/4 bg-neutral-300 rounded-sm"></div>
+</div>
+<div class="space-y-1">
+<div class="h-1.5 w-full bg-neutral-300 rounded-sm"></div>
+<div class="h-1.5 w-4/5 bg-neutral-300 rounded-sm"></div>
+<div class="h-1.5 w-full bg-neutral-300 rounded-sm"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Page 3 (ACTIVE / SELECTED) -->
+<div class="relative cursor-pointer p-2 rounded-xl bg-violet-950/30 border-2 border-violet-500 shadow-[0_0_18px_rgba(139,92,246,0.35)] transition-all" id="layout-page-3">
+<div class="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-cyan-400 ring-4 ring-[#0B0A14]"></div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="font-headline text-[11px] font-extrabold text-violet-300 flex items-center gap-1">
+<span>Page 3</span>
+<span class="text-[9px] bg-violet-500 text-white px-1 rounded">Active</span>
+</span>
+<span class="flex items-center gap-1 text-[10px] text-emerald-400 font-medium bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/20">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+                Analysed
+              </span>
+</div>
+<!-- Accurate thumbnail representation of the scan in viewport -->
+<div class="h-28 w-full bg-[#F5F2E6] rounded-lg p-2 overflow-hidden ring-1 ring-violet-500/40 flex flex-col gap-1.5 relative">
+<div class="h-2 w-4/5 bg-violet-500/40 rounded-sm"></div>
+<div class="grid grid-cols-2 gap-1.5">
+<div class="space-y-1">
+<div class="h-1 w-full bg-cyan-500/40 rounded-xs"></div>
+<div class="h-1 w-full bg-cyan-500/40 rounded-xs"></div>
+<div class="h-8 w-full bg-amber-500/25 border border-amber-500/40 rounded flex items-center justify-center">
+<span class="text-[7px] text-amber-800 font-bold">Fig 3.2</span>
+</div>
+<div class="h-1 w-full bg-emerald-500/40 rounded-xs"></div>
+</div>
+<div class="space-y-1">
+<div class="h-1 w-full bg-cyan-500/40 rounded-xs"></div>
+<div class="h-1 w-full bg-cyan-500/40 rounded-xs"></div>
+<div class="h-7 w-full bg-pink-500/25 border border-pink-500/40 rounded flex items-center justify-center">
+<span class="text-[7px] text-pink-800 font-bold">Table 1</span>
+</div>
+<div class="h-1 w-full bg-indigo-500/40 rounded-xs"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Page 4 (Analysing… Animated) -->
+<div class="cursor-pointer p-2 rounded-xl bg-cyan-950/20 border border-cyan-500/30 transition-all shadow-[0_0_12px_rgba(34,211,238,0.15)]">
+<div class="flex justify-between items-center mb-1.5">
+<span class="font-headline text-[11px] font-bold text-neutral-300">Page 4</span>
+<span class="flex items-center gap-1.5 text-[10px] text-cyan-300 font-semibold bg-cyan-950/70 px-1.5 py-0.5 rounded border border-cyan-400/40 animate-pulse">
+<span class="material-symbols-outlined text-xs animate-spin" data-icon="progress_activity">progress_activity</span>
+                Analysing…
+              </span>
+</div>
+<div class="h-24 w-full bg-[#EAE7DC]/80 rounded-lg p-2 overflow-hidden flex flex-col items-center justify-center gap-1.5 relative border border-dashed border-cyan-400/50">
+<span class="material-symbols-outlined text-cyan-600 text-lg animate-spin" data-icon="sync">sync</span>
+<span class="text-[9px] text-neutral-600 font-mono">OCR pass 2/3</span>
+</div>
+</div>
+<!-- Page 5 (Queued) -->
+<div class="cursor-not-allowed opacity-60 p-2 rounded-xl bg-white/[0.01] border border-white/5">
+<div class="flex justify-between items-center mb-1.5">
+<span class="font-headline text-[11px] font-medium text-neutral-400">Page 5</span>
+<span class="text-[10px] text-neutral-500 bg-neutral-900 px-1.5 py-0.5 rounded border border-white/5">Queued</span>
+</div>
+<div class="h-20 w-full bg-[#EAE7DC]/30 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-neutral-600 text-sm" data-icon="hourglass_empty">hourglass_empty</span>
+</div>
+</div>
+<!-- Page 6 (Queued) -->
+<div class="cursor-not-allowed opacity-60 p-2 rounded-xl bg-white/[0.01] border border-white/5">
+<div class="flex justify-between items-center mb-1.5">
+<span class="font-headline text-[11px] font-medium text-neutral-400">Page 6</span>
+<span class="text-[10px] text-neutral-500 bg-neutral-900 px-1.5 py-0.5 rounded border border-white/5">Queued</span>
+</div>
+<div class="h-20 w-full bg-[#EAE7DC]/30 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-neutral-600 text-sm" data-icon="hourglass_empty">hourglass_empty</span>
+</div>
+</div>
+<!-- Page 7 (Queued) -->
+<div class="cursor-not-allowed opacity-60 p-2 rounded-xl bg-white/[0.01] border border-white/5">
+<div class="flex justify-between items-center mb-1.5">
+<span class="font-headline text-[11px] font-medium text-neutral-400">Page 7</span>
+<span class="text-[10px] text-neutral-500 bg-neutral-900 px-1.5 py-0.5 rounded border border-white/5">Queued</span>
+</div>
+<div class="h-20 w-full bg-[#EAE7DC]/30 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-neutral-600 text-sm" data-icon="hourglass_empty">hourglass_empty</span>
+</div>
+</div>
+<!-- Page 8 (Queued) -->
+<div class="cursor-not-allowed opacity-60 p-2 rounded-xl bg-white/[0.01] border border-white/5">
+<div class="flex justify-between items-center mb-1.5">
+<span class="font-headline text-[11px] font-medium text-neutral-400">Page 8</span>
+<span class="text-[10px] text-neutral-500 bg-neutral-900 px-1.5 py-0.5 rounded border border-white/5">Queued</span>
+</div>
+<div class="h-20 w-full bg-[#EAE7DC]/30 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-neutral-600 text-sm" data-icon="hourglass_empty">hourglass_empty</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== 2. CENTER COLUMN: SELECTED SCAN VIEWPORT ==================== -->
+<section class="col-span-12 lg:col-span-6 xl:col-span-6 flex flex-col gap-3">
+<!-- Main Document Stage Frame -->
+<div class="relative glass-card rounded-2xl p-5 flex-1 flex flex-col items-center justify-center overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.7)] min-h-[640px]">
+<!-- Background Grid Texture Subtlety -->
+<div class="absolute inset-0 bg-[radial-gradient(rgba(139,92,246,0.06)_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+<!-- Floating Floating Controls: Zoom & Region Legend Bar -->
+<div class="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+<!-- Floating Zoom Controls -->
+<div class="pointer-events-auto flex items-center gap-1 bg-neutral-950/80 backdrop-blur-md px-2 py-1.5 rounded-xl border border-white/10 shadow-lg">
+<button class="p-1 text-neutral-300 hover:text-cyan-300 hover:bg-white/10 rounded-lg transition-colors" id="layout-zoom-out" title="Zoom Out">
+<span class="material-symbols-outlined text-lg" data-icon="zoom_out">zoom_out</span>
+</button>
+<span class="text-xs font-mono font-medium px-2 text-neutral-300">92%</span>
+<button class="p-1 text-neutral-300 hover:text-cyan-300 hover:bg-white/10 rounded-lg transition-colors" id="layout-zoom-in" title="Zoom In">
+<span class="material-symbols-outlined text-lg" data-icon="zoom_in">zoom_in</span>
+</button>
+<div class="h-3 w-[1px] bg-white/20 mx-1"></div>
+<button class="px-2 py-0.5 text-xs text-neutral-300 hover:text-white rounded hover:bg-white/10 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="fit_screen">fit_screen</span>
+<span>Fit</span>
+</button>
+</div>
+<!-- Floating Legend Bar for Region Types -->
+<div class="pointer-events-auto hidden sm:flex items-center gap-3 bg-neutral-950/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 shadow-lg text-[11px]">
+<span class="text-neutral-400 font-semibold uppercase tracking-wider text-[10px]">Legend:</span>
+<div class="flex items-center gap-1 text-neutral-200">
+<span class="w-2.5 h-2.5 rounded-full bg-violet-500 shadow-[0_0_6px_#8B5CF6]"></span>
+<span>Title</span>
+</div>
+<div class="flex items-center gap-1 text-neutral-200">
+<span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#22D3EE]"></span>
+<span>Columns</span>
+</div>
+<div class="flex items-center gap-1 text-neutral-200">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_6px_#F59E0B]"></span>
+<span>Figure</span>
+</div>
+<div class="flex items-center gap-1 text-neutral-200">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#10B981]"></span>
+<span>Caption</span>
+</div>
+<div class="flex items-center gap-1 text-neutral-200">
+<span class="w-2.5 h-2.5 rounded-full bg-pink-400 shadow-[0_0_6px_#EC4899]"></span>
+<span>Table</span>
+</div>
+<div class="flex items-center gap-1 text-neutral-200">
+<span class="w-2.5 h-2.5 rounded-full bg-indigo-400 shadow-[0_0_6px_#6366F1]"></span>
+<span>Footnote</span>
+</div>
+</div>
+</div>
+<!-- ==================== THE REALISTIC SCAN SHEET CANVAS ==================== -->
+<div class="scan-paper w-full max-w-[540px] aspect-[1/1.38] rounded-md p-6 relative overflow-hidden text-[#1E1E26] shadow-2xl mt-8">
+<!-- Aged Paper Texture Details (Watermark/Faint Stamp) -->
+<div class="absolute top-2 right-4 text-[9px] font-mono tracking-widest text-[#7C7768] opacity-60 uppercase">
+              ARCHIVE REF: BOT-1984-LIC-03
+            </div>
+<!-- REGION 1: Title (Violet Tint) -->
+<div class="relative group cursor-pointer rounded border-2 border-violet-600 bg-violet-600/10 p-2.5 mb-4 shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all hover:bg-violet-600/15">
+<div class="absolute -top-3 left-2 flex items-center gap-1 bg-violet-600 text-white text-[10px] font-headline font-bold px-2 py-0.5 rounded-full shadow-md z-10">
+<span class="w-3.5 h-3.5 rounded-full bg-white text-violet-700 flex items-center justify-center font-black text-[9px]">1</span>
+<span>Title</span>
+</div>
+<h2 class="font-serif font-black text-lg md:text-xl tracking-tight text-[#161224] leading-tight mt-1">
+                Symbiotic Structures of Foliose Lichen
+              </h2>
+<div class="text-[10px] text-[#555042] font-serif italic mt-0.5">
+                Field Observations &amp; Microscopic Morphology in Alpine Environments
+              </div>
+</div>
+<!-- Two-Column Grid Setup -->
+<div class="grid grid-cols-2 gap-4">
+<!-- LEFT SIDE OF SCAN -->
+<div class="space-y-3">
+<!-- REGION 2: Column 1 (Cyan Tint) -->
+<div class="relative group cursor-pointer rounded border-2 border-cyan-500 bg-cyan-400/10 p-2 shadow-[0_0_12px_rgba(6,182,212,0.25)] transition-all hover:bg-cyan-400/15">
+<div class="absolute -top-2.5 left-2 flex items-center gap-1 bg-cyan-600 text-white text-[9px] font-headline font-bold px-1.5 py-0.5 rounded-full shadow-md z-10">
+<span class="w-3 h-3 rounded-full bg-white text-cyan-800 flex items-center justify-center font-bold text-[8px]">2</span>
+<span>Column 1</span>
+</div>
+<p class="font-serif text-[10px] leading-relaxed text-[#2A2722] mt-1 text-justify">
+                    Foliose lichens are characterized by flattened, leaf-like thalli that adhere loosely to sub-strata by rhizines. In high-altitude specimen samples collected from Mount Rainier, the cortex demonstrated pronounced tiered stratification protecting sensitive photobionts.
+                  </p>
+</div>
+<!-- REGION 3: Figure (Amber Tint) -->
+<div class="relative group cursor-pointer rounded border-2 border-amber-500 bg-amber-400/10 p-2 shadow-[0_0_12px_rgba(245,158,11,0.25)] transition-all hover:bg-amber-400/15">
+<div class="absolute -top-2.5 left-2 flex items-center gap-1 bg-amber-600 text-white text-[9px] font-headline font-bold px-1.5 py-0.5 rounded-full shadow-md z-10">
+<span class="w-3 h-3 rounded-full bg-white text-amber-900 flex items-center justify-center font-bold text-[8px]">3</span>
+<span>Figure</span>
+</div>
+<div class="w-full h-24 bg-[#E2DDCB] border border-neutral-400/50 rounded flex flex-col items-center justify-center relative overflow-hidden p-1 mt-1">
+<!-- Botanical Lichen Diagram Representation -->
+<svg class="w-full h-full stroke-neutral-700 fill-none" viewbox="0 0 160 80">
+<path d="M10,50 Q40,10 80,45 T150,35" stroke-dasharray="2 1" stroke-width="1.5"></path>
+<circle cx="45" cy="30" fill="#A89C82" opacity="0.6" r="8"></circle>
+<circle cx="115" cy="40" fill="#8C9E7D" opacity="0.6" r="12"></circle>
+<path d="M20,65 C40,55 70,68 95,60 C120,52 140,65 150,60" stroke-width="2"></path>
+<line stroke-linecap="round" stroke-width="0.75" x1="80" x2="80" y1="20" y2="60"></line>
+</svg>
+<span class="text-[8px] font-mono text-[#544F41]">CROSS SECTION DIAGRAM</span>
+</div>
+</div>
+<!-- REGION 4: Caption (Emerald Tint) -->
+<div class="relative group cursor-pointer rounded border-2 border-emerald-500 bg-emerald-400/15 p-1.5 shadow-[0_0_12px_rgba(16,185,129,0.25)] transition-all hover:bg-emerald-400/20">
+<div class="absolute -top-2.5 left-2 flex items-center gap-1 bg-emerald-600 text-white text-[9px] font-headline font-bold px-1.5 py-0.5 rounded-full shadow-md z-10">
+<span class="w-3 h-3 rounded-full bg-white text-emerald-800 flex items-center justify-center font-bold text-[8px]">4</span>
+<span>Caption</span>
+</div>
+<p class="font-serif italic text-[9px] leading-tight text-[#2B3B2E] mt-1">
+                    Fig 3.2: Thallus cross-section showing photobiont layer nestled within dense fungal hyphae matrix (bar = 40 μm).
+                  </p>
+</div>
+</div>
+<!-- RIGHT SIDE OF SCAN -->
+<div class="space-y-3">
+<!-- REGION 5: Column 2 (Cyan Tint) -->
+<div class="relative group cursor-pointer rounded border-2 border-cyan-500 bg-cyan-400/10 p-2 shadow-[0_0_12px_rgba(6,182,212,0.25)] transition-all hover:bg-cyan-400/15">
+<div class="absolute -top-2.5 left-2 flex items-center gap-1 bg-cyan-600 text-white text-[9px] font-headline font-bold px-1.5 py-0.5 rounded-full shadow-md z-10">
+<span class="w-3 h-3 rounded-full bg-white text-cyan-800 flex items-center justify-center font-bold text-[8px]">5</span>
+<span>Column 2</span>
+</div>
+<p class="font-serif text-[10px] leading-relaxed text-[#2A2722] mt-1 text-justify">
+                    Desiccation tolerance increases exponentially during nocturnal dew cycles. Hyphal strands maintain hydration gradients across cell boundaries, enabling photosynthetic recovery within four minutes of direct solar re-exposure.
+                  </p>
+</div>
+<!-- REGION 6: Table (Pink Tint) -->
+<div class="relative group cursor-pointer rounded border-2 border-pink-500 bg-pink-400/15 p-2 shadow-[0_0_12px_rgba(236,72,153,0.25)] transition-all hover:bg-pink-400/20">
+<div class="absolute -top-2.5 left-2 flex items-center gap-1 bg-pink-600 text-white text-[9px] font-headline font-bold px-1.5 py-0.5 rounded-full shadow-md z-10">
+<span class="w-3 h-3 rounded-full bg-white text-pink-900 flex items-center justify-center font-bold text-[8px]">6</span>
+<span>Table</span>
+</div>
+<div class="mt-1">
+<div class="text-[9px] font-serif font-bold text-[#3B192A] mb-1">
+                      Table 1: Spore dispersal rates vs humidity
+                    </div>
+<table class="w-full text-[8px] font-mono border-collapse border border-neutral-400/60 bg-white/40">
+<thead>
+<tr class="bg-pink-900/10 text-[#2B1B25]">
+<th class="border border-neutral-400/40 p-0.5 text-left">RH %</th>
+<th class="border border-neutral-400/40 p-0.5">Spore/h</th>
+<th class="border border-neutral-400/40 p-0.5">Viable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="border border-neutral-400/40 p-0.5">35%</td>
+<td class="border border-neutral-400/40 p-0.5 text-center">14.2</td>
+<td class="border border-neutral-400/40 p-0.5 text-center">88%</td>
+</tr>
+<tr>
+<td class="border border-neutral-400/40 p-0.5">70%</td>
+<td class="border border-neutral-400/40 p-0.5 text-center">48.6</td>
+<td class="border border-neutral-400/40 p-0.5 text-center">94%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- REGION 7: Footnote (Indigo Tint) -->
+<div class="relative group cursor-pointer rounded border-2 border-indigo-500 bg-indigo-400/15 p-2 shadow-[0_0_12px_rgba(99,102,241,0.25)] transition-all hover:bg-indigo-400/20">
+<div class="absolute -top-2.5 left-2 flex items-center gap-1 bg-indigo-600 text-white text-[9px] font-headline font-bold px-1.5 py-0.5 rounded-full shadow-md z-10">
+<span class="w-3 h-3 rounded-full bg-white text-indigo-900 flex items-center justify-center font-bold text-[8px]">7</span>
+<span>Footnote</span>
+</div>
+<p class="font-serif text-[8px] text-[#2C2947] mt-1 leading-snug">
+                    *1. Samples verified with cryo-electron transmission microscopy at Zurich Cryptogamic Laboratory (1983).
+                  </p>
+</div>
+</div>
+</div>
+<!-- Page Number on Scanned Paper Bottom -->
+<div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-[10px] font-serif font-bold text-[#555042]">
+              — 43 —
+            </div>
+</div>
+<!-- Bottom Viewport Helper Pill -->
+<div class="mt-4 flex items-center gap-2 text-xs text-neutral-400">
+<span class="material-symbols-outlined text-sm text-cyan-400" data-icon="touch_app">touch_app</span>
+<span>Click any region to inspect text snippet or re-order priority on the right.</span>
+</div>
+</div>
+</section>
+<!-- ==================== 3. RIGHT COLUMN: GLASS INSPECTOR PANEL ==================== -->
+<section class="col-span-12 lg:col-span-4 xl:col-span-4 glass-card rounded-2xl p-5 flex flex-col justify-between border border-white/10 shadow-[0_0_24px_rgba(0,0,0,0.5)]">
+<div>
+<!-- Header Row -->
+<div class="flex items-center justify-between pb-3 border-b border-white/10">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline font-bold text-base text-neutral-100">Reading order</h3>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                  7 regions detected
+                </span>
+</div>
+<p class="text-xs text-[#B4B0D0] mt-0.5">Drag to rearrange oral playback sequence</p>
+</div>
+<button class="text-neutral-400 hover:text-cyan-300 p-1.5 rounded-lg hover:bg-white/5 transition-colors" title="Auto-sort Order">
+<span class="material-symbols-outlined text-lg" data-icon="low_priority">low_priority</span>
+</button>
+</div>
+<!-- Draggable Ordered List of 7 Regions -->
+<div class="space-y-2 mt-4 max-h-[310px] overflow-y-auto pr-1">
+<!-- Item 1: Title -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-violet-500/30 hover:border-violet-500/60 transition-all group" id="layout-region-1">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-neutral-300 cursor-grab text-base" data-icon="drag_indicator">drag_indicator</span>
+<span class="w-5 h-5 rounded-full bg-violet-600/30 border border-violet-500 text-violet-300 font-bold text-xs flex items-center justify-center font-mono">1</span>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-headline font-bold text-violet-300">Title</span>
+<span class="text-[10px] text-neutral-500">· 5 words</span>
+</div>
+<p class="text-[11px] text-neutral-300 truncate max-w-[200px] xl:max-w-[240px]">
+                    "Symbiotic Structures of Foliose Lichen"
+                  </p>
+</div>
+</div>
+<button class="p-1 text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 rounded transition-colors" id="layout-region-1-toggle" title="Include in Audio Synthesis">
+<span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span>
+</button>
+</div>
+<!-- Item 2: Column 1 -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-cyan-500/30 hover:border-cyan-500/60 transition-all group" id="layout-region-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-neutral-300 cursor-grab text-base" data-icon="drag_indicator">drag_indicator</span>
+<span class="w-5 h-5 rounded-full bg-cyan-600/30 border border-cyan-400 text-cyan-300 font-bold text-xs flex items-center justify-center font-mono">2</span>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-headline font-bold text-cyan-300">Column 1</span>
+<span class="text-[10px] text-neutral-500">· 38 words</span>
+</div>
+<p class="text-[11px] text-neutral-300 truncate max-w-[200px] xl:max-w-[240px]">
+                    "Foliose lichens are characterized by flattened..."
+                  </p>
+</div>
+</div>
+<button class="p-1 text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 rounded transition-colors" id="layout-region-2-toggle" title="Include in Audio Synthesis">
+<span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span>
+</button>
+</div>
+<!-- Item 3: Figure (Skipped/Described) -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-amber-500/20 group" id="layout-region-3">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-neutral-300 cursor-grab text-base" data-icon="drag_indicator">drag_indicator</span>
+<span class="w-5 h-5 rounded-full bg-amber-600/30 border border-amber-400 text-amber-300 font-bold text-xs flex items-center justify-center font-mono">3</span>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-headline font-bold text-amber-300">Figure (OCR skipped)</span>
+</div>
+<p class="text-[11px] text-neutral-400 truncate max-w-[200px] xl:max-w-[240px]">
+                    [Graphic: Lichen cross section diagram]
+                  </p>
+</div>
+</div>
+<button class="p-1 text-neutral-500 hover:text-cyan-300 hover:bg-white/10 rounded transition-colors" id="layout-region-3-toggle" title="Visual element - audio skip enabled">
+<span class="material-symbols-outlined text-lg" data-icon="visibility_off">visibility_off</span>
+</button>
+</div>
+<!-- Item 4: Caption -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-emerald-500/30 hover:border-emerald-500/60 transition-all group" id="layout-region-4">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-neutral-300 cursor-grab text-base" data-icon="drag_indicator">drag_indicator</span>
+<span class="w-5 h-5 rounded-full bg-emerald-600/30 border border-emerald-400 text-emerald-300 font-bold text-xs flex items-center justify-center font-mono">4</span>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-headline font-bold text-emerald-300">Caption</span>
+<span class="text-[10px] text-neutral-500">· 14 words</span>
+</div>
+<p class="text-[11px] text-neutral-300 truncate max-w-[200px] xl:max-w-[240px]">
+                    "Fig 3.2: Thallus cross-section showing photobiont..."
+                  </p>
+</div>
+</div>
+<button class="p-1 text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 rounded transition-colors" id="layout-region-4-toggle" title="Include in Audio Synthesis">
+<span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span>
+</button>
+</div>
+<!-- Item 5: Column 2 -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-cyan-500/30 hover:border-cyan-500/60 transition-all group" id="layout-region-5">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-neutral-300 cursor-grab text-base" data-icon="drag_indicator">drag_indicator</span>
+<span class="w-5 h-5 rounded-full bg-cyan-600/30 border border-cyan-400 text-cyan-300 font-bold text-xs flex items-center justify-center font-mono">5</span>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-headline font-bold text-cyan-300">Column 2</span>
+<span class="text-[10px] text-neutral-500">· 32 words</span>
+</div>
+<p class="text-[11px] text-neutral-300 truncate max-w-[200px] xl:max-w-[240px]">
+                    "Desiccation tolerance increases exponentially..."
+                  </p>
+</div>
+</div>
+<button class="p-1 text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 rounded transition-colors" id="layout-region-5-toggle" title="Include in Audio Synthesis">
+<span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span>
+</button>
+</div>
+<!-- Item 6: Table -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-pink-500/30 hover:border-pink-500/60 transition-all group" id="layout-region-6">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-neutral-300 cursor-grab text-base" data-icon="drag_indicator">drag_indicator</span>
+<span class="w-5 h-5 rounded-full bg-pink-600/30 border border-pink-400 text-pink-300 font-bold text-xs flex items-center justify-center font-mono">6</span>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-headline font-bold text-pink-300">Table</span>
+<span class="text-[10px] text-neutral-500">· Row-by-row</span>
+</div>
+<p class="text-[11px] text-neutral-300 truncate max-w-[200px] xl:max-w-[240px]">
+                    "Table 1: Spore dispersal rates vs humidity"
+                  </p>
+</div>
+</div>
+<button class="p-1 text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 rounded transition-colors" id="layout-region-6-toggle" title="Include in Audio Synthesis">
+<span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span>
+</button>
+</div>
+<!-- Item 7: Footnote -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-indigo-500/30 hover:border-indigo-500/60 transition-all group" id="layout-region-7">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-neutral-300 cursor-grab text-base" data-icon="drag_indicator">drag_indicator</span>
+<span class="w-5 h-5 rounded-full bg-indigo-600/30 border border-indigo-400 text-indigo-300 font-bold text-xs flex items-center justify-center font-mono">7</span>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-headline font-bold text-indigo-300">Footnote</span>
+<span class="text-[10px] text-neutral-500">· Read at end</span>
+</div>
+<p class="text-[11px] text-neutral-300 truncate max-w-[200px] xl:max-w-[240px]">
+                    "*1. Samples verified with cryo-electron..."
+                  </p>
+</div>
+</div>
+<button class="p-1 text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 rounded transition-colors" id="layout-region-7-toggle" title="Include in Audio Synthesis">
+<span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Filter / Quick Rules Section -->
+<div class="mt-4 pt-3 border-t border-white/10 space-y-2.5">
+<span class="font-headline text-[11px] font-bold text-neutral-400 uppercase tracking-wider block mb-2">
+              Speech Flow Rules
+            </span>
+<!-- Toggle: Skip Footnotes -->
+<label class="flex items-center justify-between cursor-pointer p-1.5 rounded-lg hover:bg-white/[0.03]">
+<span class="text-xs text-neutral-300 font-medium">Skip footnotes</span>
+<input class="sr-only peer" id="layout-skip-footnotes" type="checkbox"/>
+<div class="w-8 h-4 bg-neutral-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-cyan-500 relative"></div>
+</label>
+<!-- Toggle: Skip Captions -->
+<label class="flex items-center justify-between cursor-pointer p-1.5 rounded-lg hover:bg-white/[0.03]">
+<span class="text-xs text-neutral-300 font-medium">Skip captions</span>
+<input class="sr-only peer" id="layout-skip-captions" type="checkbox"/>
+<div class="w-8 h-4 bg-neutral-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-cyan-500 relative"></div>
+</label>
+<!-- Toggle: Read tables row by row -->
+<label class="flex items-center justify-between cursor-pointer p-1.5 rounded-lg hover:bg-white/[0.03]">
+<span class="text-xs text-neutral-300 font-medium">Read tables row by row</span>
+<input checked="" class="sr-only peer" id="layout-tables-rows" type="checkbox"/>
+<div class="w-8 h-4 bg-neutral-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-cyan-500 relative"></div>
+</label>
+</div>
+</div>
+<!-- Cost Summary & Main Execution CTAs -->
+<div class="mt-4 pt-3 border-t border-white/10 space-y-3">
+<!-- Cost Breakdown Box -->
+<div class="p-3 rounded-xl bg-violet-950/20 border border-violet-500/20 flex flex-col gap-1">
+<div class="flex items-center justify-between text-xs">
+<span class="text-[#B4B0D0] flex items-center gap-1">
+<span class="material-symbols-outlined text-amber-400 text-sm" data-icon="bolt">bolt</span>
+                1 render credit per page · 48 pages
+              </span>
+<span class="font-bold text-violet-300">48 credits</span>
+</div>
+<div class="flex items-center justify-between text-[11px] text-[#6E6A8F] pt-1 border-t border-white/5">
+<span>Balance 240 credits</span>
+<span class="text-cyan-300 font-mono">192 credits remaining after run</span>
+</div>
+</div>
+<!-- Buttons Cluster -->
+<div class="space-y-2">
+<!-- Apply and Read Primary CTA -->
+<button class="w-full py-3 px-4 rounded-xl glow-signature font-headline font-bold text-white shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:shadow-[0_0_28px_rgba(34,211,238,0.5)] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group" id="layout-apply">
+<span class="material-symbols-outlined text-lg transition-transform group-hover:scale-110" data-icon="play_circle">play_circle</span>
+<span class="tracking-tight text-sm">Apply and read</span>
+</button>
+<!-- Re-analyse Document Option -->
+<button class="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-headline font-bold text-neutral-200 transition-colors flex items-center justify-center gap-2" id="layout-analyse">
+<span class="material-symbols-outlined text-base text-cyan-400" data-icon="reorder">reorder</span>
+<span>Analyse document</span>
+</button>
+<!-- Skip Link -->
+<div class="text-center">
+<a class="text-xs text-[#6E6A8F] hover:text-neutral-300 transition-colors underline decoration-dotted underline-offset-4" href="#read-raw" id="layout-skip">
+                Read without Smart Layout
+              </a>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- ==================== 4. BOTTOM INSET: BEFORE ANALYSIS STATE ==================== -->
+<section class="mt-8 pt-4 border-t border-white/10">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="text-xs font-headline font-black tracking-wider uppercase text-cyan-400">
+            BEFORE ANALYSIS STATE
+          </span>
+<span class="text-[10px] text-neutral-500 font-mono">Reference UI when a raw scan is first detected</span>
+</div>
+<span class="text-xs text-neutral-500">Floating Pre-flight Modal State</span>
+</div>
+<!-- Sleek floating glass card showcasing the initial prompt modal -->
+<div class="glass-card rounded-2xl p-5 border border-cyan-500/20 shadow-[0_0_24px_rgba(34,211,238,0.1)] relative overflow-hidden">
+<div class="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-violet-600/10 blur-3xl pointer-events-none"></div>
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-cyan-950/60 border border-cyan-400/40 flex items-center justify-center text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.25)] flex-shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="document_scanner">document_scanner</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-sm text-neutral-100 flex items-center gap-2">
+<span>Scanned document structure detected</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-violet-600/30 text-violet-300 border border-violet-500/30 font-mono">
+                  48 Pages
+                </span>
+</h4>
+<p class="text-xs text-[#B4B0D0] mt-1 max-w-2xl leading-relaxed">
+                This looks like a scanned document. Smart Layout can work out the reading order for 48 credits so columns, botanical figures, and footnotes do not interrupt your voice listening flow.
+              </p>
+</div>
+</div>
+<!-- Secondary Actions -->
+<div class="flex items-center gap-3 w-full md:w-auto justify-end">
+<button class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-headline font-medium text-neutral-300 hover:text-white transition-colors">
+              Read as is
+            </button>
+<button class="px-4 py-2 rounded-xl glow-signature text-xs font-headline font-bold text-white shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+<span>Analyse document (48 credits)</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- ==================== SIGNATURE GLASS PLAYER BAR (Docked Bottom Accent) ==================== -->
+<footer class="sticky bottom-0 z-40 bg-neutral-950/90 backdrop-blur-xl border-t border-white/10 px-8 py-3 flex items-center justify-between ml-20 shadow-[0_-4px_24px_rgba(0,0,0,0.8)]">
+<!-- Left: Current Track Info -->
+<div class="flex items-center gap-3 w-1/4">
+<div class="w-9 h-9 rounded-lg bg-violet-900/30 border border-violet-500/30 flex items-center justify-center text-violet-400">
+<span class="material-symbols-outlined text-lg" data-icon="description">description</span>
+</div>
+<div class="truncate">
+<div class="text-xs font-headline font-bold text-neutral-200 truncate">Page 3: Symbiotic Structures</div>
+<div class="text-[10px] text-cyan-400 font-mono">Region 1/7 queued</div>
+</div>
+</div>
+<!-- Center: Main Playback Controls -->
+<div class="flex flex-col items-center gap-1.5 w-2/4 max-w-lg">
+<div class="flex items-center gap-4">
+<!-- Previous -->
+<button class="p-1.5 text-neutral-400 hover:text-neutral-200 transition-colors" title="Previous Sentence">
+<span class="material-symbols-outlined text-xl" data-icon="skip_previous">skip_previous</span>
+</button>
+<!-- Large Round Gradient Play Button -->
+<button class="w-10 h-10 rounded-full glow-signature flex items-center justify-center text-white shadow-[0_0_16px_rgba(139,92,246,0.5)] hover:scale-105 active:scale-95 transition-transform" title="Play">
+<span class="material-symbols-outlined text-xl" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<!-- Next -->
+<button class="p-1.5 text-neutral-400 hover:text-neutral-200 transition-colors" title="Next Sentence">
+<span class="material-symbols-outlined text-xl" data-icon="skip_next">skip_next</span>
+</button>
+<!-- Speed Pill -->
+<button class="px-2 py-0.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono font-medium text-neutral-300 ml-2">
+          1.0x
+        </button>
+</div>
+<!-- Two-layer Progress Track (Played in gradient, buffered in cyan) -->
+<div class="w-full flex items-center gap-3">
+<span class="text-[10px] font-mono text-neutral-400">01:14</span>
+<div class="flex-1 h-1.5 bg-neutral-900 rounded-full relative overflow-hidden cursor-pointer">
+<!-- Buffered in Cyan -->
+<div class="absolute left-0 top-0 bottom-0 w-3/4 bg-cyan-400/30 rounded-full"></div>
+<!-- Played in signature gradient -->
+<div class="absolute left-0 top-0 bottom-0 w-1/3 glow-signature rounded-full shadow-[0_0_8px_rgba(139,92,246,0.6)]"></div>
+</div>
+<span class="text-[10px] font-mono text-neutral-400">04:28</span>
+</div>
+</div>
+<!-- Right: Voice Chip Avatar Pill & Volume -->
+<div class="flex items-center justify-end gap-3 w-1/4">
+<!-- Voice Chip Pill -->
+<div class="flex items-center gap-2 bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded-full border border-white/10 cursor-pointer transition-colors">
+<!-- Voice Hue Avatar with Waveform Ring -->
+<div class="w-5 h-5 rounded-full bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-[10px] font-bold text-cyan-300">
+          A
+        </div>
+<span class="text-xs font-headline font-medium text-neutral-200">Aura (On-device)</span>
+</div>
+<button class="p-1.5 text-neutral-400 hover:text-cyan-400 transition-colors" title="Volume">
+<span class="material-symbols-outlined text-lg" data-icon="volume_up">volume_up</span>
+</button>
+</div>
+</footer>
+<!-- ==================== LIGHTWEIGHT INTERACTION SCRIPT ==================== -->
+<script>
+    // Micro-interactions for zoom controls
+    const zoomInBtn = document.getElementById('layout-zoom-in');
+    const zoomOutBtn = document.getElementById('layout-zoom-out');
+    
+    if (zoomInBtn && zoomOutBtn) {
+      zoomInBtn.addEventListener('click', () => {
+        zoomInBtn.classList.add('scale-95');
+        setTimeout(() => zoomInBtn.classList.remove('scale-95'), 120);
+      });
+      zoomOutBtn.addEventListener('click', () => {
+        zoomOutBtn.classList.add('scale-95');
+        setTimeout(() => zoomOutBtn.classList.remove('scale-95'), 120);
+      });
+    }
+
+    // Toggle button visual state feedback for region visibility
+    for (let i = 1; i <= 7; i++) {
+      const toggle = document.getElementById(`layout-region-${i}-toggle`);
+      if (toggle) {
+        toggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const icon = toggle.querySelector('.material-symbols-outlined');
+          if (icon) {
+            if (icon.textContent.trim() === 'visibility') {
+              icon.textContent = 'visibility_off';
+              toggle.classList.remove('text-cyan-400');
+              toggle.classList.add('text-neutral-500');
+            } else {
+              icon.textContent = 'visibility';
+              toggle.classList.remove('text-neutral-500');
+              toggle.classList.add('text-cyan-400');
+            }
+          }
+        });
+      }
+    }
+  </script>
+</body></html>
