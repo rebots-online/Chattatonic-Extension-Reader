@@ -17,3 +17,6 @@ node_modules/
 # Root dist/ is the tracked release artifact home (CC12/CC14).
 !/dist/
 !/dist/**
+
+# Hook-managed session state, machine-local.
+.anchor/
