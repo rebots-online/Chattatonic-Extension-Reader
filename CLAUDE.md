@@ -50,6 +50,8 @@ Feature gating must be decided from the licence/entitlement state, not from clie
 - **Commercial by default.** This app is dog-fooded but must be built as a sellable product; that is what justifies the effort.
 - **Hosted provider is replaceable.** The operator noted that OpenRouter is offering HeyGen voice/cloning turbo free until 30 November 2026 (not independently verified). Hosted voice work must not be tied to one provider or to a promotional price.
 
+- **Name and models.** Operator, verbatim: "chattatonic is derived from chattered and supertonic tts models, but is pronounced catatonic". Read here as the Chatterbox and Supertonic TTS model families (the "Chatterbox" reading of "chattered" is an interpretation; confirm before the architecture fixes model choices). The name is pronounced "catatonic".
+
 ## Commerce and licensing
 
 Billing runs through WooCommerce. The custom WooCommerce plugins needed for entitlement gating, licence keys and hosted render credits are in scope for this repo and must be built here rather than assumed to exist. Hosted render credits are a metered balance consumed by server-side rendering, separate from the plan entitlement.
