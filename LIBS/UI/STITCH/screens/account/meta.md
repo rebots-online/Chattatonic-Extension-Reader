@@ -1,9 +1,9 @@
 # Account
 
 - Slug: `account`
-- Stitch screen: `projects/81951782971452349/screens/31b9dd6a3085421e91c0574d1850eaa2`
-- HTML file: `projects/81951782971452349/files/6a97c32994854d82ab07ed7f5c35a035` (saved as `index.html`, exact export text from the download response, 29668 bytes)
-- Screenshot file: `projects/81951782971452349/files/fce11885f97d4466bf0130cc202df749` (saved as `screenshot.png`, 2560x3080)
+- Stitch screen: `projects/81951782971452349/screens/a799a09157e84935959ad262ea1cce6e`
+- HTML file: `projects/81951782971452349/files/18024aae2b594808a1d4733822693183` (saved as `index.html`, exact export text from the download response, 29668 bytes)
+- Screenshot file: `projects/81951782971452349/files/4d3fcabfb29f42e796826798e7abd03b` (saved as `screenshot.png`, 2560x2928)
 - Device type reported by Stitch: DESKTOP
 - Intent: Pass status, licence key, devices, render credit balance and purchases; includes the Free state.
 - Linked CHECKLIST tasks: none yet

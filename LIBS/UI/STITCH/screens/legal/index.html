@@ -106,77 +106,45 @@
 <div class="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center relative group cursor-pointer shadow-[0_0_16px_rgba(139,92,246,0.25)] hover:shadow-[0_0_24px_rgba(139,92,246,0.45)] transition-all">
 <span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-[#8B5CF6] via-[#F472B6] to-[#22D3EE] text-2xl font-bold" data-icon="graphic_eq">graphic_eq</span>
 </div>
-<span class="text-[9px] font-headline font-extrabold tracking-widest text-[#B4B0D0] group-hover:text-white transition-colors">CHATTA</span>
+<span class="text-[9px] font-headline font-extrabold tracking-widest text-[#B4B0D0] group-hover:text-white transition-colors">Chattatonic</span>
 </div>
 <!-- Navigation Items (All default inactive state as instructed) -->
-<nav aria-label="Main Navigation" class="flex flex-col items-center gap-5 my-auto w-full px-2">
-<!-- Library -->
-<a class="flex flex-col items-center justify-center w-14 h-14 rounded-xl text-[#B4B0D0] hover:text-[#F5F3FF] hover:bg-white/[0.06] transition-all duration-200 group relative" href="#library" id="nav-library">
+<nav aria-label="Main Navigation" class="flex flex-col items-center gap-5 my-auto w-full px-2"><a class="flex flex-col items-center justify-center w-14 h-14 rounded-xl text-[#B4B0D0] hover:text-[#F5F3FF] hover:bg-white/[0.06] transition-all duration-200 group relative" href="#library" id="nav-library">
 <span class="material-symbols-outlined text-[24px]" data-icon="library_books">library_books</span>
 <span class="text-[10px] font-label font-medium mt-1 text-[#6E6A8F] group-hover:text-[#B4B0D0]">Library</span>
 </a>
-<!-- Reader -->
 <a class="flex flex-col items-center justify-center w-14 h-14 rounded-xl text-[#B4B0D0] hover:text-[#F5F3FF] hover:bg-white/[0.06] transition-all duration-200 group relative" href="#reader" id="nav-reader">
 <span class="material-symbols-outlined text-[24px]" data-icon="auto_stories">auto_stories</span>
 <span class="text-[10px] font-label font-medium mt-1 text-[#6E6A8F] group-hover:text-[#B4B0D0]">Reader</span>
 </a>
-<!-- Voice Studio -->
-<a class="flex flex-col items-center justify-center w-14 h-14 rounded-xl text-[#B4B0D0] hover:text-[#F5F3FF] hover:bg-white/[0.06] transition-all duration-200 group relative" href="#studio" id="nav-voice-studio">
-<span class="material-symbols-outlined text-[24px]" data-icon="graphic_eq">graphic_eq</span>
-<span class="text-[10px] font-label font-medium mt-1 text-[#6E6A8F] group-hover:text-[#B4B0D0]">Studio</span>
+<a class="flex flex-col items-center justify-center w-14 h-14 rounded-xl text-[#B4B0D0] hover:text-[#F5F3FF] hover:bg-white/[0.06] transition-all duration-200 group relative" href="#voices" id="nav-voices">
+<span class="material-symbols-outlined text-[24px]" data-icon="record_voice_over">record_voice_over</span>
+<span class="text-[10px] font-label font-medium mt-1 text-[#6E6A8F] group-hover:text-[#B4B0D0]">Voices</span>
 </a>
-<!-- Account -->
-<a class="flex flex-col items-center justify-center w-14 h-14 rounded-xl text-[#B4B0D0] hover:text-[#F5F3FF] hover:bg-white/[0.06] transition-all duration-200 group relative" href="#account" id="nav-account">
-<span class="material-symbols-outlined text-[24px]" data-icon="account_circle">account_circle</span>
-<span class="text-[10px] font-label font-medium mt-1 text-[#6E6A8F] group-hover:text-[#B4B0D0]">Account</span>
+<a class="flex flex-col items-center justify-center w-14 h-14 rounded-xl text-[#B4B0D0] hover:text-[#F5F3FF] hover:bg-white/[0.06] transition-all duration-200 group relative" href="#passes" id="nav-passes">
+<span class="material-symbols-outlined text-[24px]" data-icon="confirmation_number">confirmation_number</span>
+<span class="text-[10px] font-label font-medium mt-1 text-[#6E6A8F] group-hover:text-[#B4B0D0]">Passes</span>
 </a>
-<!-- Settings -->
 <a class="flex flex-col items-center justify-center w-14 h-14 rounded-xl text-[#B4B0D0] hover:text-[#F5F3FF] hover:bg-white/[0.06] transition-all duration-200 group relative" href="#settings" id="nav-settings">
 <span class="material-symbols-outlined text-[24px]" data-icon="settings">settings</span>
 <span class="text-[10px] font-label font-medium mt-1 text-[#6E6A8F] group-hover:text-[#B4B0D0]">Settings</span>
-</a>
-</nav>
+</a></nav>
 <!-- Bottom Rail Items -->
-<div class="flex flex-col items-center gap-4 w-full px-2">
-<!-- DSP OK status chip -->
-<div class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[10px] font-mono text-[#34D399]" title="Local DSP Engine Status: Optimal">
-<span class="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse"></span>
-<span>DSP OK</span>
-</div>
-<!-- Help Icon -->
-<button class="w-10 h-10 rounded-xl flex items-center justify-center text-[#6E6A8F] hover:text-[#F5F3FF] hover:bg-white/[0.06] transition-colors" title="Support &amp; Docs">
+<div class="flex flex-col items-center gap-4 w-full px-2"><button class="w-10 h-10 rounded-xl flex items-center justify-center text-[#6E6A8F] hover:text-[#F5F3FF] hover:bg-white/[0.06] transition-colors" title="Support &amp; Docs">
 <span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
-</button>
-<!-- Profile Avatar with waveform ring glow -->
-<div class="relative w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-[#8B5CF6] via-[#F472B6] to-[#22D3EE] cursor-pointer hover:scale-105 transition-transform" title="Profile">
-<div class="w-full h-full rounded-full bg-[#14122A] flex items-center justify-center overflow-hidden">
-<span class="material-symbols-outlined text-[#B4B0D0] text-lg" data-icon="person">person</span>
-</div>
-</div>
-</div>
+</button></div>
 </aside>
 <!-- Main Canvas Container -->
 <div class="flex-1 ml-20 flex flex-col min-h-screen">
 <!-- Top Bar -->
 <header class="sticky top-0 z-40 bg-[#0B0A14]/85 backdrop-blur-md border-b border-white/10 px-8 py-3.5 flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
 <!-- Left: Breadcrumb & Compliance Tag -->
-<div class="flex items-center gap-3">
-<div class="flex items-center text-xs tracking-wider uppercase font-headline font-semibold text-[#6E6A8F]">
-<span>LEGAL</span>
-<span class="mx-2 text-white/20">/</span>
-<span class="text-[#F5F3FF]">Legal and Licences</span>
-</div>
-<span class="px-2.5 py-0.5 rounded-full bg-[#8B5CF6]/15 border border-[#8B5CF6]/30 text-[#8B5CF6] text-[10px] font-mono font-semibold tracking-wide uppercase">
-          COMPLIANCE &amp; TERMS
-        </span>
-</div>
+<div class="flex items-center gap-3"><div class="flex items-center text-xs tracking-wider uppercase font-headline font-semibold text-[#F5F3FF]">
+<span>Legal and licences</span>
+</div></div>
 <!-- Right: Trailing Badges / Chips -->
 <div class="flex items-center gap-2.5">
 <!-- Zero-Cloud Core Badge -->
-<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-xs text-[#22D3EE] font-label font-medium shadow-[0_0_12px_rgba(34,211,238,0.1)]">
-<span class="material-symbols-outlined text-sm text-[#22D3EE]" data-icon="cloud_off">cloud_off</span>
-<span>Zero-Cloud Core</span>
-</div>
 <!-- Pass Active Chip -->
 <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F472B6]/10 border border-[#F472B6]/30 text-xs text-[#F472B6] font-label font-medium shadow-[0_0_12px_rgba(244,114,186,0.15)]">
 <span class="material-symbols-outlined text-sm text-[#F472B6]" data-icon="verified">verified</span>
@@ -194,16 +162,10 @@
 <main class="flex-1 px-10 py-10 max-w-[1440px] w-full mx-auto">
 <!-- Page Header Banner -->
 <section class="mb-10 relative">
-<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/10 text-xs text-[#B4B0D0] mb-3">
-<span class="w-2 h-2 rounded-full bg-[#8B5CF6]"></span>
-<span>Host Machine Verification Node: Synced</span>
-</div>
 <h1 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#F5F3FF] via-[#F472B6] to-[#22D3EE] drop-shadow-[0_2px_18px_rgba(139,92,246,0.35)]">
           Legal and licences
         </h1>
-<p class="text-base text-[#B4B0D0] max-w-3xl mt-3 font-normal leading-relaxed">
-          Compliance, on-device audio licences, privacy architecture, and open-source attribution.
-        </p>
+<p class="text-base text-[#B4B0D0] max-w-3xl mt-3 font-normal leading-relaxed">Terms, privacy, model licences and open-source notices.</p>
 </section>
 <!-- Content Grid (Sticky TOC on left, Cards on right) -->
 <div class="grid grid-cols-12 gap-8 items-start relative">
@@ -245,15 +207,6 @@
 </nav>
 </div>
 <!-- Architecture Telemetry Card -->
-<div class="p-4 rounded-2xl bg-white/[0.02] border border-white/5 text-xs text-[#6E6A8F] space-y-2">
-<div class="flex items-center gap-2 text-[#B4B0D0] font-semibold">
-<span class="material-symbols-outlined text-base text-[#34D399]" data-icon="shield">shield</span>
-              Local Integrity Vault
-            </div>
-<p class="leading-relaxed">
-              Cryptographic integrity is maintained natively. Local weights never emit synthetic telemetry off-device.
-            </p>
-</div>
 </aside>
 <!-- Main Content Column -->
 <div class="col-span-12 lg:col-span-9 space-y-8">
@@ -266,25 +219,15 @@
 </div>
 <div>
 <h3 class="text-xl font-headline font-bold text-[#F5F3FF]">Terms of use</h3>
-<p class="text-xs text-[#B4B0D0]">Software entitlement and execution parameters</p>
 </div>
 </div>
-<span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-mono text-[#B4B0D0]">REV 2026.04</span>
 </div>
-<div class="space-y-4 text-sm text-[#B4B0D0] leading-relaxed">
-<p>
-                Chattatonic Reader provides high-fidelity, real-time auditory synthesis directly inside your host operating environment. By accessing the software through an active pass (including Day Pass, Month Pass, Year Pass, or Lifetime Pass), you are granted a revocable, non-exclusive license to execute our client-side models for personal and authorized reading workloads.
-              </p>
-<p>
-                Local compute execution relies entirely on your local GPU and WebGPU Dawn acceleration layers. Hosted rendering services and high-density speech engines consume designated render credits in accordance with machine runtime cycles. Redistribution, reverse-engineering of model weights, or tampering with watermarking protocols is strictly forbidden.
-              </p>
-</div>
+<div class="space-y-4 text-sm text-[#B4B0D0] leading-relaxed"><p>Chattatonic Reader reads documents and web pages aloud on your own computer. A pass gives you the paid on-device features for the period shown on the pass. Passes never auto-renew. Features that run on our servers use render credits.</p></div>
 <div class="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
 <a class="inline-flex items-center gap-2 text-sm font-semibold text-[#8B5CF6] hover:text-[#22D3EE] transition-colors group" href="#full-terms-modal" id="legal-terms-full">
 <span>Read the full terms</span>
 <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
 </a>
-<span class="text-xs text-[#6E6A8F]">Effective worldwide under jurisdictional local compute frameworks</span>
 </div>
 </section>
 <!-- Card 2: Privacy -->
@@ -297,31 +240,17 @@
 </div>
 <div>
 <h3 class="text-xl font-headline font-bold text-[#F5F3FF]">Privacy</h3>
-<p class="text-xs text-[#B4B0D0]">Local compute guarantees &amp; telemetry isolation</p>
 </div>
 </div>
-<span class="px-3 py-1 rounded-full bg-[#22D3EE]/10 border border-[#22D3EE]/25 text-[11px] font-mono text-[#22D3EE]">ZERO-CLOUD POLICY</span>
 </div>
 <!-- Mandatory exact sentence highlight -->
-<div class="my-5 p-5 rounded-xl bg-white/[0.03] border-l-4 border-[#22D3EE] border-y border-r border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
-<p class="text-base text-[#F5F3FF] font-medium leading-relaxed tracking-wide">
-                "On-device reading stays on your computer. Documents and pages you read are not sent to us."
-              </p>
-</div>
+<div class="my-5 text-sm md:text-base text-[#B4B0D0] leading-relaxed"><p>Reading happens in your browser. We do not receive the text you read or the audio made from it. Features that run on our servers receive only the files you send to them.</p></div>
 <!-- Supportive security badge -->
-<div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 text-xs font-mono text-[#34D399]">
-<span class="material-symbols-outlined text-sm text-[#34D399]" data-icon="verified_user">verified_user</span>
-<span>100% On-Device Neural Synthesis · Zero Cloud Telemetry for Local Files</span>
-</div>
-<p class="text-sm text-[#B4B0D0] mt-4 leading-relaxed">
-              Document parsed text, loaded EPUB/PDF tokens, audio buffers, and phonetic dictionaries remain encapsulated within your browser’s isolated sandboxed memory. We operate with no tracking pixels, no audio telemetry logging, and no remote document ingestion.
-            </p>
 <div class="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
 <a class="inline-flex items-center gap-2 text-sm font-semibold text-[#22D3EE] hover:text-[#8B5CF6] transition-colors group" href="#full-privacy-modal" id="legal-privacy-full">
 <span>Read the privacy notice</span>
 <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
 </a>
-<span class="text-xs text-[#6E6A8F]">Certified sandbox boundary</span>
 </div>
 </section>
 <!-- Card 3: AI-generated audio -->
@@ -333,42 +262,14 @@
 </div>
 <div>
 <h3 class="text-xl font-headline font-bold text-[#F5F3FF]">AI-generated audio</h3>
-<p class="text-xs text-[#B4B0D0]">Provenance tracking &amp; acoustic steganography</p>
 </div>
 </div>
-<span class="px-2.5 py-1 rounded-full bg-[#F472B6]/10 border border-[#F472B6]/30 text-[11px] font-mono text-[#F472B6]">WATERMARKED</span>
 </div>
 <!-- Mandatory verbatim sentence -->
 <div class="my-4 p-4 rounded-xl bg-[#14122A]/90 border border-white/10 shadow-[0_0_15px_rgba(244,114,186,0.1)]">
-<p class="text-sm md:text-base font-normal text-[#F5F3FF] leading-relaxed">
-                Every voice in Chattatonic Reader is machine generated. Audio you export is labelled as AI-generated and carries an inaudible watermark.
-              </p>
+<p class="text-sm md:text-base font-normal text-[#F5F3FF] leading-relaxed">Every voice in Chattatonic Reader is machine generated. Audio you export is labelled as AI-generated.</p>
 </div>
 <!-- Visual Trust Indicator Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-<div class="p-4 rounded-xl bg-white/[0.02] border border-white/10 flex items-start gap-3">
-<div class="w-8 h-8 rounded-lg bg-[#8B5CF6]/20 flex items-center justify-center text-[#8B5CF6] shrink-0">
-<span class="material-symbols-outlined text-base" data-icon="fingerprint">fingerprint</span>
-</div>
-<div>
-<h4 class="text-xs font-headline font-bold text-[#F5F3FF] uppercase tracking-wide">Cryptographic Acoustic Watermark</h4>
-<p class="text-xs text-[#B4B0D0] mt-1 leading-normal">
-                    Spectrogram-embedded psychoacoustic marker resilient against transcoding, noise reduction, and sample-rate downsampling.
-                  </p>
-</div>
-</div>
-<div class="p-4 rounded-xl bg-white/[0.02] border border-white/10 flex items-start gap-3">
-<div class="w-8 h-8 rounded-lg bg-[#22D3EE]/20 flex items-center justify-center text-[#22D3EE] shrink-0">
-<span class="material-symbols-outlined text-base" data-icon="record_voice_over">record_voice_over</span>
-</div>
-<div>
-<h4 class="text-xs font-headline font-bold text-[#F5F3FF] uppercase tracking-wide">Machine-Synthesis Manifest</h4>
-<p class="text-xs text-[#B4B0D0] mt-1 leading-normal">
-                    Metadata containers in WAV and Opus files strictly identify Chattatonic Neural Engine origin and seed parameters.
-                  </p>
-</div>
-</div>
-</div>
 </section>
 <!-- Card 4: Acceptable use -->
 <section class="p-7 rounded-[20px] bg-[#14122A] backdrop-blur-xl border border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.3)]" id="acceptable-use">
@@ -379,10 +280,8 @@
 </div>
 <div>
 <h3 class="text-xl font-headline font-bold text-[#F5F3FF]">Acceptable use</h3>
-<p class="text-xs text-[#B4B0D0]">Ethical vocal synthesis &amp; identity rights</p>
 </div>
 </div>
-<span class="px-2.5 py-1 rounded-full bg-[#FBBF24]/10 border border-[#FBBF24]/30 text-[11px] font-mono text-[#FBBF24]">STRICT CODE</span>
 </div>
 <!-- Mandatory verbatim sentences in compliance callouts -->
 <div class="space-y-3.5 my-4">
@@ -397,28 +296,6 @@
                 </p>
 </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-<!-- Consent Ledger Card -->
-<div class="p-4 rounded-xl bg-white/[0.02] border border-white/10">
-<div class="flex items-center gap-2 text-xs font-headline font-bold text-[#F5F3FF] mb-1.5">
-<span class="material-symbols-outlined text-sm text-[#FBBF24]" data-icon="policy">policy</span>
-                  Consent Ledger Requirement
-                </div>
-<p class="text-xs text-[#B4B0D0] leading-normal">
-                  Custom neural weight fine-tuning requires verified audio authorization before on-device compilation is unlocked.
-                </p>
-</div>
-<!-- Non-Impersonation Prohibitions -->
-<div class="p-4 rounded-xl bg-white/[0.02] border border-white/10">
-<div class="flex items-center gap-2 text-xs font-headline font-bold text-[#F5F3FF] mb-1.5">
-<span class="material-symbols-outlined text-sm text-[#F472B6]" data-icon="block">block</span>
-                  Zero Tolerance Impersonation
-                </div>
-<p class="text-xs text-[#B4B0D0] leading-normal">
-                  Attempting to bypass safety filters to synthesize public figures or unverified parties terminates pass access instantaneously.
-                </p>
-</div>
-</div>
 </section>
 <!-- Card 5: Model licences -->
 <section class="p-7 rounded-[20px] bg-[#14122A] backdrop-blur-xl border border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.3)]" id="model-licences">
@@ -429,10 +306,8 @@
 </div>
 <div>
 <h3 class="text-xl font-headline font-bold text-[#F5F3FF]">Model licences</h3>
-<p class="text-xs text-[#B4B0D0]">Embedded weights and execution rights</p>
 </div>
 </div>
-<span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-mono text-[#B4B0D0]">LOCAL RUNTIME</span>
 </div>
 <!-- Two-row sleek table -->
 <div class="overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] mb-4">
@@ -470,9 +345,7 @@
 <span class="font-semibold">Chatterbox</span>
 </td>
 <td class="py-3.5 px-5">
-<span class="px-2.5 py-1 rounded-md bg-[#22D3EE]/15 border border-[#22D3EE]/30 text-[#22D3EE] text-xs font-mono font-medium">
-                        Custom / Permissive
-                      </span>
+<span class="px-2.5 py-1 rounded-md bg-[#22D3EE]/15 border border-[#22D3EE]/30 text-[#22D3EE] text-xs font-mono font-medium">See licence</span>
 </td>
 <td class="py-3.5 px-5 text-right">
 <a class="inline-flex items-center gap-1.5 text-xs text-[#22D3EE] hover:text-[#F5F3FF] font-medium transition-colors" href="#chatterbox-licence" id="legal-licence-chatterbox">
@@ -498,87 +371,36 @@
 </div>
 <div>
 <h3 class="text-xl font-headline font-bold text-[#F5F3FF]">Open-source notices</h3>
-<p class="text-xs text-[#B4B0D0]">Core dependencies &amp; permissive framework credits</p>
 </div>
 </div>
-<span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-mono text-[#B4B0D0]">6 PACKAGES</span>
 </div>
-<p class="text-sm text-[#B4B0D0] mb-4">
-              Chattatonic Reader is built with love on top of high-performance open-source computing stacks.
-            </p>
+<p class="text-sm text-[#B4B0D0] mb-4">Chattatonic Reader uses open-source software.</p>
 <!-- Scrollable list of 6 libraries -->
-<div class="max-h-60 overflow-y-auto space-y-2 pr-1 divide-y divide-white/5 border border-white/10 rounded-xl bg-white/[0.01] p-3">
-<!-- 1. ONNX Runtime Web -->
-<div class="pt-2 first:pt-0 flex items-center justify-between py-2">
+<div class="max-h-60 overflow-y-auto space-y-2 pr-1 divide-y divide-white/5 border border-white/10 rounded-xl bg-white/[0.01] p-3"><div class="pt-2 first:pt-0 flex items-center justify-between py-2">
 <div>
-<div class="text-sm font-semibold text-[#F5F3FF]">ONNX Runtime Web</div>
-<div class="text-[11px] font-mono text-[#6E6A8F]">v1.18.0 · Neural Inference Acceleration</div>
-</div>
-<span class="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-[#8B5CF6]/20 border border-[#8B5CF6]/30 text-[#8B5CF6]">MIT</span>
-</div>
-<!-- 2. WebGPU Dawn -->
-<div class="flex items-center justify-between py-2">
-<div>
-<div class="text-sm font-semibold text-[#F5F3FF]">WebGPU Dawn</div>
-<div class="text-[11px] font-mono text-[#6E6A8F]">v2024.1 · Native GPU Hardware Backend</div>
-</div>
-<span class="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-[#22D3EE]/20 border border-[#22D3EE]/30 text-[#22D3EE]">BSD-3-Clause</span>
-</div>
-<!-- 3. Librosa-WASM -->
-<div class="flex items-center justify-between py-2">
-<div>
-<div class="text-sm font-semibold text-[#F5F3FF]">Librosa-WASM</div>
-<div class="text-[11px] font-mono text-[#6E6A8F]">v0.10.2 · Client-Side Audio Feature Extraction</div>
-</div>
-<span class="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-[#8B5CF6]/20 border border-[#8B5CF6]/30 text-[#8B5CF6]">ISC/MIT</span>
-</div>
-<!-- 4. Lucide Icons -->
-<div class="flex items-center justify-between py-2">
-<div>
-<div class="text-sm font-semibold text-[#F5F3FF]">Lucide Icons</div>
-<div class="text-[11px] font-mono text-[#6E6A8F]">v0.380.0 · Vector Icon System</div>
-</div>
-<span class="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-[#8B5CF6]/20 border border-[#8B5CF6]/30 text-[#8B5CF6]">ISC</span>
-</div>
-<!-- 5. TailwindCSS -->
-<div class="flex items-center justify-between py-2">
-<div>
-<div class="text-sm font-semibold text-[#F5F3FF]">TailwindCSS</div>
-<div class="text-[11px] font-mono text-[#6E6A8F]">v3.4.1 · Utility UI Design System</div>
-</div>
-<span class="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-[#8B5CF6]/20 border border-[#8B5CF6]/30 text-[#8B5CF6]">MIT</span>
-</div>
-<!-- 6. Piper-Phonemize -->
-<div class="flex items-center justify-between py-2">
-<div>
-<div class="text-sm font-semibold text-[#F5F3FF]">Piper-Phonemize</div>
-<div class="text-[11px] font-mono text-[#6E6A8F]">v1.2.0 · Multilingual Text Normalization</div>
+<div class="text-sm font-semibold text-[#F5F3FF]">Transformers.js</div>
 </div>
 <span class="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-[#F472B6]/20 border border-[#F472B6]/30 text-[#F472B6]">Apache-2.0</span>
 </div>
+<div class="flex items-center justify-between py-2">
+<div>
+<div class="text-sm font-semibold text-[#F5F3FF]">ONNX Runtime Web</div>
 </div>
+<span class="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-[#8B5CF6]/20 border border-[#8B5CF6]/30 text-[#8B5CF6]">MIT</span>
+</div></div>
 <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between">
 <a class="inline-flex items-center gap-2 text-sm font-semibold text-[#8B5CF6] hover:text-[#22D3EE] transition-colors group" href="#all-notices-modal" id="legal-notices-all">
 <span>View all notices</span>
 <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform" data-icon="open_in_new">open_in_new</span>
 </a>
-<span class="text-xs text-[#6E6A8F]">Full machine-readable manifest bundled in app binary</span>
 </div>
 </section>
 </div>
 </div>
 <!-- App Footer Line -->
-<footer class="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#6E6A8F] select-none">
-<div class="flex items-center gap-3">
-<span class="font-mono text-[#B4B0D0]">Chattatonic Reader v1.0.0 (Build 2026.11.02)</span>
-<span class="text-white/20">·</span>
-<span class="italic text-[#B4B0D0]">Pronounced "catatonic"</span>
-</div>
-<div class="flex items-center gap-2 text-[#6E6A8F]">
-<span class="material-symbols-outlined text-sm text-[#34D399]" data-icon="check_circle">check_circle</span>
-<span>Hardware-bound On-Device Neural Synthesis verified. No remote acoustic inference pipelines enabled.</span>
-</div>
-</footer>
+<footer class="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#6E6A8F] select-none"><div class="flex items-center gap-3">
+<span class="font-mono text-[#B4B0D0]">Chattatonic Reader 1.0.0</span>
+</div></footer>
 </main>
 </div>
 <!-- Micro-interactions Script -->
